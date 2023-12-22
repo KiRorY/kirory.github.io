@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/css/layout.css">
 
 		
-		<title> 标签：虚拟组网 -  KiRorY</title>
+		<title> KDE桌面下解决Kitty终端模拟器中文输入法问题 -  KiRorY</title>
 		<link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
 		<script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
 		<!-- lazyload -->
@@ -282,50 +282,159 @@
 			<div class="kira-content">
 				<div id="kira-top-header"></div>
 				<div class="kira-main-content">
-					<div class="kira-posts">
-    
-        <div class="kira-post">
-            <a href="/2023/12/07/ZeroTier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F+%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%89%93%E9%80%A0%E8%BF%9C%E7%A8%8B%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/">
-                
-                <div
-                    class="kira-post-cover mdui-ripple"
-                    style="padding-bottom: '56.25%'"
-                >
-                    <img
-                        data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/padcover.png"
-                        data-sizes="auto"
-                        alt="ZeroTier内网穿透+终端模拟器构建远程移动生产力工具"
-                        class="lazyload kira-post-cover-image"
-                    />
-                    <h1>ZeroTier内网穿透+终端模拟器构建远程移动生产力工具</h1>
-                </div>
-                
-            </a>
+					
+<link rel="stylesheet" href="/css/kira-image.css">
 
-            <div class="kira-post-meta kira-rainbow">
-                <a>
-                    <i class="kirafont icon-calendar-fill"></i>
-                    2023年12月07日
-                </a>
-                <a>
-                    <i class="kirafont icon-edit-fill"></i>
-                    1.6k 字
-                </a>
-                <a>
-                    <i class="kirafont icon-time-circle-fill"></i>大概
-                    6 分钟
-                </a>
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
             </div>
-    
-            
-                <article>
-                    <blockquote>
-<p>使用ZeroTier虚拟组网和远程设备使用的终端模拟器，让你的移动设备化身为生产力工具的教程</p></blockquote>
-                </article>
-            
         </div>
-        <div class="kira-hr"></div>
-    
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img />
+                </div>
+                <div class="kira-image-now">
+                    <img />
+                </div>
+                <div class="kira-image-next">
+                    <img />
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="kira-post">
+	<article>
+		
+		<div class="kira-post-cover">
+			<img
+				data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post9/kitty.png"
+				data-sizes="auto"
+				alt="KDE桌面下解决Kitty终端模拟器中文输入法问题"
+				class="lazyload kira-post-cover-image disabled-kira-image"
+			/>
+			<h1>KDE桌面下解决Kitty终端模拟器中文输入法问题</h1>
+		</div>
+		
+		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
+			<a><i class="kirafont icon-calendar-fill"></i>2023年12月20日</a>
+			<a><i class="kirafont icon-edit-fill"></i>690 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 2 分钟</a>
+		</div>
+		<h2><span id="问题描述">问题描述</span></h2>
+<p>  最近使用ranger的时候发现KDE-plasma桌面自带的konsole在图片渲染有点问题，于是寻找替代的终端模拟器。原先使用过Hyper，一个基于web的终端模拟器，然而该模拟器针对某些中断应用的渲染有点问题(例如Neovim)，在ArchLinux运行时出现渲染延迟的问题，故放弃。现使用Kitty中断模拟器，相对较轻和方便，然而使用时发现该模拟器默认与fcitx5输入法有冲突，这导致在中文环境中使用终端非常麻烦。经过尝试，解决后留档以记录方法。</p>
+<h2><span id="问题原因">问题原因</span></h2>
+<p>  kitty默认输入模式没有设置为fcitx5，所以不支持直接激活输入法输入。所以需要在环境变量中设置，指定使用的输入框架。</p>
+<h2><span id="解决方法">解决方法</span></h2>
+<p>  笔者尝试在终端环境中使用<code>export</code>方法，在终端配置脚本中修改环境变量，但是没有效果。笔者推测其原因是终端模拟器是在终端环境生效前先被运行，终端配置脚本中的环境变量对于终端模拟器没有生效。所以正确的解决方法应该是以指定环境变量的方法来启动kitty，目前笔者使用后有两种有效方法。</p>
+<h3><span id="1kde桌面环境下的有效解决方案">1.KDE桌面环境下的有效解决方案</span></h3>
+<p>  如果使用KDE桌面环境，那么可以直接修改对程序的启动方式(其它桌面环境也许可以，但笔者这里只在KDE环境下测试了)。在终端中输入<code>kmenuedit</code>直接进入KDE的菜单编辑界面，选择kitty程序，在右侧修改其环境变量栏，输入<code>GLFW_IM_MODULE=ibus</code>，保存退出。此时你的重新运行后就可以输入中文了。</p>
+<figure>
+<img data-fancybox="gallery" data-sizes="auto" data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post9/kitty_kde.png" alt="kde_kitty" class="lazyload">
+<figcaption aria-hidden="true">kde_kitty</figcaption>
+</figure>
+<h3><span id="2终端环境下使用环境变量启动kitty子进程方法不推荐">2.终端环境下使用环境变量启动kitty子进程方法(不推荐)</span></h3>
+<p>  该方法不推荐的原因是启动会比较麻烦。在开启一个终端后，你可以使用以下语句再开启一个kitty的子程序终端，在子程序终端中可以正常使用中文输入法:
+</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">GLFW_IM_MODULE=ibus kitty<br></code></pre></td></tr></tbody></table></figure><p></p>
+<p>当然，如果你不想每次输入一长串命令来启动终端，你可以直接在你的终端配置文件(.bashrc或.zshrc等)中插入上面的指令，这样你启动kitty程序后会自动打开可以输入中文的子程序。但桌面上多一个程序框总是不太舒服，因此这算是个备选方案。</p>
+<hr>
+<blockquote>
+<p>或许会有更好的解决方案...</p>
+</blockquote>
+<h2><span id="参考文档">参考文档</span></h2>
+<p>  本文给出的解决方案参考github上的<a target="_blank" rel="noopener" href="https://github.com/kovidgoyal/kitty/issues/469">issue
+#469</a>，欢迎补充。</p>
+
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong>本文作者：</strong>KiRorY<br>
+        <strong>本文链接：</strong><a href="https://kirory.xyz/2023/12/20/KDE%E6%A1%8C%E9%9D%A2%E4%B8%8B%E8%A7%A3%E5%86%B3Kitty%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E9%97%AE%E9%A2%98/" title="https:&#x2F;&#x2F;kirory.xyz&#x2F;2023&#x2F;12&#x2F;20&#x2F;KDE桌面下解决Kitty终端模拟器中文输入法问题&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;kirory.xyz&#x2F;2023&#x2F;12&#x2F;20&#x2F;KDE桌面下解决Kitty终端模拟器中文输入法问题&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			  
+			<!-- 先找到与当前文字相同的目录 -->
+			               
+			<!-- 在找到当前文章所在的 index -->
+			                
+			<!-- 上一篇文章 -->
+			<div class="old">
+				<span>上一章</span>
+				<a href="/2023/12/07/ZeroTier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F+%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%89%93%E9%80%A0%E8%BF%9C%E7%A8%8B%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/"> ZeroTier内网穿透+终端模拟器构建远程移动生产力工具</a>
+			</div>
+			              
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			<a class="kirafont icon-container-fill -link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+		
+		
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/%E7%BB%88%E7%AB%AF/" rel="tag">终端</a>
+		
+	</div>
+	
+		<script src="/js/kira-code-copy.js"></script>
+	
+	
+	<div class="kira-post-footer">
+		
+
+		
+	<div class="giscus"></div>
+  
+    <script src="https://giscus.app/client.js"
+      data-repo="KiRorY/kirory.github.io"
+      data-repo-id="R_kgDOJ7eH2w"
+      data-category="General"
+      data-category-id="DIC_kwDOJ7eH284CX72n"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="light"
+      data-lang="en"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async  
+    ></script>
+  
+
+	</div>
+	
 </div>
 
 				</div>
