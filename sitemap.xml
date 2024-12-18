@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://kirory.xyz/2024/09/27/STM32G0%E7%B3%BBOTA%E5%BC%80%E5%8F%91%E7%9B%B8%E5%85%B3/</loc>
+    <loc>https://kirory.xyz/2024/12/18/STM32G0%E7%B3%BBOTA%E5%BC%80%E5%8F%91%E7%9B%B8%E5%85%B3/</loc>
     
     <lastmod>2024-12-18</lastmod>
     
@@ -215,6 +215,13 @@
   
   <url>
     <loc>https://kirory.xyz/tags/%E8%AE%BF%E5%AD%A6/</loc>
+    <lastmod>2024-12-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kirory.xyz/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/</loc>
     <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
