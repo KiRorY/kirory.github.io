@@ -96,7 +96,7 @@
 		</a>
 	</div>
 	<div class="kira-count">
-		<div><span>文章</span>10</div>
+		<div><span>文章</span>11</div>
 		<div><span>标签</span>12</div>
 		<div><span>分类</span>3</div>
 	</div>
@@ -411,8 +411,8 @@ ID这一栏的信息。</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl <span class="hljs-built_in">enable</span> zerotier-one   <span class="hljs-comment">#ArchLinux开机启用服务</span><br>sudo systemctl start zerotier-one    <span class="hljs-comment">#启动服务</span><br></code></pre></td></tr></tbody></table></figure>
 <p>使用<code>sudo systemctl status zerotier-one</code>确认服务是否开启，成功启用的输出如下:
-</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">● zerotier-one.service - ZeroTier One<br>     Loaded: loaded (/usr/lib/systemd/system/zerotier-one.service; enabled; preset: disabled)<br>     Active: active (running) since Fri 2023-12-08 15:16:00 CST; 7h ago<br>   Main PID: 2895 (zerotier-one)<br>      Tasks: 40 (<span class="hljs-built_in">limit</span>: 18783)<br>     Memory: 17.5M<br>        CPU: 29.195s<br>     CGroup: /system.slice/zerotier-one.service<br>             └─2895 /usr/bin/zerotier-one<br></code></pre></td></tr></tbody></table></figure> + 使用终端加入组网(复制你刚刚创建好的Network ID):
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo zerotier-cli <span class="hljs-built_in">join</span> [你的Network ID] <span class="hljs-comment">#复制你的Network ID 替换掉中括号</span><br></code></pre></td></tr></tbody></table></figure><p></p>
+</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">● zerotier-one.service - ZeroTier One<br>     Loaded: loaded (/usr/lib/systemd/system/zerotier-one.service; enabled; preset: disabled)<br>     Active: active (running) since Fri 2023-12-08 15:16:00 CST; 7h ago<br>   Main PID: 2895 (zerotier-one)<br>      Tasks: 40 (<span class="hljs-built_in">limit</span>: 18783)<br>     Memory: 17.5M<br>        CPU: 29.195s<br>     CGroup: /system.slice/zerotier-one.service<br>             └─2895 /usr/bin/zerotier-one<br></code></pre></td></tr></tbody></table></figure><p></p>
+<p>使用终端加入组网(复制你刚刚创建好的Network ID): </p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo zerotier-cli <span class="hljs-built_in">join</span> [你的Network ID] <span class="hljs-comment">#复制你的Network ID 替换掉中括号</span><br></code></pre></td></tr></tbody></table></figure><p></p>
 <p>成功加入会显示<code>200 join ok</code>的提示，此时你可以输入<code>sudo zerotier-cli status</code>来确认你当前已经加入了哪些组网并确认是否连接成功，成功加入组网后应该显示如下格式信息:
 </p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">200 info [加入的Network ID] [客户端版本号] [连接信息(ONLINE/OFFLINE)]<br></code></pre></td></tr></tbody></table></figure><p></p>
 <p>那么此时该客户机已经进入到组网，但是管理员尚未授权其连接，授权方式在下文中统一说明。</p>

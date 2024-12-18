@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/css/layout.css">
 
 		
-		<title> KDE桌面下解决Kitty终端模拟器中文输入法问题 -  KiRorY</title>
+		<title> STM32G0系OTA开发相关 -  KiRorY</title>
 		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
 		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
 		
@@ -359,51 +359,82 @@
 <div class="kira-post">
 	<article>
 		
-		<div class="kira-post-cover">
+		<div
+			class="kira-post-cover"
+			style="padding-bottom: '56.25%'"
+		>
 			<img
-				data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post9/kitty.png"
+				data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/satori_and_koishi.JPG"
 				data-sizes="auto"
-				alt="KDE桌面下解决Kitty终端模拟器中文输入法问题"
+				alt="STM32G0系OTA开发相关"
 				class="lazyload kira-post-cover-image disabled-kira-image"
 			/>
-			<h1>KDE桌面下解决Kitty终端模拟器中文输入法问题</h1>
+			<h1>STM32G0系OTA开发相关</h1>
 		</div>
 		
 		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
-			<a><i class="kirafont icon-calendar-fill"></i>2023年12月20日</a>
-			<a><i class="kirafont icon-edit-fill"></i>690 字</a>
-			<a><i class="kirafont icon-time-circle-fill"></i>大概 2 分钟</a>
+			<a><i class="kirafont icon-calendar-fill"></i>2024年09月27日</a>
+			<a><i class="kirafont icon-edit-fill"></i>1.8k 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 7 分钟</a>
 		</div>
-		<h2><span id="问题描述">问题描述</span></h2>
-<p>  最近使用ranger的时候发现KDE-plasma桌面自带的konsole在图片渲染有点问题，于是寻找替代的终端模拟器。原先使用过Hyper，一个基于web的终端模拟器，然而该模拟器针对某些中断应用的渲染有点问题(例如Neovim)，在ArchLinux运行时出现渲染延迟的问题，故放弃。现使用Kitty终端模拟器，相对较轻和方便，然而使用时发现该模拟器默认与fcitx5输入法有冲突，这导致在中文环境中使用终端非常麻烦。经过尝试，解决后留档以记录方法。</p>
-<h2><span id="问题原因">问题原因</span></h2>
-<p>  kitty默认输入模式没有设置为fcitx5，所以不支持直接激活输入法输入。所以需要在环境变量中设置，指定使用的输入框架。</p>
-<h2><span id="解决方法">解决方法</span></h2>
-<p>  笔者尝试在终端环境中使用<code>export</code>方法，在终端配置脚本中修改环境变量，但是没有效果。笔者推测其原因是终端模拟器是在终端环境生效前先被运行，终端配置脚本中的环境变量对于终端模拟器没有生效。所以正确的解决方法应该是以指定环境变量的方法来启动kitty，目前笔者使用后有两种有效方法。</p>
-<h3><span id="1kde桌面环境下的有效解决方案">1.KDE桌面环境下的有效解决方案</span></h3>
-<p>  如果使用KDE桌面环境，那么可以直接修改对程序的启动方式(其它桌面环境也许可以，但笔者这里只在KDE环境下测试了)。在终端中输入<code>kmenuedit</code>直接进入KDE的菜单编辑界面，选择kitty程序，在右侧修改其环境变量栏，输入<code>GLFW_IM_MODULE=ibus</code>，保存退出。此时你的重新运行后就可以输入中文了。</p>
-<figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post9/kitty_kde.png" alt="kde_kitty" class="lazyload">
-<figcaption aria-hidden="true">kde_kitty</figcaption>
-</figure>
-<h3><span id="2终端环境下使用环境变量启动kitty子进程方法不推荐">2.终端环境下使用环境变量启动kitty子进程方法(不推荐)</span></h3>
-<p>  该方法不推荐的原因是启动会比较麻烦。在开启一个终端后，你可以使用以下语句再开启一个kitty的子程序终端，在子程序终端中可以正常使用中文输入法:
-</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">GLFW_IM_MODULE=ibus kitty<br></code></pre></td></tr></tbody></table></figure><p></p>
-<p>当然，如果你不想每次输入一长串命令来启动终端，你可以直接在你的终端配置文件(.bashrc或.zshrc等)中插入上面的指令，这样你启动kitty程序后会自动打开可以输入中文的子程序。但桌面上多一个程序框总是不太舒服，因此这算是个备选方案。</p>
-<hr>
-<blockquote>
-<p>或许会有更好的解决方案...</p>
+		<blockquote>
+<p>  
+实习过程中对STM32G0系开发板OTA功能开发时遇到的一些问题和解决办法，主要涉及Bootloader程序的跳转和APP分区思路问题。
++ Bootloader 跳转到APP区后发生卡死的情况。 +
+双APP分区时只能跳转到其中某一个分区，无法跳转到另一分区的情况。</p>
 </blockquote>
-<h2><span id="参考文档">参考文档</span></h2>
-<p>  本文给出的解决方案参考github上的<a target="_blank" rel="noopener" href="https://github.com/kovidgoyal/kitty/issues/469">issue
-#469</a>，欢迎补充。</p>
+<span id="more"></span>
+<!-- toc -->
+<ul>
+<li><a href="#bootloader程序跳转后程序卡死问题">Bootloader程序跳转后程序卡死问题</a>
+<ul>
+<li><a href="#解决方法">解决方法</a></li>
+</ul></li>
+<li><a href="#双app分区下bootloader只能跳转到其中某一个分区问题">双APP分区下Bootloader只能跳转到其中某一个分区问题</a>
+<ul>
+<li><a href="#解决方法-1">解决方法</a>
+<ul>
+<li><a href="#1针对头字段在程序中进行修改不具备可复用性">1.针对头字段在程序中进行修改[不具备可复用性]</a></li>
+<li><a href="#2修改方案-程序区下载区">2.修改方案: 程序区+下载区</a></li>
+</ul></li>
+</ul></li>
+</ul>
+<!-- tocstop -->
+<h1><span id="bootloader程序跳转后程序卡死问题">Bootloader程序跳转后程序卡死问题</span></h1>
+<p>  先简单说明程序跳转的操作，就是设置PC指针位置+堆栈指针位置，PC指针指向地址应该是
+<span class="math inline">\([程序烧录地址] +
+4\)</span>。CBT6后缀的开发板HAL库代码可以参考下面几句: </p><figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-title function_">void</span> <span class="hljs-params">(*load)</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><br>__set_MSP(*(<span class="hljs-type">uint32_t</span>*)addr);           <span class="hljs-comment">//addr为跳转目标地址，即APP程序烧写地址</span><br>load = (load)* (<span class="hljs-type">uint32_t</span>*)(addr + <span class="hljs-number">4</span>);<br>load();<br></code></pre></td></tr></tbody></table></figure>
+当然，我们可以直接使用上面的程序进行跳转，前提是addr所在地址位置存在于RAM内。实际执行时发现，程序成功跳转运行，但是会在某些地方卡死无法进行下去。原因很简单，我们重定向了PC指针和堆栈指针，但没有去重定位其<b>中断向量指针</b>。这导致APP程序在执行时遇到中断函数时，回头跑到Bootloader的中断向量表中去了，自然会导致程序指针跑飞。默认状态下，程序的中断向量表指针指向0x0，但实际的程序对应中断向量表的起始位置就是程序的起始位置。可以参考下面的示意图:
+<img data-fancybox="gallery" data-sizes="auto" data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/post11/2024-10-08_16-44.png" alt="示意图" class="lazyload"><p></p>
+<h2><span id="解决方法">解决方法</span></h2>
+<p>   Cortex
+M系列芯片中，除了M0以外，其它芯片都保留有VTOR寄存器用于重定位中断向量指针。G0系列开发板使用的是M0+芯片，可以使用该寄存器。因此在程序跳转前，给VTOR寄存器赋值相应地址就行。向量表地址根据上面的示意图，就是程序开始位置。完整跳转函数代码如下:
+</p><figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-title function_">void</span> <span class="hljs-params">(*load)</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">jump</span><span class="hljs-params">(<span class="hljs-type">uint32_t</span> addr)</span>{<br>    <span class="hljs-keyword">if</span>((*(<span class="hljs-type">uint32_t</span>*)addr &gt;= <span class="hljs-number">0x20000000</span>) &amp;&amp; (*(<span class="hljs-type">uint32_t</span>*)addr &lt; <span class="hljs-number">0x20000000</span> + ram_size)){             <span class="hljs-comment">//这里的0x20000000是RAM的起始地址，这里就是判断跳转地址数据是否在RAM中</span><br>        __set_MSP(*(<span class="hljs-type">uint32_t</span>*)addr);               <br>        load = (load)* (<span class="hljs-type">uint32_t</span>*)(addr + <span class="hljs-number">4</span>);<br>        <br>        SCB-&gt;VTOR = addr;                                    <span class="hljs-comment">//此为新增语句</span><br>        load();<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>    在其它项目中，
+笔者也遇到了需要在M0系列芯片执行OTA的情况。在不能直接通过相应寄存器的情况下就会稍麻烦一些，我们需要手动重定位中断向量的位置。大致思路是在跳转前将整个中断向量表拷贝到RAM中，然后将向量表指针地址重映射为RAM的起始地址(按照上面的例子就是映射为0x20000000)。这边会用到stm32相应库中的一个remap函数。然而很可惜因为笔者开发的板子并不是使用stm标准库，没有相应函数，因此该功能暂时找不到其它方法实现。如果有相应需求的话可以去查找M0系列Bootloader实现的相关资料，笔者没有实际检验过，故不在这边讲述。<p></p>
+<h1><span id="双app分区下bootloader只能跳转到其中某一个分区问题">双APP分区下Bootloader只能跳转到其中某一个分区问题</span></h1>
+<p>  双APP分区是笔者为了在没有eeprom的情况下实现OTA首先构想的方法，也就是分Bootloader
++ flag + AB区。OTA更新思路如下: 1. 程序启动默认进入A区; 2.
+发生OTA请求，将新程序写入B区; 3.
+写入成功则将flag区对应地址标志位置为有效; 4.
+让程序进入死循环，由看门狗重启系统; 5.
+Bootloader验证程序通过后跳入B区执行，此时A区作为新的下载区。</p>
+<p>上述方法的优点就是始终保证有一个分区是有可执行程序的，这样即使OTA失败甚至写入被强制中断，也有一个有效区可以执行。除此之外有效利用程序flash空间，减少单个区域擦写次数，延长flash寿命。</p>
+<p>  不过上述方法忽略了程序本身的地址指针问题。在使用各类工具编译完成后，我们得到的二进制执行文件中，其实保留了程序的起始地址等信息。这段地址信息一般是在bin文件的开头部分(其实也就是前一个问题中提到的中断向量表地址)。当硬件执行bin程序时，会先读取这些地址信息，跳转到对应位置去执行。实际上我们给相同程序设置不同的烧写位置，其编译生成的bin文件是不同的。看下面的对比可以更直观一些:
+<img data-fancybox="gallery" data-sizes="auto" data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/post11/bin_diff_marked.png" alt="bin文件对比" class="lazyload">
+从划分区间的数据段区别能明显看出头部数据段不同。如果我们单纯将同一个程序(编译时设定烧入同一flash区域)烧入到不同的区域，即使Bootloader将程序跳转到正确位置，在程序读取开头字段时，中断就又会跳转回原先的区域。这意味着在编写新程序时，我们需要提前知晓烧录目标地址进行编译，否则就会出现区域跳转错误的现象。这对于后续OTA升级非常不方便，因此无法直接使用该方法。</p>
+<h2><span id="解决方法">解决方法</span></h2>
+<h3><span id="1针对头字段在程序中进行修改不具备可复用性">1.针对头字段在程序中进行修改[不具备可复用性]</span></h3>
+<p>  这种方法就是在程序内，根据flag区域所保存的OTA目标地址，修改待OTA程序的头字段。上图中对比数据也可以知道，头字段会在特定区间重复一个字段值。该字段值大致是<span class="math inline">\(程序烧写目标地址+某偏移量\)</span>。但具体这个偏移量是多少，笔者暂时没有找到规律，不同的程序似乎不一样。考虑到项目尽可能要剔除这种不稳定因素，所以该方案暂时没有采用。</p>
+<h3><span id="2修改方案-程序区下载区">2.修改方案: 程序区+下载区</span></h3>
+<p>  简单来说就是要避开向不同区域的跳转，尽量每次启动固定向一个区域跳转即可。设定A区为APP，运行OTA时将程序下载入B区，然后向flag区写入OTA标志信息和CRC校验码信息，通过看门狗重启。在Bootloader程序中去验证B区程序的正确性，然后再复制到A区中执行，随后重置flag区信息。</p>
+<p>  当然，上面的方案会有运行稳定性方面的问题：需要进行OTA时Bootloader的启动效率会下降，同时也很难保证复制程序的正确性。所以最好能够使用外置eeprom或者flash来解决OTA程序暂存的问题。</p>
 
 	</article>
 
 	 
     <div class="kira-post-copyright">
         <strong>本文作者：</strong>KiRorY<br>
-        <strong>本文链接：</strong><a href="https://kirory.xyz/2023/12/20/KDE%E6%A1%8C%E9%9D%A2%E4%B8%8B%E8%A7%A3%E5%86%B3Kitty%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E9%97%AE%E9%A2%98/" title="https:&#x2F;&#x2F;kirory.xyz&#x2F;2023&#x2F;12&#x2F;20&#x2F;KDE桌面下解决Kitty终端模拟器中文输入法问题&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;kirory.xyz&#x2F;2023&#x2F;12&#x2F;20&#x2F;KDE桌面下解决Kitty终端模拟器中文输入法问题&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="https://kirory.xyz/2024/09/27/STM32G0%E7%B3%BBOTA%E5%BC%80%E5%8F%91%E7%9B%B8%E5%85%B3/" title="https:&#x2F;&#x2F;kirory.xyz&#x2F;2024&#x2F;09&#x2F;27&#x2F;STM32G0系OTA开发相关&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;kirory.xyz&#x2F;2024&#x2F;09&#x2F;27&#x2F;STM32G0系OTA开发相关&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -412,26 +443,12 @@
   
 	<div class="kira-post-nav">
 		<nav class="post-nav">
-			  
-			<!-- 先找到与当前文字相同的目录 -->
-			               
-			<!-- 在找到当前文章所在的 index -->
-			                
-			<!-- 上一篇文章 -->
-			<div class="old">
-				<span>上一章</span>
-				<a href="/2023/12/07/ZeroTier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F+%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%89%93%E9%80%A0%E8%BF%9C%E7%A8%8B%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/"> ZeroTier内网穿透+终端模拟器构建远程移动生产力工具</a>
-			</div>
-			                  
+			      
 		</nav>
 	</div>
 	
 	<div class="kira-post-meta kira-rainbow">
 		
-			<a class="kirafont icon-container-fill -link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
-		
-		
-			<a class="kirafont icon-tag-fill -none-link" href="/tags/%E7%BB%88%E7%AB%AF/" rel="tag">终端</a>
 		
 	</div>
 	
