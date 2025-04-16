@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html 
+	lang="zh-cn">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title> Windows Docker 安装及存储转移方法 -  KiRorY</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link
+			rel="shortcut icon"
+			href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/BlogIcon-ver0.1.png"
+			type="image/png"
+		/>
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+			
+				
+<link rel="stylesheet" href="/style.css">
+
+			
+				
+<link rel="stylesheet" href="/custom.css">
+
+			
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+	<meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+	<body>
+		<div
+			class="kira-background"
+			style="background-image: url('https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/satori_and_koishi.JPG')"
+		></div>
+		<div class="kira-header">
+    <a
+        class="kira-drawer-button mdui-ripple"
+        title="导航栏"
+        onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');"
+    >
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/" title="KiRorY">
+        <img
+			src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG"
+			alt="KiRorY"
+		/>
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" title="KiRorY">
+			<img
+				src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG"
+				alt="KiRorY"
+			/>
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span>文章</span>11</div>
+		<div><span>标签</span>13</div>
+		<div><span>分类</span>3</div>
+	</div>
+	<div class="kira-list">
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/"
+			title="首页"
+		>
+			<i
+				class="kirafont
+					
+						icon-home
+					"
+			></i>
+			<div class="kira-list-item-content">
+				首页
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/archive.html"
+			title="归档"
+		>
+			<i
+				class="kirafont
+					
+						icon-container
+					"
+			></i>
+			<div class="kira-list-item-content">
+				归档
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/about.html"
+			title="关于我"
+		>
+			<i
+				class="kirafont
+					
+						icon-user
+					"
+			></i>
+			<div class="kira-list-item-content">
+				关于我
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/friends.html"
+			title="友情链接"
+		>
+			<i
+				class="kirafont
+					
+						icon-team
+					"
+			></i>
+			<div class="kira-list-item-content">
+				友情链接
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a
+				class="mdui-ripple"
+				href="https://twitter.com/KiRorY223"
+				target="_blank"
+				mdui-tooltip="{content: 'Twitter'}"
+				style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);"
+			>
+				<i
+					class="kirafont
+					
+						icon-twitter
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://space.bilibili.com/79834065"
+				target="_blank"
+				mdui-tooltip="{content: '哔哩哔哩'}"
+				style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-bilibili
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://github.com/KiRorY"
+				target="_blank"
+				mdui-tooltip="{content: 'GitHub'}"
+				style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-github
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://steamcommunity.com/id/Kokoro_Daze/"
+				target="_blank"
+				mdui-tooltip="{content: 'Steam'}"
+				style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-steam
+					"
+				></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+  <div class="kira-widget-wrap">
+    <h3 class="kira-widget-title">分类</h3>
+    <div class="kira-widget">
+      <ul class="category-list">
+        
+        
+
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/categories/学习笔记/">
+              学习笔记
+            </a>
+            <span class="category-list-count">4</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/categories/教程/">
+              教程
+            </a>
+            <span class="category-list-count">6</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/categories/随记/">
+              随记
+            </a>
+            <span class="category-list-count">1</span>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/" style="font-size: 10px;">嵌入式开发</a> <a href="/tags/%E6%B8%B8%E8%AE%B0/" style="font-size: 10px;">游记</a> <a href="/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">生产力工具</a> <a href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" style="font-size: 10px;">算法复杂度分析</a> <a href="/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" style="font-size: 20px;">算法设计与分析</a> <a href="/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 10px;">终端</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" style="font-size: 10px;">虚拟组网</a> <a href="/tags/%E8%AE%BF%E5%AD%A6/" style="font-size: 10px;">访学</a>
+		</div>
+		
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		&copy; 2025
+		<a href="/">KiRorY</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br />
+		
+		
+	</div>
+</div>
+<div
+	class="kira-sidebar-modal"
+	id="sidebar-modal"
+	onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"
+></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img />
+                </div>
+                <div class="kira-image-now">
+                    <img />
+                </div>
+                <div class="kira-image-next">
+                    <img />
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div class="kira-post-cover">
+			<img
+				data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/bangdream/MyGo_!!!!!.jpg"
+				data-sizes="auto"
+				alt="Windows Docker 安装及存储转移方法"
+				class="lazyload kira-post-cover-image disabled-kira-image"
+			/>
+			<h1>Windows Docker 安装及存储转移方法</h1>
+		</div>
+		
+		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
+			<a><i class="kirafont icon-calendar-fill"></i>2023年11月10日</a>
+			<a><i class="kirafont icon-edit-fill"></i>844 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 3 分钟</a>
+		</div>
+		<blockquote>
+<p>  Docker Desktop
+是Docker的GUI客户端，但其出奇得不好用(可视化安装时不能选择安装路径，运行参数能直观设置等)。但在Windows平台上却只能使用这个方案，且基本需要搭配子系统使用。最近使用时研究了一下，并整理了WSL系统目录，Docker
+Desktop以及Docker容器存储位置的移动方法，至少可以让Docker不会莫名占用系统盘大量空间。
+<span id="more"></span></p>
+</blockquote>
+<h2><span id=""><iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2kUnjRdoBMkoXRLp8Q6Edu?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="1" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></span></h2>
+<h1><span id="docker-desktop-安装目录更改">Docker Desktop 安装目录更改</span></h1>
+<p>   首先下载<a target="_blank" rel="noopener" href="https://www.docker.com/products/docker-desktop/">Docker
+Desktop</a>。实际上Docker官方的文档中有写到如何手动设置其安装目录。不过笔者在网上查找时还是却很少有提到这点。还是之前在某个知乎帖子下面的回复找到的。网上有很多是通过创建软连接的方式“偷换”了其安装路径，笔者并没有使用这种方法，不知道其可行性。不过使用官方的方法是可行的。</p>
+<p>  
+官方给出的方法是使用命令行安装。所以下载完官方的exe安装包先别急着双击打开。打开CMD并将目录切换到你的安装包下载位置。命令行安装方法可以增加很多参数进行设置(不知道为什么很多基础功能比如更改安装位置或者下载代理都不做可视化)。这里给出修改安装位置的命令：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">"Docker Desktop Installer.exe" install --installation-dir=&lt;安装目录&gt;<br></code></pre></td></tr></tbody></table></figure>
+<p>如果用的是powershell,那么命令如下: </p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">Start-Process 'Docker Desktop Installer.exe' -Wait install --installation-dir=&lt;安装目录&gt;<br></code></pre></td></tr></tbody></table></figure><p></p>
+<p>其它参数命令可以看<a target="_blank" rel="noopener" href="https://docs.docker.com/desktop/install/windows-install/">官方手册</a>。</p>
+<h1><span id="wsl系统目录更改">WSL系统目录更改</span></h1>
+<p>  Windows系统会默认将WSL(Linux子系统)的模拟磁盘环境放置在C盘。而Docker使用WSL后的存储目录也在C盘,一般是在:<code>C:\Users\&lt;用户名&gt;\AppData\Local\Docker\wsl\data\ext4.vhdx</code>。如果是Docker的WSL目录，那么其实可以在安装时使用上面提到的命令行参数进行更改。如果已经安装完成，那么也可以进行更改，并且更改方法适用于所有WSL子系统目录修改。</p>
+<p>  首先使用<code>wsl --list -v</code>查看已安装子系统以及其状态，例如:
+</p><figure class="highlight crmsh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">  NAME                   STATE           <span class="hljs-keyword">VERSION</span><br>* Arch                   Running         <span class="hljs-number">2</span><br>  docker-desktop         <span class="hljs-literal">Stopped</span>         <span class="hljs-number">2</span><br>  docker-desktop-data    <span class="hljs-literal">Stopped</span>         <span class="hljs-number">2</span><br>  Ubuntu                 <span class="hljs-literal">Stopped</span>         <span class="hljs-number">2</span><br></code></pre></td></tr></tbody></table></figure>
+记住需要移动的系统的版本(VERSION)的数字。如果其正在运行，那么使用<code>wsl --shutdown</code>关闭。这里以移动Docker的系统数据为例。我们需要移动的是<code>docker-desktop-data</code>这个系统<b>(请注意不要更改<code>docker-desktop</code>这个系统!)</b>。<p></p>
+<ul>
+<li><p>首先我们对需要移动的系统进行备份。 </p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">wsl --export docker-desktop-data "&lt;你想保存备份压缩包的目录(随意)&gt;\docker-desktop-data.tar"<br></code></pre></td></tr></tbody></table></figure>
+这一步就是将要移动的系统整个系统打成一个压缩包暂存，之后需要用它还原原来的系统<p></p></li>
+<li><p>然后解除原先位置的系统。 </p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">wsl --unregister docker-desktop-data<br></code></pre></td></tr></tbody></table></figure><p></p></li>
+<li><p>最后指定新的目录位置并还原备份的系统 </p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">wsl --import docker-desktop-data "&lt;你希望移动到的目录&gt;" "&lt;刚刚保存备份压缩包的目录&gt;\docker-desktop-data.tar" --version 之前查看的VERSION数字<br></code></pre></td></tr></tbody></table></figure><p></p></li>
+</ul>
+<p>完成之后目录就更改成功了，终于解放了系统盘Ꮚ･ꈊ･Ꮚ。</p>
+
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong>本文作者：</strong>KiRorY<br>
+        <strong>本文链接：</strong><a href="https://kirory.xyz/2023/11/10/Windows-docker-%E5%AE%89%E8%A3%85%E5%8F%8A%E5%AD%98%E5%82%A8%E8%BD%AC%E7%A7%BB%E6%96%B9%E6%B3%95/" title="https:&#x2F;&#x2F;kirory.xyz&#x2F;2023&#x2F;11&#x2F;10&#x2F;Windows-docker-安装及存储转移方法&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;kirory.xyz&#x2F;2023&#x2F;11&#x2F;10&#x2F;Windows-docker-安装及存储转移方法&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			  
+			<!-- 先找到与当前文字相同的目录 -->
+			         
+			<!-- 在找到当前文章所在的 index -->
+			        
+			<!-- 上一篇文章 -->
+			<div class="old">
+				<span>上一章</span>
+				<a href="/2023/07/19/Hexo%E6%A1%86%E6%9E%B6%E5%8D%9A%E5%AE%A2%E5%85%B3%E4%BA%8E%E8%BE%93%E5%85%A5%E5%85%AC%E5%BC%8F%E5%92%8C%E8%A1%A8%E6%83%85%E7%9A%84%E9%97%AE%E9%A2%98/"> 使用Hexo框架时的种种问题和解决方法</a>
+			</div>
+			       
+			<!-- 下一篇文章 -->
+			<div class="new">
+				<span>下一章</span>
+				<a href="/2023/12/07/ZeroTier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F+%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%89%93%E9%80%A0%E8%BF%9C%E7%A8%8B%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/"> ZeroTier内网穿透+终端模拟器构建远程移动生产力工具</a>
+			</div>
+			                                
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			<a class="kirafont icon-container-fill -link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+		
+		
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/Docker/" rel="tag">Docker</a> <a class="kirafont icon-tag-fill -none-link" href="/tags/Windows/" rel="tag">Windows</a>
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	<div class="giscus"></div>
+  
+    <script src="https://giscus.app/client.js"
+      data-repo="KiRorY/kirory.github.io"
+      data-repo-id="R_kgDOJ7eH2w"
+      data-category="General"
+      data-category-id="DIC_kwDOJ7eH284CX72n"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="light"
+      data-lang="en"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async  
+    ></script>
+  
+
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+			<div class="kira-right-column">
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+		</div>
+	</body>
+</html>

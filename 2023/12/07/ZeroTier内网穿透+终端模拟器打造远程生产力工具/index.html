@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html 
+	lang="zh-cn">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title> ZeroTier内网穿透+终端模拟器构建远程移动生产力工具 -  KiRorY</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link
+			rel="shortcut icon"
+			href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/BlogIcon-ver0.1.png"
+			type="image/png"
+		/>
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+			
+				
+<link rel="stylesheet" href="/style.css">
+
+			
+				
+<link rel="stylesheet" href="/custom.css">
+
+			
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+	<meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+	<body>
+		<div
+			class="kira-background"
+			style="background-image: url('https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/satori_and_koishi.JPG')"
+		></div>
+		<div class="kira-header">
+    <a
+        class="kira-drawer-button mdui-ripple"
+        title="导航栏"
+        onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');"
+    >
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/" title="KiRorY">
+        <img
+			src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG"
+			alt="KiRorY"
+		/>
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" title="KiRorY">
+			<img
+				src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG"
+				alt="KiRorY"
+			/>
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span>文章</span>11</div>
+		<div><span>标签</span>13</div>
+		<div><span>分类</span>3</div>
+	</div>
+	<div class="kira-list">
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/"
+			title="首页"
+		>
+			<i
+				class="kirafont
+					
+						icon-home
+					"
+			></i>
+			<div class="kira-list-item-content">
+				首页
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/archive.html"
+			title="归档"
+		>
+			<i
+				class="kirafont
+					
+						icon-container
+					"
+			></i>
+			<div class="kira-list-item-content">
+				归档
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/about.html"
+			title="关于我"
+		>
+			<i
+				class="kirafont
+					
+						icon-user
+					"
+			></i>
+			<div class="kira-list-item-content">
+				关于我
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/friends.html"
+			title="友情链接"
+		>
+			<i
+				class="kirafont
+					
+						icon-team
+					"
+			></i>
+			<div class="kira-list-item-content">
+				友情链接
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a
+				class="mdui-ripple"
+				href="https://twitter.com/KiRorY223"
+				target="_blank"
+				mdui-tooltip="{content: 'Twitter'}"
+				style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);"
+			>
+				<i
+					class="kirafont
+					
+						icon-twitter
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://space.bilibili.com/79834065"
+				target="_blank"
+				mdui-tooltip="{content: '哔哩哔哩'}"
+				style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-bilibili
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://github.com/KiRorY"
+				target="_blank"
+				mdui-tooltip="{content: 'GitHub'}"
+				style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-github
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://steamcommunity.com/id/Kokoro_Daze/"
+				target="_blank"
+				mdui-tooltip="{content: 'Steam'}"
+				style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-steam
+					"
+				></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+  <div class="kira-widget-wrap">
+    <h3 class="kira-widget-title">分类</h3>
+    <div class="kira-widget">
+      <ul class="category-list">
+        
+        
+
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/categories/学习笔记/">
+              学习笔记
+            </a>
+            <span class="category-list-count">4</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/categories/教程/">
+              教程
+            </a>
+            <span class="category-list-count">6</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/categories/随记/">
+              随记
+            </a>
+            <span class="category-list-count">1</span>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/" style="font-size: 10px;">嵌入式开发</a> <a href="/tags/%E6%B8%B8%E8%AE%B0/" style="font-size: 10px;">游记</a> <a href="/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">生产力工具</a> <a href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" style="font-size: 10px;">算法复杂度分析</a> <a href="/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" style="font-size: 20px;">算法设计与分析</a> <a href="/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 10px;">终端</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" style="font-size: 10px;">虚拟组网</a> <a href="/tags/%E8%AE%BF%E5%AD%A6/" style="font-size: 10px;">访学</a>
+		</div>
+		
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		&copy; 2025
+		<a href="/">KiRorY</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br />
+		
+		
+	</div>
+</div>
+<div
+	class="kira-sidebar-modal"
+	id="sidebar-modal"
+	onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"
+></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img />
+                </div>
+                <div class="kira-image-now">
+                    <img />
+                </div>
+                <div class="kira-image-next">
+                    <img />
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div class="kira-post-cover">
+			<img
+				data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/padcover.png"
+				data-sizes="auto"
+				alt="ZeroTier内网穿透+终端模拟器构建远程移动生产力工具"
+				class="lazyload kira-post-cover-image disabled-kira-image"
+			/>
+			<h1>ZeroTier内网穿透+终端模拟器构建远程移动生产力工具</h1>
+		</div>
+		
+		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
+			<a><i class="kirafont icon-calendar-fill"></i>2023年12月07日</a>
+			<a><i class="kirafont icon-edit-fill"></i>1.6k 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 6 分钟</a>
+		</div>
+		<blockquote>
+<p>使用ZeroTier虚拟组网和远程设备使用的终端模拟器，让你的移动设备化身为生产力工具的教程
+<span id="more"></span></p>
+</blockquote>
+<hr>
+<h1><span id="zerotier内网穿透终端模拟器构建远程移动生产力工具">ZeroTier内网穿透+终端模拟器构建远程移动生产力工具</span></h1>
+<p>  最近笔者研究内网穿透，尝试寻找穿透工具。网上很多推荐使用ZeroTier实现虚拟组网，笔者也尝试使用
+该工具。该工具免费且基本能实现傻瓜式组网，非常方便。虽然其服务器在外网导致访问速度较慢，但是如果是使用ssh或者ftp
+也绰绰有余了。而最近笔者又发现ZeroTier在移动端也有客户端可以使用，这也就意味着如果在移动端拥有终端模拟器，就可以远程进行开发工作了！</p>
+<h2><span id="zerotier简单使用方法">ZeroTier简单使用方法</span></h2>
+<h3><span id="注册新建虚拟局域网">注册/新建虚拟局域网</span></h3>
+<p>  进入<a target="_blank" rel="noopener" href="https://www.zerotier.com/">ZeroTier官网</a>，注册账号并登录,登陆后你可以看到如下图的界面:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/Create_net.jpg"></p>
+<ul>
+<li>点击上方[Create A
+Network]后会在下方Network的列表中新建一个虚拟局域网进入该局域网设置界面。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/Basic.png"></p>
+<ul>
+<li>基础设置可以修改网络的名称与描述以及私密性。推荐设置为Private，毕竟你并不想别人随意访问你的虚拟局域网。连接时需要使用的信息是Network
+ID这一栏的信息。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/advance.png"></p>
+<ul>
+<li>接下来就是进阶设置栏。这里可以根据自己喜好设置网段地址和路由等信息。如果嫌麻烦就直接IPv4地址栏选一个记得住的局域网内地址前缀就行，其它无需更改。</li>
+</ul>
+<h3><span id="在需要组网的客户机上安装客户端并加入组网">在需要组网的客户机上安装客户端并加入组网</span></h3>
+<h4><span id="1-桌面端">1. 桌面端</span></h4>
+<p>  这里的客户端指的是zerotier-one，<a target="_blank" rel="noopener" href="https://www.zerotier.com/download/">官网下载页面</a>有针对各个平台的安装方式。我们远程开发的服务器端一般是Linux系统，手动下载对应的包，或者使用系统的包管理器下载安装均可。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo pacman -S zerotier-one <span class="hljs-comment">#ArchLinux使用pacman的安装方法</span><br></code></pre></td></tr></tbody></table></figure>
+<p>macOS和Windows使用的是带有图形界面的客户端，下载对应安装包安装即可。</p>
+<h5><span id="linux开启服务并加入组网">Linux开启服务并加入组网</span></h5>
+<ul>
+<li>先用系统对应的方式打开zerotier-one的服务</li>
+</ul>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl <span class="hljs-built_in">enable</span> zerotier-one   <span class="hljs-comment">#ArchLinux开机启用服务</span><br>sudo systemctl start zerotier-one    <span class="hljs-comment">#启动服务</span><br></code></pre></td></tr></tbody></table></figure>
+<p>使用<code>sudo systemctl status zerotier-one</code>确认服务是否开启，成功启用的输出如下:
+</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">● zerotier-one.service - ZeroTier One<br>     Loaded: loaded (/usr/lib/systemd/system/zerotier-one.service; enabled; preset: disabled)<br>     Active: active (running) since Fri 2023-12-08 15:16:00 CST; 7h ago<br>   Main PID: 2895 (zerotier-one)<br>      Tasks: 40 (<span class="hljs-built_in">limit</span>: 18783)<br>     Memory: 17.5M<br>        CPU: 29.195s<br>     CGroup: /system.slice/zerotier-one.service<br>             └─2895 /usr/bin/zerotier-one<br></code></pre></td></tr></tbody></table></figure><p></p>
+<p>使用终端加入组网(复制你刚刚创建好的Network ID): </p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo zerotier-cli <span class="hljs-built_in">join</span> [你的Network ID] <span class="hljs-comment">#复制你的Network ID 替换掉中括号</span><br></code></pre></td></tr></tbody></table></figure><p></p>
+<p>成功加入会显示<code>200 join ok</code>的提示，此时你可以输入<code>sudo zerotier-cli status</code>来确认你当前已经加入了哪些组网并确认是否连接成功，成功加入组网后应该显示如下格式信息:
+</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">200 info [加入的Network ID] [客户端版本号] [连接信息(ONLINE/OFFLINE)]<br></code></pre></td></tr></tbody></table></figure><p></p>
+<p>那么此时该客户机已经进入到组网，但是管理员尚未授权其连接，授权方式在下文中统一说明。</p>
+<h5><span id="windowsmacos图形界面开启服务并加入组网">Windows/macOS图形界面开启服务并加入组网</span></h5>
+<p>在Windows或macOS上的客户端拥有图形界面，加入比较方便。在安装完成后打开ZeroTier-one，右键点击其任务栏图标(个人信息涂黑)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/win.png"></p>
+<p>点击<code>Join New Network</code>，在弹出窗口中粘贴你的Network ID
+即可。</p>
+<h4><span id="2移动端">2.移动端</span></h4>
+<p>  安卓设备可以在官网或者谷歌商店下载，苹果设备需要外区AppleID进入Appstore下载。下载完毕进入App，点击右上角+号添加新的虚拟局域网连接，进入如下界面:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/ipad.png"></p>
+<p>在NetworkID下粘贴你即可。</p>
+<p>  加入组网后，回到主页面就会出现对应的组网选项，其右侧有开启按钮。开启后一般设备会让你授权打开VPN服务，同意即可。之后开启按钮就会进入对应的组网，你的设备状态栏如果出现了VPN连接的状态，就说明连接组网成功了!但是现在我们还没有授权设备连接至子网，所以不会有对应状态提示。接下来笔者会介绍如何让进入组网的设备可以成功连接至刚刚创建的虚拟局域网。</p>
+<h3><span id="授权设备登陆">授权设备登陆</span></h3>
+<p>  在设备加入组网后，需要进入管理页面允许访问才能在组网中启用设备连接。回到刚刚创建组网的网络页面，在下方的<code>Members</code>成员设置模块中会看到加入希望加入组网的设备:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/members.png"></p>
+<p>在Address栏中是希望加入设备的物理地址，可以通过终端中输入<code>sudo zerotier-cli lisnetworks</code>，或者在图形界面中查看到当前设备的物理MAC地址，用来匹配所想要加入的设备。</p>
+<p>  在尚未加入的设备列表前有<code>Auth?</code>的选项框，选中选项框，就可以授权对应设备连接进入虚拟组网了。在后面还可以设置设备名称和指定设备在虚拟组网下的IPv4地址，建议给每个设备设置独立的名称和地址。至此便完成了基本的虚拟组网连接，可以通过组网内的IP地址相互进行ping指令检查连接。</p>
+<h2><span id="使用移动端的ssh工具或终端模拟器进行远程开发">使用移动端的ssh工具或终端模拟器进行远程开发</span></h2>
+<p>  因笔者最近使用neovim编辑器进行开发，所以直接使用了终端模拟器连接进行开发。当然移动端可以用于远程连接的编辑器也有很多，这里可以根据个人习惯使用，下面给出笔者在Termius终端模拟器和code编辑器远程连接的效果，平台均在ipadOS上。</p>
+<h4><span id="termius使用效果">Termius使用效果</span></h4>
+<ul>
+<li><p>添加连接 <img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/1.gif"></p></li>
+<li><p>效果</p></li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/2.gif"></p>
+<h4><span id="code使用效果">code使用效果</span></h4>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/3.gif"></p>
+<p>将手中的移动设备打造为生产力工具!</p>
+
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong>本文作者：</strong>KiRorY<br>
+        <strong>本文链接：</strong><a href="https://kirory.xyz/2023/12/07/ZeroTier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F+%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%89%93%E9%80%A0%E8%BF%9C%E7%A8%8B%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" title="https:&#x2F;&#x2F;kirory.xyz&#x2F;2023&#x2F;12&#x2F;07&#x2F;ZeroTier内网穿透+终端模拟器打造远程生产力工具&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;kirory.xyz&#x2F;2023&#x2F;12&#x2F;07&#x2F;ZeroTier内网穿透+终端模拟器打造远程生产力工具&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			  
+			<!-- 先找到与当前文字相同的目录 -->
+			            
+			<!-- 在找到当前文章所在的 index -->
+			            
+			<!-- 上一篇文章 -->
+			<div class="old">
+				<span>上一章</span>
+				<a href="/2023/11/10/Windows-docker-%E5%AE%89%E8%A3%85%E5%8F%8A%E5%AD%98%E5%82%A8%E8%BD%AC%E7%A7%BB%E6%96%B9%E6%B3%95/"> Windows Docker 安装及存储转移方法</a>
+			</div>
+			       
+			<!-- 下一篇文章 -->
+			<div class="new">
+				<span>下一章</span>
+				<a href="/2023/12/20/KDE%E6%A1%8C%E9%9D%A2%E4%B8%8B%E8%A7%A3%E5%86%B3Kitty%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E9%97%AE%E9%A2%98/"> KDE桌面下解决Kitty终端模拟器中文输入法问题</a>
+			</div>
+			                         
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			<a class="kirafont icon-container-fill -link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+		
+		
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" rel="tag">生产力工具</a> <a class="kirafont icon-tag-fill -none-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" rel="tag">虚拟组网</a>
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	<div class="giscus"></div>
+  
+    <script src="https://giscus.app/client.js"
+      data-repo="KiRorY/kirory.github.io"
+      data-repo-id="R_kgDOJ7eH2w"
+      data-category="General"
+      data-category-id="DIC_kwDOJ7eH284CX72n"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="light"
+      data-lang="en"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async  
+    ></script>
+  
+
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+			<div class="kira-right-column">
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+		</div>
+	</body>
+</html>

@@ -1,0 +1,135 @@
+@font-face {
+  font-family: "kirafont"; /* Project id 4168370 */
+  src: url('iconfont.woff2?t=1744780276311') format('woff2'),
+       url('iconfont.woff?t=1744780276311') format('woff'),
+       url('iconfont.ttf?t=1744780276311') format('truetype');
+}
+
+.kirafont {
+  font-family: "kirafont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-close:before {
+  content: "\e69e";
+}
+
+.icon-fullscreen:before {
+  content: "\ec14";
+}
+
+.icon-tag-fill:before {
+  content: "\e6c5";
+}
+
+.icon-time-circle-fill:before {
+  content: "\e6d4";
+}
+
+.icon-container-fill:before {
+  content: "\e802";
+}
+
+.icon-calendar-fill:before {
+  content: "\e814";
+}
+
+.icon-edit-fill:before {
+  content: "\e81b";
+}
+
+.icon-bilibili:before {
+  content: "\e66d";
+}
+
+.icon-menu:before {
+  content: "\e600";
+}
+
+.icon-spotify:before {
+  content: "\e71e";
+}
+
+.icon-user:before {
+  content: "\e7ae";
+}
+
+.icon-team:before {
+  content: "\e7af";
+}
+
+.icon-area-chart-fill:before {
+  content: "\e7b0";
+}
+
+.icon-container:before {
+  content: "\e7b1";
+}
+
+.icon-home:before {
+  content: "\e7c6";
+}
+
+.icon-right:before {
+  content: "\e7eb";
+}
+
+.icon-left:before {
+  content: "\e7ec";
+}
+
+.icon-unordered-list:before {
+  content: "\e7f4";
+}
+
+.icon-exit-fullscreen:before {
+  content: "\ec13";
+}
+
+.icon-QQ:before {
+  content: "\e882";
+}
+
+.icon-github:before {
+  content: "\e885";
+}
+
+.icon-twitter:before {
+  content: "\e88a";
+}
+
+.icon-facebook:before {
+  content: "\e88d";
+}
+
+.icon-zoom-out:before {
+  content: "\ec32";
+}
+
+.icon-zoom-in:before {
+  content: "\ec33";
+}
+
+.icon-link:before {
+  content: "\e772";
+}
+
+.icon-caret-up:before {
+  content: "\e8ec";
+}
+
+.icon-line:before {
+  content: "\e813";
+}
+
+.icon-search:before {
+  content: "\e8b9";
+}
+
+.icon-steam:before {
+  content: "\e686";
+}
+
