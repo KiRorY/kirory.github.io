@@ -1,0 +1,21 @@
+/* 自定义CSS用于博客布局 */
+
+/* 徽标容器，使图片在同一行显示 */
+.badge-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 15px;
+}
+
+/* 确保链接内的图片正确显示 */
+.badge-container a {
+  display: inline-block;
+}
+
+/* 为图片设置最小边距，防止它们挤在一起 */
+.badge-container img {
+  margin-bottom: 0;
+}
