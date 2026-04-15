@@ -1,3 +1,45 @@
+<html><head></head><body>/* i18n 双语切换样式修正 */
+.hexo-llm-zh,
+.hexo-llm-en {
+  display: none;
+}
+
+html[lang^="zh"] .hexo-llm-zh {
+  display: block !important;
+}
+
+html[lang^="zh"] span.hexo-llm-zh {
+  display: inline !important;
+}
+
+html[lang^="zh"] .hexo-llm-en {
+  display: none !important;
+}
+
+html:not([lang^="zh"]) .hexo-llm-en {
+  display: block !important;
+}
+
+html:not([lang^="zh"]) span.hexo-llm-en {
+  display: inline !important;
+}
+
+html:not([lang^="zh"]) .hexo-llm-zh {
+  display: none !important;
+}
+
+/* 侧边栏统计数字：标签在上、数字在下 */
+.kira-count span.hexo-llm-zh,
+.kira-count span.hexo-llm-en {
+  display: none;
+}
+html[lang^="zh"] .kira-count span.hexo-llm-zh {
+  display: block !important;
+}
+html:not([lang^="zh"]) .kira-count span.hexo-llm-en {
+  display: block !important;
+}
+
 /* 自定义CSS用于博客布局 */
 
 /* 徽标容器，使图片在同一行显示 */
@@ -19,3 +61,15 @@
 .badge-container img {
   margin-bottom: 0;
 }
+
+/* Hexo 会把换行渲染成 p + br，这里压平结构，恢复徽章从左到右排列 */
+.badge-container p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+}
+
+.badge-container br {
+  display: none;
+}</body></html>

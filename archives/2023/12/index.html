@@ -1,7 +1,107 @@
 <!DOCTYPE html>
 <html 
 	lang="zh-cn">
-	<head>
+	<head><!-- hexo injector head_begin start -->
+<script>
+(function() {
+    var userLang = navigator.language || navigator.userLanguage;
+    if (userLang && userLang.startsWith('zh')) {
+        document.documentElement.setAttribute('lang', 'zh-CN');
+        window.addEventListener('DOMContentLoaded', function() {
+            // 1. Handle article page title and H1
+            if (window._zh_title && window._en_title) {
+                // Precisely detect: find English title in current title and replace with Chinese
+                if (document.title.includes(window._en_title)) {
+                    document.title = document.title.replace(window._en_title, window._zh_title);
+                } else {
+                    // Fallback: if theme handles title specially (e.g., truncation), replace directly
+                    document.title = window._zh_title;
+                }
+                // Replace article page h1 title
+                // Consider different theme selectors, find first h1 tag for replacement
+                var h1 = document.querySelector('h1');
+                if (h1 && window._zh_title) {
+                    h1.textContent = window._zh_title;
+                }
+            }
+            // 2. Replace all title elements with data-zh-title and data-en-title attributes on homepage or list pages
+            var titleElements = document.querySelectorAll('[data-zh-title][data-en-title]');
+            titleElements.forEach(function(el) {
+                var zhTitle = el.getAttribute('data-zh-title');
+                var enTitle = el.getAttribute('data-en-title');
+                if (zhTitle && enTitle) {
+                    // Replace element text content
+                    if (el.textContent.trim() === enTitle.trim()) {
+                        el.textContent = zhTitle;
+                    }
+                    // If it's a link element, also check its title attribute
+                    if (el.hasAttribute('title') && el.getAttribute('title').trim() === enTitle.trim()) {
+                        el.setAttribute('title', zhTitle);
+                    }
+                }
+            });
+            // 3. Replace article titles on homepage/list pages (using global title mapping)
+            if (window._hexo_title_pairs && window._hexo_title_pairs.length > 0) {
+                // Create English to Chinese mapping
+                var titleMap = {};
+                window._hexo_title_pairs.forEach(function(pair) {
+                    titleMap[pair.en.trim()] = pair.zh;
+                });
+                // Helper function to replace article titles, supports exact match and contains match
+                // Preserves child links when replacing text (assumes single link per title element)
+                var replaceTitle = function(el) {
+                    var text = el.textContent.trim();
+                    var zhTitle = null;
+                    var matchedEnTitle = null;
+                    // Prefer exact match
+                    if (titleMap[text]) {
+                        zhTitle = titleMap[text];
+                        matchedEnTitle = text;
+                    } else {
+                        // Try contains match (handle cases with extra spaces or child elements)
+                        // Using indexOf for IE/older browser compatibility (this runs in browser context)
+                        for (var enTitle in titleMap) {
+                            if (text === enTitle || text.indexOf(enTitle) !== -1) {
+                                // Only replace when text is highly similar to title (avoid false replacements)
+                                if (text.length <= enTitle.length * 1.5) {
+                                    zhTitle = titleMap[enTitle];
+                                    matchedEnTitle = enTitle;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (!zhTitle) return;
+                    // Check if element contains a child link - if so, update link text to preserve hyperlink
+                    var childLink = el.querySelector('a');
+                    if (childLink) {
+                        childLink.textContent = zhTitle;
+                        // Also update title attribute if it matches the English title
+                        if (childLink.hasAttribute('title') && childLink.getAttribute('title').trim() === matchedEnTitle) {
+                            childLink.setAttribute('title', zhTitle);
+                        }
+                    } else {
+                        el.textContent = zhTitle;
+                    }
+                };
+                // Find title elements within article card/list containers (limit search scope for performance)
+                var containers = document.querySelectorAll('main, article, .post, .posts, .post-list, .article-list, .card, .content, #content, #main');
+                if (containers.length === 0) {
+                    containers = [document.body];
+                }
+                containers.forEach(function(container) {
+                    var titleSelectors = 'h1, h2, h3, .post-title, .article-title, .entry-title, .card-title, a[rel="bookmark"]';
+                    var potentialTitleElements = container.querySelectorAll(titleSelectors);
+                    potentialTitleElements.forEach(replaceTitle);
+                });
+            }
+        });
+    } else {
+        document.documentElement.setAttribute('lang', 'en');
+    }
+})();
+</script>
+<!-- hexo injector head_begin end -->
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -57,7 +157,18 @@
 <script src="/deps/js/APlayer.min.js"></script>
 <script src="/deps/js/Meting.min.js"></script>
 
-	<meta name="generator" content="Hexo 6.3.0">
+		<script>
+			(function(){var s=localStorage.getItem('kira-lang');if(!s){var n=navigator.language||navigator.userLanguage||'zh-CN';s=n.startsWith('zh')?'zh-CN':'en';}document.documentElement.setAttribute('lang',s);})();
+		</script>
+		
+	<!-- hexo injector head_end start -->
+<style>
+    .hexo-llm-zh { display: none; }
+    .hexo-llm-en { display: block; }
+    html[lang^="zh"] .hexo-llm-en { display: none !important; }
+    html[lang^="zh"] .hexo-llm-zh { display: block !important; }
+</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
@@ -92,9 +203,9 @@
 		</a>
 	</div>
 	<div class="kira-count">
-		<div><span>文章</span>12</div>
-		<div><span>标签</span>14</div>
-		<div><span>分类</span>3</div>
+		<div><span class="hexo-llm-zh">文章</span><span class="hexo-llm-en">Posts</span>12</div>
+		<div><span class="hexo-llm-zh">标签</span><span class="hexo-llm-en">Tags</span>14</div>
+		<div><span class="hexo-llm-zh">分类</span><span class="hexo-llm-en">Categories</span>3</div>
 	</div>
 	<div class="kira-list">
 		
@@ -110,7 +221,7 @@
 					"
 			></i>
 			<div class="kira-list-item-content">
-				首页
+				<span class="hexo-llm-zh">首页</span><span class="hexo-llm-en">Home</span>
 			</div>
 		</a>
 		
@@ -126,7 +237,7 @@
 					"
 			></i>
 			<div class="kira-list-item-content">
-				归档
+				<span class="hexo-llm-zh">归档</span><span class="hexo-llm-en">Archives</span>
 			</div>
 		</a>
 		
@@ -142,7 +253,7 @@
 					"
 			></i>
 			<div class="kira-list-item-content">
-				关于我
+				<span class="hexo-llm-zh">关于我</span><span class="hexo-llm-en">About</span>
 			</div>
 		</a>
 		
@@ -158,7 +269,7 @@
 					"
 			></i>
 			<div class="kira-list-item-content">
-				友情链接
+				<span class="hexo-llm-zh">友情链接</span><span class="hexo-llm-en">Friends</span>
 			</div>
 		</a>
 		
@@ -234,7 +345,7 @@
 		
 			
   <div class="kira-widget-wrap">
-    <h3 class="kira-widget-title">分类</h3>
+    <h3 class="kira-widget-title"><span class="hexo-llm-zh">分类</span><span class="hexo-llm-en">Categories</span></h3>
     <div class="kira-widget">
       <ul class="category-list">
         
@@ -242,21 +353,21 @@
 
         
           <li class="category-list-item">
-            <a class="category-list-link" href="/categories/学习笔记/">
+            <a class="category-list-link" href="/categories/学习笔记/" data-i18n-key="学习笔记">
               学习笔记
             </a>
             <span class="category-list-count">4</span>
           </li>
         
           <li class="category-list-item">
-            <a class="category-list-link" href="/categories/教程/">
+            <a class="category-list-link" href="/categories/教程/" data-i18n-key="教程">
               教程
             </a>
             <span class="category-list-count">7</span>
           </li>
         
           <li class="category-list-item">
-            <a class="category-list-link" href="/categories/随记/">
+            <a class="category-list-link" href="/categories/随记/" data-i18n-key="随记">
               随记
             </a>
             <span class="category-list-count">1</span>
@@ -279,7 +390,7 @@
 		
 	</aside>
 	<div class="kira-copyright">
-		&copy; 2025
+		&copy; 2026
 		<a href="/">KiRorY</a>
 		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
 		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
@@ -301,6 +412,7 @@
 				<div class="kira-main-content">
 					<div class="kira-posts">
     
+        
         <div class="kira-post">
             <a href="/2023/12/20/KDE%E6%A1%8C%E9%9D%A2%E4%B8%8B%E8%A7%A3%E5%86%B3Kitty%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E9%97%AE%E9%A2%98/">
                 
@@ -322,22 +434,23 @@
             <div class="kira-post-meta kira-rainbow">
                 <a>
                     <i class="kirafont icon-calendar-fill"></i>
-                    2023年12月20日
+                    <span class="hexo-llm-zh">2023年12月20日</span><span class="hexo-llm-en">12/20/2023</span>
                 </a>
                 <a>
                     <i class="kirafont icon-edit-fill"></i>
-                    690 字
+                    <span class="hexo-llm-zh">659 字</span><span class="hexo-llm-en">489 words</span>
                 </a>
                 <a>
-                    <i class="kirafont icon-time-circle-fill"></i>大概
-                    2 分钟
+                    <i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-zh">大概 2 分钟</span><span class="hexo-llm-en">About 3 min</span>
                 </a>
             </div>
     
             
+            
         </div>
         <div class="kira-hr"></div>
     
+        
         <div class="kira-post">
             <a href="/2023/12/07/ZeroTier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F+%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%89%93%E9%80%A0%E8%BF%9C%E7%A8%8B%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/">
                 
@@ -359,22 +472,33 @@
             <div class="kira-post-meta kira-rainbow">
                 <a>
                     <i class="kirafont icon-calendar-fill"></i>
-                    2023年12月07日
+                    <span class="hexo-llm-zh">2023年12月07日</span><span class="hexo-llm-en">12/07/2023</span>
                 </a>
                 <a>
                     <i class="kirafont icon-edit-fill"></i>
-                    1.6k 字
+                    <span class="hexo-llm-zh">1.5K 字</span><span class="hexo-llm-en">1.3K words</span>
                 </a>
                 <a>
-                    <i class="kirafont icon-time-circle-fill"></i>大概
-                    6 分钟
+                    <i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-zh">大概 5 分钟</span><span class="hexo-llm-en">About 7 min</span>
                 </a>
             </div>
     
             
+            
                 <article>
-                    <blockquote>
-<p>使用ZeroTier虚拟组网和远程设备使用的终端模拟器，让你的移动设备化身为生产力工具的教程</p></blockquote>
+                    <div class="hexo-llm-zh" data-markdown="1">
+<blockquote>
+<p>使用 ZeroTier
+虚拟组网，配合移动端终端模拟器，实现远程连接与开发，让平板或手机也能作为轻量生产力终端。</p>
+</blockquote>
+</div>
+<div class="hexo-llm-en" data-markdown="1">
+<blockquote>
+<p>A practical guide to using ZeroTier virtual networking with terminal
+emulators on mobile devices, so tablets and phones can be used as remote
+productivity terminals.</p>
+</blockquote>
+</div>
                 </article>
             
         </div>
@@ -384,7 +508,12 @@
 
 				</div>
 			</div>
-			<div class="kira-right-column">
+		<div class="kira-right-column">
+	<a onclick="toggleLang()" class="kira-lang-switch" aria-label="Switch Language" title="Switch Language">
+		<button class="mdui-fab mdui-ripple">
+			<span id="lang-icon">EN</span>
+		</button>
+	</a>
 	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
 		<button class="mdui-fab mdui-ripple">
 			<i class="kirafont icon-caret-up"></i>
@@ -392,6 +521,9 @@
 	</a>
 </div>
 
-		</div>
-	</body>
+	</div>
+	
+<script src="/js/lang-switch.js"></script>
+
+<!-- hexo injector body_end start --><script>window._hexo_title_pairs = [{"en":"Days In UCSB","zh":"Days In UCSB"},{"en":"Various Problems and Solutions when Using the Hexo Framework","zh":"使用Hexo框架时的种种问题和解决方法"},{"en":"Solving Chinese Input Method Issues in Kitty Terminal Emulator on KDE Desktop","zh":"KDE桌面下解决Kitty终端模拟器中文输入法问题"},{"en":"Windows Docker Installation and Storage Migration Method","zh":"Windows Docker 安装及存储转移方法"},{"en":"Solutions to OTA Development Issues Related to STM32G0 Series","zh":"STM32G0系OTA开发相关问题的解决方案"},{"en":"ZeroTier Intranet Penetration + Terminal Emulator to Build a Remote Mobile Productivity Tool","zh":"ZeroTier内网穿透+终端模拟器构建远程移动生产力工具"},{"en":"Algorithm Analysis Notes: Complexity Analysis and NP-Completeness Theory","zh":"算法分析笔记:复杂度分析与NP完全性理论"},{"en":"Algorithm Analysis Notes: Greedy Algorithm","zh":"算法分析笔记:贪心算法"},{"en":"Algorithm Analysis Notes: Recursion and Divide and Conquer Strategy","zh":"算法分析笔记:递归与分治策略"},{"en":"Algorithm Analysis Notes: Dynamic Programming","zh":"算法分析笔记:动态规划"},{"en":"Deployment of CLion+Qt Development Environment on Archlinux","zh":"CLion+Qt开发环境在Archlinux上的部署"},{"en":"Basic Implementation of Involution (Learning Notes)","zh":"Involution的基本实现方式(学习记录)"}];</script><script>window._i18n_map = {"教程":"Tutorials","随记":"Musings","学习笔记":"Study Notes","游记":"Travelogue","访学":"Academic Visit","终端":"Terminal","深度学习":"Deep Learning","嵌入式开发":"Embedded Development","生产力工具":"Productivity Tools","虚拟组网":"Virtual Networking","算法设计与分析":"Algorithm Design and Analysis","算法复杂度分析":"Algorithm Complexity Analysis"};</script><!-- hexo injector body_end end --></body>
 </html>

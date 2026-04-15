@@ -274,14 +274,29 @@ article ol {
   padding: 0 0 0 2.5em;
   margin-top: 0;
 }
-article > ol {
+article > ol,
+article > .kira-post-content > ol,
+article > .hexo-llm-zh > ol,
+article > .hexo-llm-en > ol,
+article > .kira-post-content > .hexo-llm-zh > ol,
+article > .kira-post-content > .hexo-llm-en > ol {
   list-style-type: none;
   counter-reset: item;
 }
-article > ol > li {
+article > ol > li,
+article > .kira-post-content > ol > li,
+article > .hexo-llm-zh > ol > li,
+article > .hexo-llm-en > ol > li,
+article > .kira-post-content > .hexo-llm-zh > ol > li,
+article > .kira-post-content > .hexo-llm-en > ol > li {
   position: relative;
 }
-article > ol > li::before {
+article > ol > li::before,
+article > .kira-post-content > ol > li::before,
+article > .hexo-llm-zh > ol > li::before,
+article > .hexo-llm-en > ol > li::before,
+article > .kira-post-content > .hexo-llm-zh > ol > li::before,
+article > .kira-post-content > .hexo-llm-en > ol > li::before {
   content: counter(item);
   counter-increment: item;
   position: absolute;

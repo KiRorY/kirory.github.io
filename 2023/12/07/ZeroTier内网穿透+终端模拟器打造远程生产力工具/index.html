@@ -1,7 +1,107 @@
 <!DOCTYPE html>
 <html 
 	lang="zh-cn">
-	<head>
+	<head><!-- hexo injector head_begin start -->
+<script>
+(function() {
+    var userLang = navigator.language || navigator.userLanguage;
+    if (userLang && userLang.startsWith('zh')) {
+        document.documentElement.setAttribute('lang', 'zh-CN');
+        window.addEventListener('DOMContentLoaded', function() {
+            // 1. Handle article page title and H1
+            if (window._zh_title && window._en_title) {
+                // Precisely detect: find English title in current title and replace with Chinese
+                if (document.title.includes(window._en_title)) {
+                    document.title = document.title.replace(window._en_title, window._zh_title);
+                } else {
+                    // Fallback: if theme handles title specially (e.g., truncation), replace directly
+                    document.title = window._zh_title;
+                }
+                // Replace article page h1 title
+                // Consider different theme selectors, find first h1 tag for replacement
+                var h1 = document.querySelector('h1');
+                if (h1 && window._zh_title) {
+                    h1.textContent = window._zh_title;
+                }
+            }
+            // 2. Replace all title elements with data-zh-title and data-en-title attributes on homepage or list pages
+            var titleElements = document.querySelectorAll('[data-zh-title][data-en-title]');
+            titleElements.forEach(function(el) {
+                var zhTitle = el.getAttribute('data-zh-title');
+                var enTitle = el.getAttribute('data-en-title');
+                if (zhTitle && enTitle) {
+                    // Replace element text content
+                    if (el.textContent.trim() === enTitle.trim()) {
+                        el.textContent = zhTitle;
+                    }
+                    // If it's a link element, also check its title attribute
+                    if (el.hasAttribute('title') && el.getAttribute('title').trim() === enTitle.trim()) {
+                        el.setAttribute('title', zhTitle);
+                    }
+                }
+            });
+            // 3. Replace article titles on homepage/list pages (using global title mapping)
+            if (window._hexo_title_pairs && window._hexo_title_pairs.length > 0) {
+                // Create English to Chinese mapping
+                var titleMap = {};
+                window._hexo_title_pairs.forEach(function(pair) {
+                    titleMap[pair.en.trim()] = pair.zh;
+                });
+                // Helper function to replace article titles, supports exact match and contains match
+                // Preserves child links when replacing text (assumes single link per title element)
+                var replaceTitle = function(el) {
+                    var text = el.textContent.trim();
+                    var zhTitle = null;
+                    var matchedEnTitle = null;
+                    // Prefer exact match
+                    if (titleMap[text]) {
+                        zhTitle = titleMap[text];
+                        matchedEnTitle = text;
+                    } else {
+                        // Try contains match (handle cases with extra spaces or child elements)
+                        // Using indexOf for IE/older browser compatibility (this runs in browser context)
+                        for (var enTitle in titleMap) {
+                            if (text === enTitle || text.indexOf(enTitle) !== -1) {
+                                // Only replace when text is highly similar to title (avoid false replacements)
+                                if (text.length <= enTitle.length * 1.5) {
+                                    zhTitle = titleMap[enTitle];
+                                    matchedEnTitle = enTitle;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (!zhTitle) return;
+                    // Check if element contains a child link - if so, update link text to preserve hyperlink
+                    var childLink = el.querySelector('a');
+                    if (childLink) {
+                        childLink.textContent = zhTitle;
+                        // Also update title attribute if it matches the English title
+                        if (childLink.hasAttribute('title') && childLink.getAttribute('title').trim() === matchedEnTitle) {
+                            childLink.setAttribute('title', zhTitle);
+                        }
+                    } else {
+                        el.textContent = zhTitle;
+                    }
+                };
+                // Find title elements within article card/list containers (limit search scope for performance)
+                var containers = document.querySelectorAll('main, article, .post, .posts, .post-list, .article-list, .card, .content, #content, #main');
+                if (containers.length === 0) {
+                    containers = [document.body];
+                }
+                containers.forEach(function(container) {
+                    var titleSelectors = 'h1, h2, h3, .post-title, .article-title, .entry-title, .card-title, a[rel="bookmark"]';
+                    var potentialTitleElements = container.querySelectorAll(titleSelectors);
+                    potentialTitleElements.forEach(replaceTitle);
+                });
+            }
+        });
+    } else {
+        document.documentElement.setAttribute('lang', 'en');
+    }
+})();
+</script>
+<!-- hexo injector head_begin end -->
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -57,7 +157,20 @@
 <script src="/deps/js/APlayer.min.js"></script>
 <script src="/deps/js/Meting.min.js"></script>
 
-	<meta name="generator" content="Hexo 6.3.0">
+		<script>
+			(function(){var s=localStorage.getItem('kira-lang');if(!s){var n=navigator.language||navigator.userLanguage||'zh-CN';s=n.startsWith('zh')?'zh-CN':'en';}document.documentElement.setAttribute('lang',s);})();
+		</script>
+		
+		<script>window._page_title_en = &#34;Building a Remote Mobile Productivity Setup with ZeroTier and Terminal Emulators&#34;;</script>
+		
+	<!-- hexo injector head_end start -->
+<style>
+    .hexo-llm-zh { display: none; }
+    .hexo-llm-en { display: block; }
+    html[lang^="zh"] .hexo-llm-en { display: none !important; }
+    html[lang^="zh"] .hexo-llm-zh { display: block !important; }
+</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
@@ -92,9 +205,9 @@
 		</a>
 	</div>
 	<div class="kira-count">
-		<div><span>文章</span>12</div>
-		<div><span>标签</span>14</div>
-		<div><span>分类</span>3</div>
+		<div><span class="hexo-llm-zh">文章</span><span class="hexo-llm-en">Posts</span>12</div>
+		<div><span class="hexo-llm-zh">标签</span><span class="hexo-llm-en">Tags</span>14</div>
+		<div><span class="hexo-llm-zh">分类</span><span class="hexo-llm-en">Categories</span>3</div>
 	</div>
 	<div class="kira-list">
 		
@@ -110,7 +223,7 @@
 					"
 			></i>
 			<div class="kira-list-item-content">
-				首页
+				<span class="hexo-llm-zh">首页</span><span class="hexo-llm-en">Home</span>
 			</div>
 		</a>
 		
@@ -126,7 +239,7 @@
 					"
 			></i>
 			<div class="kira-list-item-content">
-				归档
+				<span class="hexo-llm-zh">归档</span><span class="hexo-llm-en">Archives</span>
 			</div>
 		</a>
 		
@@ -142,7 +255,7 @@
 					"
 			></i>
 			<div class="kira-list-item-content">
-				关于我
+				<span class="hexo-llm-zh">关于我</span><span class="hexo-llm-en">About</span>
 			</div>
 		</a>
 		
@@ -158,7 +271,7 @@
 					"
 			></i>
 			<div class="kira-list-item-content">
-				友情链接
+				<span class="hexo-llm-zh">友情链接</span><span class="hexo-llm-en">Friends</span>
 			</div>
 		</a>
 		
@@ -234,7 +347,7 @@
 		
 			
   <div class="kira-widget-wrap">
-    <h3 class="kira-widget-title">分类</h3>
+    <h3 class="kira-widget-title"><span class="hexo-llm-zh">分类</span><span class="hexo-llm-en">Categories</span></h3>
     <div class="kira-widget">
       <ul class="category-list">
         
@@ -242,21 +355,21 @@
 
         
           <li class="category-list-item">
-            <a class="category-list-link" href="/categories/学习笔记/">
+            <a class="category-list-link" href="/categories/学习笔记/" data-i18n-key="学习笔记">
               学习笔记
             </a>
             <span class="category-list-count">4</span>
           </li>
         
           <li class="category-list-item">
-            <a class="category-list-link" href="/categories/教程/">
+            <a class="category-list-link" href="/categories/教程/" data-i18n-key="教程">
               教程
             </a>
             <span class="category-list-count">7</span>
           </li>
         
           <li class="category-list-item">
-            <a class="category-list-link" href="/categories/随记/">
+            <a class="category-list-link" href="/categories/随记/" data-i18n-key="随记">
               随记
             </a>
             <span class="category-list-count">1</span>
@@ -279,7 +392,7 @@
 		
 	</aside>
 	<div class="kira-copyright">
-		&copy; 2025
+		&copy; 2026
 		<a href="/">KiRorY</a>
 		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
 		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
@@ -362,26 +475,39 @@
 				alt="ZeroTier内网穿透+终端模拟器构建远程移动生产力工具"
 				class="lazyload kira-post-cover-image disabled-kira-image"
 			/>
-			<h1>ZeroTier内网穿透+终端模拟器构建远程移动生产力工具</h1>
+			<h1 data-zh-title="ZeroTier内网穿透+终端模拟器构建远程移动生产力工具" data-en-title="Building a Remote Mobile Productivity Setup with ZeroTier and Terminal Emulators">ZeroTier内网穿透+终端模拟器构建远程移动生产力工具</h1>
 		</div>
 		
-		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
-			<a><i class="kirafont icon-calendar-fill"></i>2023年12月07日</a>
-			<a><i class="kirafont icon-edit-fill"></i>1.6k 字</a>
-			<a><i class="kirafont icon-time-circle-fill"></i>大概 6 分钟</a>
+		
+		<div class="kira-post-meta kira-rainbow">
+			<a><i class="kirafont icon-calendar-fill"></i><span class="hexo-llm-zh">2023年12月07日</span><span class="hexo-llm-en">12/07/2023</span></a>
+			<a><i class="kirafont icon-edit-fill"></i><span class="hexo-llm-zh kira-stat-wordcount-zh">1.5K 字</span><span class="hexo-llm-en kira-stat-wordcount-en">1.3K words</span></a>
+			<a><i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-zh kira-stat-readtime-zh">大概 5 分钟</span><span class="hexo-llm-en kira-stat-readtime-en">About 7 min</span></a>
 		</div>
-		<blockquote>
-<p>使用ZeroTier虚拟组网和远程设备使用的终端模拟器，让你的移动设备化身为生产力工具的教程
-<span id="more"></span></p>
+		<div class="kira-post-content">
+			<div class="hexo-llm-zh">
+<html><head></head><body><div class="hexo-llm-zh" data-markdown="1">
+<blockquote>
+<p>使用 ZeroTier
+虚拟组网，配合移动端终端模拟器，实现远程连接与开发，让平板或手机也能作为轻量生产力终端。</p>
 </blockquote>
+</div>
+<div class="hexo-llm-en" data-markdown="1">
+<blockquote>
+<p>A practical guide to using ZeroTier virtual networking with terminal
+emulators on mobile devices, so tablets and phones can be used as remote
+productivity terminals.</p>
+</blockquote>
+</div>
+<span id="more"></span>
 <hr>
 <h1><span id="zerotier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%9E%84%E5%BB%BA%E8%BF%9C%E7%A8%8B%E7%A7%BB%E5%8A%A8%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7">ZeroTier内网穿透+终端模拟器构建远程移动生产力工具</span></h1>
-<p>  最近笔者研究内网穿透，尝试寻找穿透工具。网上很多推荐使用ZeroTier实现虚拟组网，笔者也尝试使用
+<p>最近笔者研究内网穿透，尝试寻找穿透工具。网上很多推荐使用ZeroTier实现虚拟组网，笔者也尝试使用
 该工具。该工具免费且基本能实现傻瓜式组网，非常方便。虽然其服务器在外网导致访问速度较慢，但是如果是使用ssh或者ftp
 也绰绰有余了。而最近笔者又发现ZeroTier在移动端也有客户端可以使用，这也就意味着如果在移动端拥有终端模拟器，就可以远程进行开发工作了！</p>
 <h2><span id="zerotier%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">ZeroTier简单使用方法</span></h2>
 <h3><span id="%E6%B3%A8%E5%86%8C%E6%96%B0%E5%BB%BA%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91">注册/新建虚拟局域网</span></h3>
-<p>  进入<a target="_blank" rel="noopener" href="https://www.zerotier.com/">ZeroTier官网</a>，注册账号并登录,登陆后你可以看到如下图的界面:</p>
+<p>进入<a target="_blank" rel="noopener" href="https://www.zerotier.com/">ZeroTier官网</a>，注册账号并登录,登陆后你可以看到如下图的界面:</p>
 <p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/Create_net.jpg"></p>
 <ul>
 <li>点击上方[Create A
@@ -398,7 +524,7 @@ ID这一栏的信息。</li>
 </ul>
 <h3><span id="%E5%9C%A8%E9%9C%80%E8%A6%81%E7%BB%84%E7%BD%91%E7%9A%84%E5%AE%A2%E6%88%B7%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%B9%B6%E5%8A%A0%E5%85%A5%E7%BB%84%E7%BD%91">在需要组网的客户机上安装客户端并加入组网</span></h3>
 <h4><span id="1-%E6%A1%8C%E9%9D%A2%E7%AB%AF">1. 桌面端</span></h4>
-<p>  这里的客户端指的是zerotier-one，<a target="_blank" rel="noopener" href="https://www.zerotier.com/download/">官网下载页面</a>有针对各个平台的安装方式。我们远程开发的服务器端一般是Linux系统，手动下载对应的包，或者使用系统的包管理器下载安装均可。</p>
+<p>这里的客户端指的是zerotier-one，<a target="_blank" rel="noopener" href="https://www.zerotier.com/download/">官网下载页面</a>有针对各个平台的安装方式。我们远程开发的服务器端一般是Linux系统，手动下载对应的包，或者使用系统的包管理器下载安装均可。</p>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo pacman -S zerotier-one <span class="hljs-comment">#ArchLinux使用pacman的安装方法</span><br></code></pre></td></tr></tbody></table></figure>
 <p>macOS和Windows使用的是带有图形界面的客户端，下载对应安装包安装即可。</p>
 <h5><span id="linux%E5%BC%80%E5%90%AF%E6%9C%8D%E5%8A%A1%E5%B9%B6%E5%8A%A0%E5%85%A5%E7%BB%84%E7%BD%91">Linux开启服务并加入组网</span></h5>
@@ -418,17 +544,17 @@ ID这一栏的信息。</li>
 <p>点击<code>Join New Network</code>，在弹出窗口中粘贴你的Network ID
 即可。</p>
 <h4><span id="2%E7%A7%BB%E5%8A%A8%E7%AB%AF">2.移动端</span></h4>
-<p>  安卓设备可以在官网或者谷歌商店下载，苹果设备需要外区AppleID进入Appstore下载。下载完毕进入App，点击右上角+号添加新的虚拟局域网连接，进入如下界面:</p>
+<p>安卓设备可以在官网或者谷歌商店下载，苹果设备需要外区AppleID进入Appstore下载。下载完毕进入App，点击右上角+号添加新的虚拟局域网连接，进入如下界面:</p>
 <p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/ipad.png"></p>
 <p>在NetworkID下粘贴你即可。</p>
-<p>  加入组网后，回到主页面就会出现对应的组网选项，其右侧有开启按钮。开启后一般设备会让你授权打开VPN服务，同意即可。之后开启按钮就会进入对应的组网，你的设备状态栏如果出现了VPN连接的状态，就说明连接组网成功了!但是现在我们还没有授权设备连接至子网，所以不会有对应状态提示。接下来笔者会介绍如何让进入组网的设备可以成功连接至刚刚创建的虚拟局域网。</p>
+<p>加入组网后，回到主页面就会出现对应的组网选项，其右侧有开启按钮。开启后一般设备会让你授权打开VPN服务，同意即可。之后开启按钮就会进入对应的组网，你的设备状态栏如果出现了VPN连接的状态，就说明连接组网成功了!但是现在我们还没有授权设备连接至子网，所以不会有对应状态提示。接下来笔者会介绍如何让进入组网的设备可以成功连接至刚刚创建的虚拟局域网。</p>
 <h3><span id="%E6%8E%88%E6%9D%83%E8%AE%BE%E5%A4%87%E7%99%BB%E9%99%86">授权设备登陆</span></h3>
-<p>  在设备加入组网后，需要进入管理页面允许访问才能在组网中启用设备连接。回到刚刚创建组网的网络页面，在下方的<code>Members</code>成员设置模块中会看到加入希望加入组网的设备:</p>
+<p>在设备加入组网后，需要进入管理页面允许访问才能在组网中启用设备连接。回到刚刚创建组网的网络页面，在下方的<code>Members</code>成员设置模块中会看到加入希望加入组网的设备:</p>
 <p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/members.png"></p>
 <p>在Address栏中是希望加入设备的物理地址，可以通过终端中输入<code>sudo zerotier-cli lisnetworks</code>，或者在图形界面中查看到当前设备的物理MAC地址，用来匹配所想要加入的设备。</p>
-<p>  在尚未加入的设备列表前有<code>Auth?</code>的选项框，选中选项框，就可以授权对应设备连接进入虚拟组网了。在后面还可以设置设备名称和指定设备在虚拟组网下的IPv4地址，建议给每个设备设置独立的名称和地址。至此便完成了基本的虚拟组网连接，可以通过组网内的IP地址相互进行ping指令检查连接。</p>
+<p>在尚未加入的设备列表前有<code>Auth?</code>的选项框，选中选项框，就可以授权对应设备连接进入虚拟组网了。在后面还可以设置设备名称和指定设备在虚拟组网下的IPv4地址，建议给每个设备设置独立的名称和地址。至此便完成了基本的虚拟组网连接，可以通过组网内的IP地址相互进行ping指令检查连接。</p>
 <h2><span id="%E4%BD%BF%E7%94%A8%E7%A7%BB%E5%8A%A8%E7%AB%AF%E7%9A%84ssh%E5%B7%A5%E5%85%B7%E6%88%96%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E8%BF%9B%E8%A1%8C%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91">使用移动端的ssh工具或终端模拟器进行远程开发</span></h2>
-<p>  因笔者最近使用neovim编辑器进行开发，所以直接使用了终端模拟器连接进行开发。当然移动端可以用于远程连接的编辑器也有很多，这里可以根据个人习惯使用，下面给出笔者在Termius终端模拟器和code编辑器远程连接的效果，平台均在ipadOS上。</p>
+<p>因笔者最近使用neovim编辑器进行开发，所以直接使用了终端模拟器连接进行开发。当然移动端可以用于远程连接的编辑器也有很多，这里可以根据个人习惯使用，下面给出笔者在Termius终端模拟器和code编辑器远程连接的效果，平台均在ipadOS上。</p>
 <h4><span id="termius%E4%BD%BF%E7%94%A8%E6%95%88%E6%9E%9C">Termius使用效果</span></h4>
 <ul>
 <li><p>添加连接 <img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/1.gif"></p></li>
@@ -438,47 +564,275 @@ ID这一栏的信息。</li>
 <h4><span id="code%E4%BD%BF%E7%94%A8%E6%95%88%E6%9E%9C">code使用效果</span></h4>
 <p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/3.gif"></p>
 <p>将手中的移动设备打造为生产力工具!</p>
+<!-- hexo injector body_end start --><script>window._hexo_title_pairs = [{"en":"Days In UCSB","zh":"Days In UCSB"},{"en":"Various Problems and Solutions when Using the Hexo Framework","zh":"使用Hexo框架时的种种问题和解决方法"},{"en":"Solving Chinese Input Method Issues in Kitty Terminal Emulator on KDE Desktop","zh":"KDE桌面下解决Kitty终端模拟器中文输入法问题"},{"en":"Windows Docker Installation and Storage Migration Method","zh":"Windows Docker 安装及存储转移方法"},{"en":"Solutions to OTA Development Issues Related to STM32G0 Series","zh":"STM32G0系OTA开发相关问题的解决方案"},{"en":"ZeroTier Intranet Penetration + Terminal Emulator to Build a Remote Mobile Productivity Tool","zh":"ZeroTier内网穿透+终端模拟器构建远程移动生产力工具"},{"en":"Algorithm Analysis Notes: Complexity Analysis and NP-Completeness Theory","zh":"算法分析笔记:复杂度分析与NP完全性理论"},{"en":"Algorithm Analysis Notes: Greedy Algorithm","zh":"算法分析笔记:贪心算法"},{"en":"Algorithm Analysis Notes: Recursion and Divide and Conquer Strategy","zh":"算法分析笔记:递归与分治策略"},{"en":"Algorithm Analysis Notes: Dynamic Programming","zh":"算法分析笔记:动态规划"},{"en":"Deployment of CLion+Qt Development Environment on Archlinux","zh":"CLion+Qt开发环境在Archlinux上的部署"},{"en":"Basic Implementation of Involution (Learning Notes)","zh":"Involution的基本实现方式(学习记录)"}];</script><script>window._i18n_map = {"教程":"Tutorials","随记":"Musings","学习笔记":"Study Notes","游记":"Travelogue","访学":"Academic Visit","终端":"Terminal","深度学习":"Deep Learning","嵌入式开发":"Embedded Development","生产力工具":"Productivity Tools","虚拟组网":"Virtual Networking","算法设计与分析":"Algorithm Design and Analysis","算法复杂度分析":"Algorithm Complexity Analysis"};</script><!-- hexo injector body_end end --></body></html>
+</div>
+<div class="hexo-llm-en">
+<div class="hexo-llm-en" data-markdown="1">
+<blockquote>
+<p>A practical guide to using ZeroTier virtual networking with terminal
+emulators on mobile devices, so tablets and phones can be used as remote
+productivity terminals.</p>
+</blockquote>
+</div>
+<!-- more -->
+<hr />
+<h1
+id="zerotier-intranet-penetration-terminal-emulator-to-build-a-remote-mobile-productivity-tool">ZeroTier
+Intranet Penetration + Terminal Emulator to Build a Remote Mobile
+Productivity Tool</h1>
+<p>Recently, I researched intranet penetration and tried to find
+penetration tools. Many online recommendations pointed to ZeroTier for
+virtual networking, and I also tried using this tool. It's free and
+essentially offers plug-and-play networking, which is very convenient.
+Although its servers are external, leading to slower access speeds, it's
+more than sufficient for use with SSH or FTP. Recently, I also
+discovered that ZeroTier has clients available for mobile devices, which
+means that with a terminal emulator on a mobile device, remote
+development work is possible!</p>
+<h2 id="simple-usage-of-zerotier">Simple Usage of ZeroTier</h2>
+<h3 id="register-create-a-virtual-lan">Register / Create a Virtual
+LAN</h3>
+<p>Go to the <a target="_blank" rel="noopener" href="https://www.zerotier.com/">ZeroTier official
+website</a>, register an account and log in. After logging in, you will
+see an interface like the one below:</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/Create_net.jpg" /></p>
+<ul>
+<li>Click [Create A Network] above, and a new virtual LAN will be
+created in the Network list below, taking you to the LAN settings
+interface.</li>
+</ul>
+<p><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/Basic.png" /></p>
+<ul>
+<li>Basic settings allow you to modify the network's name, description,
+and privacy. It is recommended to set it to Private, as you wouldn't
+want others to access your virtual LAN freely. The information required
+for connection is found in the Network ID field.</li>
+</ul>
+<p><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/advance.png" /></p>
+<ul>
+<li>Next is the advanced settings section. Here, you can set subnet
+addresses, routes, and other information according to your preferences.
+If you find it troublesome, simply choose a memorable LAN address prefix
+in the IPv4 address field, and no other changes are necessary.</li>
+</ul>
+<h3
+id="install-the-client-and-join-the-network-on-the-client-machine-requiring-networking">Install
+the Client and Join the Network on the Client Machine Requiring
+Networking</h3>
+<h4 id="desktop">1. Desktop</h4>
+<p>The client here refers to zerotier-one. The <a
+target="_blank" rel="noopener" href="https://www.zerotier.com/download/">official download page</a>
+provides installation methods for various platforms. Our remote
+development servers are typically Linux systems; you can either manually
+download the corresponding package or use the system's package manager
+to download and install it.</p>
+<hexoPostRenderCodeBlock>
+<figure class="highlight bash">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs bash">sudo pacman -S zerotier-one <span class="hljs-comment">#ArchLinux使用pacman的安装方法</span><br></code></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></hexoPostRenderCodeBlock></p>
+<p>macOS and Windows use clients with a graphical interface; simply
+download and install the corresponding package.</p>
+<h5 id="linux-start-the-service-and-join-the-network">Linux: Start the
+Service and Join the Network</h5>
+<ul>
+<li>First, start the zerotier-one service using the method corresponding
+to your system.</li>
+</ul>
+<hexoPostRenderCodeBlock>
+<figure class="highlight bash">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs bash">sudo systemctl <span class="hljs-built_in">enable</span> zerotier-one   <span class="hljs-comment">#ArchLinux开机启用服务</span><br>sudo systemctl start zerotier-one    <span class="hljs-comment">#启动服务</span><br></code></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></hexoPostRenderCodeBlock></p>
+Use <code>sudo systemctl status zerotier-one</code> to confirm whether
+the service is running. The output for successful activation is as
+follows: <hexoPostRenderCodeBlock>
+<figure class="highlight bash">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs bash">● zerotier-one.service - ZeroTier One<br>     Loaded: loaded (/usr/lib/systemd/system/zerotier-one.service; enabled; preset: disabled)<br>     Active: active (running) since Fri 2023-12-08 15:16:00 CST; 7h ago<br>   Main PID: 2895 (zerotier-one)<br>      Tasks: 40 (<span class="hljs-built_in">limit</span>: 18783)<br>     Memory: 17.5M<br>        CPU: 29.195s<br>     CGroup: /system.slice/zerotier-one.service<br>             └─2895 /usr/bin/zerotier-one<br></code></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></hexoPostRenderCodeBlock></p>
+Join the network using the terminal (copy your newly created Network
+ID): <hexoPostRenderCodeBlock>
+<figure class="highlight bash">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs bash">sudo zerotier-cli <span class="hljs-built_in">join</span> [你的Network ID] <span class="hljs-comment">#复制你的Network ID 替换掉中括号</span><br></code></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></hexoPostRenderCodeBlock></p>
+A successful join will display the prompt <code>200 join ok</code>. At
+this point, you can enter <code>sudo zerotier-cli status</code> to
+confirm which networks you have joined and whether the connection was
+successful. After successfully joining a network, information should be
+displayed in the following format: <hexoPostRenderCodeBlock>
+<figure class="highlight bash">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs bash">200 info [加入的Network ID] [客户端版本号] [连接信息(ONLINE/OFFLINE)]<br></code></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></hexoPostRenderCodeBlock></p>
+<p>At this point, the client machine has entered the network, but the
+administrator has not yet authorized its connection. The authorization
+method will be explained uniformly below.</p>
+<h5
+id="windowsmacos-start-the-service-and-join-the-network-via-gui">Windows/macOS:
+Start the Service and Join the Network via GUI</h5>
+<p>Clients on Windows or macOS have a graphical interface, making
+joining easier. After installation, open ZeroTier-one, right-click its
+taskbar icon (personal information is blacked out)</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/win.png" /></p>
+<p>Click <code>Join New Network</code>, then paste your Network ID into
+the pop-up window.</p>
+<h4 id="mobile-device">2. Mobile Device</h4>
+<p>Android devices can be downloaded from the official website or Google
+Play Store. Apple devices require a foreign Apple ID to download from
+the App Store. After downloading, open the app, click the '+' icon in
+the top right corner to add a new virtual LAN connection, and you will
+enter the following interface:</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/ipad.png" /></p>
+<p>Paste your Network ID under NetworkID.</p>
+<p>After joining the network, the corresponding network option will
+appear on the main page, with an "on" switch to its right. After
+enabling, the device will typically ask for authorization to open the
+VPN service; simply agree. Then, the "on" switch will connect to the
+corresponding network. If a VPN connection status appears in your
+device's status bar, it means you have successfully connected to the
+network! However, we haven't yet authorized the device to connect to the
+subnet, so there won't be a corresponding status prompt. Next, I will
+explain how to allow devices that have joined the network to
+successfully connect to the virtual LAN you just created.</p>
+<h3 id="authorize-device-login">Authorize Device Login</h3>
+<p>After a device joins the network, you need to go to the management
+page to grant access before the device connection can be enabled within
+the network. Return to the network page where you just created the
+network. In the <code>Members</code> settings module below, you will see
+the devices that wish to join the network:</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/members.png" /></p>
+<p>The Address field shows the physical address of the device wishing to
+join. You can find the current device's physical MAC address by typing
+<code>sudo zerotier-cli lisnetworks</code> in the terminal, or by
+checking the graphical interface, to match the desired device to
+join.</p>
+<p>In front of the list of unjoined devices, there is an
+<code>Auth?</code> checkbox. Select this checkbox to authorize the
+corresponding device to connect to the virtual network. Further down,
+you can also set the device name and assign a specific IPv4 address to
+the device within the virtual network. It is recommended to set a unique
+name and address for each device. This completes the basic virtual
+network connection, and you can now check connectivity by pinging each
+other using the IP addresses within the network.</p>
+<h2
+id="using-mobile-ssh-tools-or-terminal-emulators-for-remote-development">Using
+Mobile SSH Tools or Terminal Emulators for Remote Development</h2>
+<p>As I recently used the neovim editor for development, I directly used
+a terminal emulator for connection and development. Of course, there are
+many mobile editors available for remote connection; you can use them
+according to your personal preference. Below are the results of my
+remote connection using the Termius terminal emulator and the Code
+editor, both on iPadOS.</p>
+<h4 id="termius-usage-effect">Termius Usage Effect</h4>
+<ul>
+<li><p>Add Connection <img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/1.gif" /></p></li>
+<li><p>Effect</p></li>
+</ul>
+<p><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/2.gif" /></p>
+<h4 id="code-usage-effect">Code Usage Effect</h4>
+<p><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/3.gif" /></p>
+<p>Turn your mobile device into a productivity tool!</p>
 
+</div>
+		</div>
 	</article>
 
 	 
     <div class="kira-post-copyright">
-        <strong>本文作者：</strong>KiRorY<br>
-        <strong>本文链接：</strong><a href="https://kirory.xyz/2023/12/07/ZeroTier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F+%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%89%93%E9%80%A0%E8%BF%9C%E7%A8%8B%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" title="https:&#x2F;&#x2F;kirory.xyz&#x2F;2023&#x2F;12&#x2F;07&#x2F;ZeroTier内网穿透+终端模拟器打造远程生产力工具&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;kirory.xyz&#x2F;2023&#x2F;12&#x2F;07&#x2F;ZeroTier内网穿透+终端模拟器打造远程生产力工具&#x2F;</a><br>
+        <strong><span class="hexo-llm-zh">本文作者</span><span class="hexo-llm-en">Author</span>：</strong>KiRorY<br>
+        <strong><span class="hexo-llm-zh">本文链接</span><span class="hexo-llm-en">Permalink</span>：</strong><a href="https://kirory.xyz/2023/12/07/ZeroTier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F+%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%89%93%E9%80%A0%E8%BF%9C%E7%A8%8B%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" title="https:&#x2F;&#x2F;kirory.xyz&#x2F;2023&#x2F;12&#x2F;07&#x2F;ZeroTier内网穿透+终端模拟器打造远程生产力工具&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;kirory.xyz&#x2F;2023&#x2F;12&#x2F;07&#x2F;ZeroTier内网穿透+终端模拟器打造远程生产力工具&#x2F;</a><br>
         
-            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+            <span class="hexo-llm-zh"><strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可</span><span class="hexo-llm-en"><strong>License：</strong>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN</a></span>
         
     </div>
 
   
 	<div class="kira-post-nav">
 		<nav class="post-nav">
-			  
-			<!-- 先找到与当前文字相同的目录 -->
-			            
-			<!-- 在找到当前文章所在的 index -->
-			            
-			<!-- 上一篇文章 -->
-			<div class="old">
-				<span>上一章</span>
-				<a href="/2023/11/10/Windows-docker-%E5%AE%89%E8%A3%85%E5%8F%8A%E5%AD%98%E5%82%A8%E8%BD%AC%E7%A7%BB%E6%96%B9%E6%B3%95/"> Windows Docker 安装及存储转移方法</a>
-			</div>
-			       
-			<!-- 下一篇文章 -->
+			
+			
 			<div class="new">
-				<span>下一章</span>
+				<span><span class="hexo-llm-zh">下一章</span><span class="hexo-llm-en">Next</span></span>
 				<a href="/2023/12/20/KDE%E6%A1%8C%E9%9D%A2%E4%B8%8B%E8%A7%A3%E5%86%B3Kitty%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E9%97%AE%E9%A2%98/"> KDE桌面下解决Kitty终端模拟器中文输入法问题</a>
 			</div>
-			                                
+			
+			
+			<div class="old">
+				<span><span class="hexo-llm-zh">上一章</span><span class="hexo-llm-en">Previous</span></span>
+				<a href="/2023/11/10/Windows-docker-%E5%AE%89%E8%A3%85%E5%8F%8A%E5%AD%98%E5%82%A8%E8%BD%AC%E7%A7%BB%E6%96%B9%E6%B3%95/"> Windows Docker 安装及存储转移方法</a>
+			</div>
+			
 		</nav>
 	</div>
 	
 	<div class="kira-post-meta kira-rainbow">
 		
-			<a class="kirafont icon-container-fill -link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+			
+				<a href="/categories/%E6%95%99%E7%A8%8B/" data-i18n-key="教程"><i class="kirafont icon-container-fill"></i> 教程</a>
+			
 		
 		
-			<a class="kirafont icon-tag-fill -none-link" href="/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" rel="tag">生产力工具</a> <a class="kirafont icon-tag-fill -none-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" rel="tag">虚拟组网</a>
+			
+				<a href="/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" data-i18n-key="生产力工具"><i class="kirafont icon-tag-fill"></i> 生产力工具</a>
+			
+				<a href="/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" data-i18n-key="虚拟组网"><i class="kirafont icon-tag-fill"></i> 虚拟组网</a>
+			
 		
 	</div>
 	
@@ -512,7 +866,12 @@ ID这一栏的信息。</li>
 
 				</div>
 			</div>
-			<div class="kira-right-column">
+		<div class="kira-right-column">
+	<a onclick="toggleLang()" class="kira-lang-switch" aria-label="Switch Language" title="Switch Language">
+		<button class="mdui-fab mdui-ripple">
+			<span id="lang-icon">EN</span>
+		</button>
+	</a>
 	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
 		<button class="mdui-fab mdui-ripple">
 			<i class="kirafont icon-caret-up"></i>
@@ -520,6 +879,9 @@ ID这一栏的信息。</li>
 	</a>
 </div>
 
-		</div>
-	</body>
+	</div>
+	
+<script src="/js/lang-switch.js"></script>
+
+</body>
 </html>

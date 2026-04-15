@@ -1,7 +1,107 @@
 <!DOCTYPE html>
 <html 
 	lang="zh-cn">
-	<head>
+	<head><!-- hexo injector head_begin start -->
+<script>
+(function() {
+    var userLang = navigator.language || navigator.userLanguage;
+    if (userLang && userLang.startsWith('zh')) {
+        document.documentElement.setAttribute('lang', 'zh-CN');
+        window.addEventListener('DOMContentLoaded', function() {
+            // 1. Handle article page title and H1
+            if (window._zh_title && window._en_title) {
+                // Precisely detect: find English title in current title and replace with Chinese
+                if (document.title.includes(window._en_title)) {
+                    document.title = document.title.replace(window._en_title, window._zh_title);
+                } else {
+                    // Fallback: if theme handles title specially (e.g., truncation), replace directly
+                    document.title = window._zh_title;
+                }
+                // Replace article page h1 title
+                // Consider different theme selectors, find first h1 tag for replacement
+                var h1 = document.querySelector('h1');
+                if (h1 && window._zh_title) {
+                    h1.textContent = window._zh_title;
+                }
+            }
+            // 2. Replace all title elements with data-zh-title and data-en-title attributes on homepage or list pages
+            var titleElements = document.querySelectorAll('[data-zh-title][data-en-title]');
+            titleElements.forEach(function(el) {
+                var zhTitle = el.getAttribute('data-zh-title');
+                var enTitle = el.getAttribute('data-en-title');
+                if (zhTitle && enTitle) {
+                    // Replace element text content
+                    if (el.textContent.trim() === enTitle.trim()) {
+                        el.textContent = zhTitle;
+                    }
+                    // If it's a link element, also check its title attribute
+                    if (el.hasAttribute('title') && el.getAttribute('title').trim() === enTitle.trim()) {
+                        el.setAttribute('title', zhTitle);
+                    }
+                }
+            });
+            // 3. Replace article titles on homepage/list pages (using global title mapping)
+            if (window._hexo_title_pairs && window._hexo_title_pairs.length > 0) {
+                // Create English to Chinese mapping
+                var titleMap = {};
+                window._hexo_title_pairs.forEach(function(pair) {
+                    titleMap[pair.en.trim()] = pair.zh;
+                });
+                // Helper function to replace article titles, supports exact match and contains match
+                // Preserves child links when replacing text (assumes single link per title element)
+                var replaceTitle = function(el) {
+                    var text = el.textContent.trim();
+                    var zhTitle = null;
+                    var matchedEnTitle = null;
+                    // Prefer exact match
+                    if (titleMap[text]) {
+                        zhTitle = titleMap[text];
+                        matchedEnTitle = text;
+                    } else {
+                        // Try contains match (handle cases with extra spaces or child elements)
+                        // Using indexOf for IE/older browser compatibility (this runs in browser context)
+                        for (var enTitle in titleMap) {
+                            if (text === enTitle || text.indexOf(enTitle) !== -1) {
+                                // Only replace when text is highly similar to title (avoid false replacements)
+                                if (text.length <= enTitle.length * 1.5) {
+                                    zhTitle = titleMap[enTitle];
+                                    matchedEnTitle = enTitle;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (!zhTitle) return;
+                    // Check if element contains a child link - if so, update link text to preserve hyperlink
+                    var childLink = el.querySelector('a');
+                    if (childLink) {
+                        childLink.textContent = zhTitle;
+                        // Also update title attribute if it matches the English title
+                        if (childLink.hasAttribute('title') && childLink.getAttribute('title').trim() === matchedEnTitle) {
+                            childLink.setAttribute('title', zhTitle);
+                        }
+                    } else {
+                        el.textContent = zhTitle;
+                    }
+                };
+                // Find title elements within article card/list containers (limit search scope for performance)
+                var containers = document.querySelectorAll('main, article, .post, .posts, .post-list, .article-list, .card, .content, #content, #main');
+                if (containers.length === 0) {
+                    containers = [document.body];
+                }
+                containers.forEach(function(container) {
+                    var titleSelectors = 'h1, h2, h3, .post-title, .article-title, .entry-title, .card-title, a[rel="bookmark"]';
+                    var potentialTitleElements = container.querySelectorAll(titleSelectors);
+                    potentialTitleElements.forEach(replaceTitle);
+                });
+            }
+        });
+    } else {
+        document.documentElement.setAttribute('lang', 'en');
+    }
+})();
+</script>
+<!-- hexo injector head_begin end -->
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -57,7 +157,18 @@
 <script src="/deps/js/APlayer.min.js"></script>
 <script src="/deps/js/Meting.min.js"></script>
 
-	<meta name="generator" content="Hexo 6.3.0">
+		<script>
+			(function(){var s=localStorage.getItem('kira-lang');if(!s){var n=navigator.language||navigator.userLanguage||'zh-CN';s=n.startsWith('zh')?'zh-CN':'en';}document.documentElement.setAttribute('lang',s);})();
+		</script>
+		
+	<!-- hexo injector head_end start -->
+<style>
+    .hexo-llm-zh { display: none; }
+    .hexo-llm-en { display: block; }
+    html[lang^="zh"] .hexo-llm-en { display: none !important; }
+    html[lang^="zh"] .hexo-llm-zh { display: block !important; }
+</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
@@ -92,9 +203,9 @@
 		</a>
 	</div>
 	<div class="kira-count">
-		<div><span>文章</span>12</div>
-		<div><span>标签</span>14</div>
-		<div><span>分类</span>3</div>
+		<div><span class="hexo-llm-zh">文章</span><span class="hexo-llm-en">Posts</span>12</div>
+		<div><span class="hexo-llm-zh">标签</span><span class="hexo-llm-en">Tags</span>14</div>
+		<div><span class="hexo-llm-zh">分类</span><span class="hexo-llm-en">Categories</span>3</div>
 	</div>
 	<div class="kira-list">
 		
@@ -110,7 +221,7 @@
 					"
 			></i>
 			<div class="kira-list-item-content">
-				首页
+				<span class="hexo-llm-zh">首页</span><span class="hexo-llm-en">Home</span>
 			</div>
 		</a>
 		
@@ -126,7 +237,7 @@
 					"
 			></i>
 			<div class="kira-list-item-content">
-				归档
+				<span class="hexo-llm-zh">归档</span><span class="hexo-llm-en">Archives</span>
 			</div>
 		</a>
 		
@@ -142,7 +253,7 @@
 					"
 			></i>
 			<div class="kira-list-item-content">
-				关于我
+				<span class="hexo-llm-zh">关于我</span><span class="hexo-llm-en">About</span>
 			</div>
 		</a>
 		
@@ -158,7 +269,7 @@
 					"
 			></i>
 			<div class="kira-list-item-content">
-				友情链接
+				<span class="hexo-llm-zh">友情链接</span><span class="hexo-llm-en">Friends</span>
 			</div>
 		</a>
 		
@@ -234,7 +345,7 @@
 		
 			
   <div class="kira-widget-wrap">
-    <h3 class="kira-widget-title">分类</h3>
+    <h3 class="kira-widget-title"><span class="hexo-llm-zh">分类</span><span class="hexo-llm-en">Categories</span></h3>
     <div class="kira-widget">
       <ul class="category-list">
         
@@ -242,21 +353,21 @@
 
         
           <li class="category-list-item">
-            <a class="category-list-link" href="/categories/学习笔记/">
+            <a class="category-list-link" href="/categories/学习笔记/" data-i18n-key="学习笔记">
               学习笔记
             </a>
             <span class="category-list-count">4</span>
           </li>
         
           <li class="category-list-item">
-            <a class="category-list-link" href="/categories/教程/">
+            <a class="category-list-link" href="/categories/教程/" data-i18n-key="教程">
               教程
             </a>
             <span class="category-list-count">7</span>
           </li>
         
           <li class="category-list-item">
-            <a class="category-list-link" href="/categories/随记/">
+            <a class="category-list-link" href="/categories/随记/" data-i18n-key="随记">
               随记
             </a>
             <span class="category-list-count">1</span>
@@ -279,7 +390,7 @@
 		
 	</aside>
 	<div class="kira-copyright">
-		&copy; 2025
+		&copy; 2026
 		<a href="/">KiRorY</a>
 		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
 		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
@@ -365,12 +476,15 @@
 			<h1>Days In UCSB</h1>
 		</div>
 		
-		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
-			<a><i class="kirafont icon-calendar-fill"></i>2024年08月19日</a>
-			<a><i class="kirafont icon-edit-fill"></i>2.3k 字</a>
-			<a><i class="kirafont icon-time-circle-fill"></i>大概 9 分钟</a>
+		
+		<div class="kira-post-meta kira-rainbow">
+			<a><i class="kirafont icon-calendar-fill"></i><span class="hexo-llm-zh">2024年08月19日</span><span class="hexo-llm-en">08/19/2024</span></a>
+			<a><i class="kirafont icon-edit-fill"></i><span class="hexo-llm-zh kira-stat-wordcount-zh">2.2K 字</span><span class="hexo-llm-en kira-stat-wordcount-en">1.7K words</span></a>
+			<a><i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-zh kira-stat-readtime-zh">大概 8 分钟</span><span class="hexo-llm-en kira-stat-readtime-en">About 10 min</span></a>
 		</div>
-		<h1><span id="%E4%B8%A4%E6%9C%88%E5%8D%8A%E7%BE%8E%E5%9B%BD%E4%BA%A4%E6%8D%A2%E4%B9%8B%E6%97%85-at%0Aucsb">两月半美国交换之旅: <i>At
+		<div class="kira-post-content">
+			<div class="hexo-llm-zh">
+<html><head></head><body><h1><span id="%E4%B8%A4%E6%9C%88%E5%8D%8A%E7%BE%8E%E5%9B%BD%E4%BA%A4%E6%8D%A2%E4%B9%8B%E6%97%85-at%0Aucsb">两月半美国交换之旅: <i>At
 UCSB</i></span></h1>
 <blockquote>
 <p>大三下学期，笔者参加了学校合作的国际访学项目，即UIP(University
@@ -519,35 +633,344 @@ Downtown，才是真正意义上的圣芭芭拉，不过先如今都同属于圣
 <blockquote>
 <p>也许还会更新......</p>
 </blockquote>
+<!-- hexo injector body_end start --><script>window._hexo_title_pairs = [{"en":"Days In UCSB","zh":"Days In UCSB"},{"en":"Various Problems and Solutions when Using the Hexo Framework","zh":"使用Hexo框架时的种种问题和解决方法"},{"en":"Solving Chinese Input Method Issues in Kitty Terminal Emulator on KDE Desktop","zh":"KDE桌面下解决Kitty终端模拟器中文输入法问题"},{"en":"Windows Docker Installation and Storage Migration Method","zh":"Windows Docker 安装及存储转移方法"},{"en":"Solutions to OTA Development Issues Related to STM32G0 Series","zh":"STM32G0系OTA开发相关问题的解决方案"},{"en":"ZeroTier Intranet Penetration + Terminal Emulator to Build a Remote Mobile Productivity Tool","zh":"ZeroTier内网穿透+终端模拟器构建远程移动生产力工具"},{"en":"Algorithm Analysis Notes: Complexity Analysis and NP-Completeness Theory","zh":"算法分析笔记:复杂度分析与NP完全性理论"},{"en":"Algorithm Analysis Notes: Greedy Algorithm","zh":"算法分析笔记:贪心算法"},{"en":"Algorithm Analysis Notes: Recursion and Divide and Conquer Strategy","zh":"算法分析笔记:递归与分治策略"},{"en":"Algorithm Analysis Notes: Dynamic Programming","zh":"算法分析笔记:动态规划"},{"en":"Deployment of CLion+Qt Development Environment on Archlinux","zh":"CLion+Qt开发环境在Archlinux上的部署"},{"en":"Basic Implementation of Involution (Learning Notes)","zh":"Involution的基本实现方式(学习记录)"}];</script><script>window._i18n_map = {"教程":"Tutorials","随记":"Musings","学习笔记":"Study Notes","游记":"Travelogue","访学":"Academic Visit","终端":"Terminal","深度学习":"Deep Learning","嵌入式开发":"Embedded Development","生产力工具":"Productivity Tools","虚拟组网":"Virtual Networking","算法设计与分析":"Algorithm Design and Analysis","算法复杂度分析":"Algorithm Complexity Analysis"};</script><!-- hexo injector body_end end --></body></html>
+</div>
+<div class="hexo-llm-en">
+<h1 id="two-and-a-half-months-of-exchange-in-the-us-at-ucsb">Two and a
+Half Months of Exchange in the US: <i>At UCSB</i></h1>
+<blockquote>
+<p>In the second semester of my junior year, I participated in the
+school's collaborative international visiting scholar program, UIP
+(University Immersion Program), studying at the University of California
+Santa Barbara for two and a half months, and wrote this article to
+simply record the journey.</p>
+</blockquote>
+<h2 id="first-arrival-in-the-us-santa-barbara">First Arrival in the US,
+Santa Barbara</h2>
+<p>This was my first time living and studying in the United States.
+Arriving for the first time, to live and study alone for two and a half
+months, I still felt a bit uneasy. The development and convenience of
+the internet gave me an initial impression of this place before I
+arrived on the West Coast. However, online information sources are
+diverse and hard to distinguish between true and false; only actual
+experience can reveal some insights.</p>
+<p>The journey to the destination was a direct flight from Shanghai
+Hongqiao to Los Angeles International Airport, totaling approximately 16
+hours of flight time. To be honest, it was indeed the longest route I've
+ever taken (the next longest was when I went to Australia in junior
+high, about 12 hours, though the return journey was even longer). Upon
+arriving in Los Angeles, the collaborating exchange agency arranged for
+airport pick-up to Santa Barbara.</p>
+<p>After arriving in Los Angeles, the drive to Santa Barbara took about
+2 hours. My first impression upon arriving there was spaciousness,
+exceptionally spacious. Although Los Angeles is a big city, from the
+airport to leaving Los Angeles, I barely saw any high-density housing
+clusters. The main roads were very wide, often with 5 lanes in one
+direction for through traffic. There were many cars but it wasn't
+crowded, and almost all buildings had vehicle access and parking spots,
+making one exclaim that it truly is a <b>'country on wheels'</b>.
+However, compared to the motor vehicle lanes, pedestrian walkways were
+not very convenient. Pedestrian traffic lights change independently of
+motor vehicle lights, and after pressing the crossing button, you often
+have to wait for a full cycle of motor vehicle lights before it changes
+(I'm not sure if this is the design, but from my experience, it
+certainly takes longer than in China). Moreover, many main roads
+basically have no pedestrian sidewalks, and some intersections only have
+sidewalks on two sides (if you need to cross to the other side, you have
+to go one intersection earlier to get to the opposite side). The saying
+'can't move an inch without a car' is certainly true.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/DSC00625.JPG" /></th>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/DSC00633.JPG" /></th>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6374.JPG" /></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p>Santa Barbara is a seaside town, with nice scenery along the way.</p>
+<h2 id="campus-accommodation-and-surroundings">Campus, Accommodation,
+and Surroundings</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6380.JPG" /></th>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6382.JPG" /></th>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6389.JPG" /></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p>Two days before the semester started, I toured the teaching area of
+the campus. I heard that the UCSB campus is one of Santa Barbara's
+iconic attractions. The entire school, when viewed from above, resembles
+an inverted concave shape. The southeastern side is the main academic
+area, right by the sea, and includes the main bus stops for the region
+(my transportation for these two months relied on buses). The horizontal
+street above is the dormitory area, with accommodation on both sides of
+the street. The other side is essentially natural landscapes and a
+nature reserve (actually a large stretch of undeveloped land). If only
+counting the main academic facilities, the campus isn't actually very
+large (compared to better universities in China). The campus is
+beautiful; you can walk straight to the beach from the physics and
+engineering buildings, and many locals enjoy cycling and walking their
+dogs along the seaside street.</p>
+<p>The busiest place on campus is the main walkway in front of the
+library, where the student union hosts various activities. Especially at
+noon, many students lie on the grass, sunbathing or studying. The local
+sunshine is excellent, and it's not hot at all (in fact, the temperature
+barely changed during my nearly three months here, staying around 11-23
+degrees Celsius, truly a Mediterranean climate).</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6417.JPG" /></th>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/DSC00647.JPG" /></th>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/DSC00653.JPG" /></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p>My dormitory area is located in the middle of the upper horizontal
+street, Santa Ynez. The dorms are detached apartments. One apartment
+building consists of 4 suites, and each suite has one living room, two
+bedrooms, and two bathrooms. Because I specified the Asian section when
+booking my accommodation, I found that my roommates were all Chinese,
+with only one being Vietnamese (I had originally hoped for three months
+of intensive English practice, but now I'm mostly speaking Chinese).</p>
+<p>Since I had neither a two-wheeler nor a four-wheeler, I had to rely
+on public transportation for getting around. There's no subway in this
+small place, but that also means buses can essentially take you
+everywhere. The main bus routes between the school and the dorms run
+approximately every 15 minutes, and since almost all routes cover both
+the school and Market Place stops, it's very convenient for daily
+travel.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6475.JPG" /></th>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6447.JPG" /></th>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6485.JPG" /></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p>Market Place is the commercial district. In the US, apart from
+densely populated small towns, you typically won't find the kind of
+'roadside shops' we're used to; you generally have to go to specific
+large commercial areas. Getting on the bus from the dorm entrance, it
+takes less than 10 minutes to arrive. This commercial district is very
+large, feeling more than twice the size of most shopping complexes in
+China (though a large portion of it is open-air parking). Besides
+restaurants and McDonald's, there are also large supermarkets (Costco,
+Target), general merchandise supermarkets (Albertson), clothing stores,
+electronics stores, building material markets, cinemas, and more.</p>
+<p>Opposite the dorms is a neighborhood (Isla Vista, or IV), which is
+the residential area surrounded by the university campus on the map.
+Besides some restaurants in the town, every May there's a beach party
+for all students and outsiders (which is why UCSB is known as the #1
+party school in the US). I also went to observe it. Houses and yards on
+both sides of the road by the sea were holding various activities, and
+the entire street was filled with cheers from people in swimsuits (does
+this count as an alternative swimsuit party?). However, the atmosphere
+there was quite different from what an old homebody like me is used to,
+so I took a look, felt the vibe, and then escaped (..@_@).</p>
+<h2 id="study-and-classes">Study and Classes</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/DSC00673.JPG" /></th>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/DSC00678.JPG" /></th>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/DSC00680.JPG" /></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p>As described above, UCSB's library is located quite centrally within
+the academic area. The library is often busy, and because its location
+is between the main walkway and another academic building, many people
+pass through the central hall during breaks.</p>
+<p>This was also my first time experiencing undergraduate courses at a
+US university. UCSB's major course codes are composed of "subject
+abbreviation + course number." For example, the computer science courses
+I took start with CMPSC (or CS). For the course numbers, the higher the
+number, the more advanced and specialized the course; generally,
+single-digit numbers are introductory courses, two-digit numbers are
+intermediate, and three-digit numbers are advanced. Considering credit
+transfer, I chose one course from each of the three difficulty levels to
+experience. According to my roommate, the first two years of
+undergraduate study at UCSB are essentially open enrollment, without
+distinguishing between so-called major students; as long as the course
+prerequisites are met, anyone can take them. However, to enter a
+specific major later on, you need to meet the major's course credit and
+GPA requirements. And generally, for humanities-oriented majors, or
+majors with more students, professors tend to be stricter with grading
+for their specialized courses. For instance, in Finance, UCSB's second
+most popular major, professors directly cap the percentage of students
+for each grade (meaning that even if everyone gets a so-called passing
+grade, the bottom 5% will still fail the course). In contrast, STEM
+fields are different; for my computer science courses, the average GPA
+for the first few quarters was basically around 3.7 out of 4.0, and most
+people could get an A- or higher. This gave me the impression that many
+Americans are reluctant to study STEM fields; many students in the CS154
+course were Chinese or Indian (very good at getting scores). However, if
+you can get into computer science, the level is generally very high (one
+American TA graduate student in 154 reportedly published a journal paper
+with IEEE in his sophomore year).</p>
+<p>American courses consist of a 2-hour lecture + a 50-minute section.
+Lectures are large classroom teachings by professors at a fixed time
+each week. Sections are where students can go to designated classrooms
+for discussions according to their own schedule, where TAs explain
+course and lab assignment content, or answer questions. Overall, the
+weekly tasks for the CS major felt relatively relaxed. The weekly labs
+or homework were actually quite challenging (another classmate and I
+often met to discuss and solve problems together, and each time we
+solved a problem, it was very rewarding). If we truly encountered
+difficulties, asking the TAs always helped resolve them.</p>
+<h2 id="downtown">Downtown</h2>
+<p>Although I attended classes at UCSB for three months, UCSB itself, or
+rather where I mostly spent my time, was not originally the true Santa
+Barbara. In fact, the city where UCSB is located is called Goleta, and
+the adjacent Santa Barbara Downtown is what's truly meant by Santa
+Barbara, though both are now under Santa Barbara County. It happened to
+be a US holiday, so I took the opportunity to visit Downtown and
+experience the charm of the coastal town. My writing skills are not
+great, so I won't attempt to describe it with insufficient language.
+I'll leave it to the photo album of this Santa Barbara trip.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/DSC00667.JPG" /></th>
+<th><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/DSC00662.JPG" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/DSC00656.JPG" /></td>
+<td><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6519.JPG" /></td>
+</tr>
+<tr>
+<td><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6521.JPG" /></td>
+<td><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6515.JPG" /></td>
+</tr>
+<tr>
+<td><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6514.JPG" /></td>
+<td><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6537.JPG" /></td>
+</tr>
+<tr>
+<td><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6596.JPG" /></td>
+<td><img
+src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post10/IMG_6567.JPG" /></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Perhaps more updates to come......</p>
+</blockquote>
 
+</div>
+		</div>
 	</article>
 
 	 
     <div class="kira-post-copyright">
-        <strong>本文作者：</strong>KiRorY<br>
-        <strong>本文链接：</strong><a href="https://kirory.xyz/2024/08/19/Days-In-UCSB/" title="https:&#x2F;&#x2F;kirory.xyz&#x2F;2024&#x2F;08&#x2F;19&#x2F;Days-In-UCSB&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;kirory.xyz&#x2F;2024&#x2F;08&#x2F;19&#x2F;Days-In-UCSB&#x2F;</a><br>
+        <strong><span class="hexo-llm-zh">本文作者</span><span class="hexo-llm-en">Author</span>：</strong>KiRorY<br>
+        <strong><span class="hexo-llm-zh">本文链接</span><span class="hexo-llm-en">Permalink</span>：</strong><a href="https://kirory.xyz/2024/08/19/Days-In-UCSB/" title="https:&#x2F;&#x2F;kirory.xyz&#x2F;2024&#x2F;08&#x2F;19&#x2F;Days-In-UCSB&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;kirory.xyz&#x2F;2024&#x2F;08&#x2F;19&#x2F;Days-In-UCSB&#x2F;</a><br>
         
-            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+            <span class="hexo-llm-zh"><strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可</span><span class="hexo-llm-en"><strong>License：</strong>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN</a></span>
         
     </div>
 
   
 	<div class="kira-post-nav">
 		<nav class="post-nav">
-			      
-			<!-- 先找到与当前文字相同的目录 -->
-			   
-			<!-- 在找到当前文章所在的 index -->
-			              
+			
+			
+			<div class="new">
+				<span><span class="hexo-llm-zh">下一章</span><span class="hexo-llm-en">Next</span></span>
+				<a href="/2024/12/18/STM32G0%E7%B3%BBOTA%E5%BC%80%E5%8F%91%E7%9B%B8%E5%85%B3/"> STM32G0系OTA开发相关问题的解决方案</a>
+			</div>
+			
+			
+			<div class="old">
+				<span><span class="hexo-llm-zh">上一章</span><span class="hexo-llm-en">Previous</span></span>
+				<a href="/2023/12/20/KDE%E6%A1%8C%E9%9D%A2%E4%B8%8B%E8%A7%A3%E5%86%B3Kitty%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E9%97%AE%E9%A2%98/"> KDE桌面下解决Kitty终端模拟器中文输入法问题</a>
+			</div>
+			
 		</nav>
 	</div>
 	
 	<div class="kira-post-meta kira-rainbow">
 		
-			<a class="kirafont icon-container-fill -link" href="/categories/%E9%9A%8F%E8%AE%B0/">随记</a>
+			
+				<a href="/categories/%E9%9A%8F%E8%AE%B0/" data-i18n-key="随记"><i class="kirafont icon-container-fill"></i> 随记</a>
+			
 		
 		
-			<a class="kirafont icon-tag-fill -none-link" href="/tags/%E6%B8%B8%E8%AE%B0/" rel="tag">游记</a> <a class="kirafont icon-tag-fill -none-link" href="/tags/%E8%AE%BF%E5%AD%A6/" rel="tag">访学</a>
+			
+				<a href="/tags/%E6%B8%B8%E8%AE%B0/" data-i18n-key="游记"><i class="kirafont icon-tag-fill"></i> 游记</a>
+			
+				<a href="/tags/%E8%AE%BF%E5%AD%A6/" data-i18n-key="访学"><i class="kirafont icon-tag-fill"></i> 访学</a>
+			
 		
 	</div>
 	
@@ -581,7 +1004,12 @@ Downtown，才是真正意义上的圣芭芭拉，不过先如今都同属于圣
 
 				</div>
 			</div>
-			<div class="kira-right-column">
+		<div class="kira-right-column">
+	<a onclick="toggleLang()" class="kira-lang-switch" aria-label="Switch Language" title="Switch Language">
+		<button class="mdui-fab mdui-ripple">
+			<span id="lang-icon">EN</span>
+		</button>
+	</a>
 	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
 		<button class="mdui-fab mdui-ripple">
 			<i class="kirafont icon-caret-up"></i>
@@ -589,6 +1017,9 @@ Downtown，才是真正意义上的圣芭芭拉，不过先如今都同属于圣
 	</a>
 </div>
 
-		</div>
-	</body>
+	</div>
+	
+<script src="/js/lang-switch.js"></script>
+
+</body>
 </html>
