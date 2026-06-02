@@ -488,11 +488,12 @@
 		
 		<div class="kira-post-meta kira-rainbow">
 			<a><i class="kirafont icon-calendar-fill"></i><span class="hexo-llm-zh">2023年11月10日</span><span class="hexo-llm-en">11/10/2023</span></a>
-			<a><i class="kirafont icon-edit-fill"></i><span class="hexo-llm-zh kira-stat-wordcount-zh">681 字</span><span class="hexo-llm-en kira-stat-wordcount-en">166 words</span></a>
-			<a><i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-zh kira-stat-readtime-zh">大概 2 分钟</span><span class="hexo-llm-en kira-stat-readtime-en">About 1 min</span></a>
+			<a><i class="kirafont icon-edit-fill"></i><span class="hexo-llm-zh kira-stat-wordcount-zh">734 字</span><span class="hexo-llm-en kira-stat-wordcount-en">692 words</span></a>
+			<a><i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-zh kira-stat-readtime-zh">大概 2 分钟</span><span class="hexo-llm-en kira-stat-readtime-en">About 4 min</span></a>
 		</div>
 		<div class="kira-post-content">
-			<html><head></head><body><div class="hexo-llm-zh" data-markdown="1">
+			<div class="hexo-llm-zh">
+<html><head></head><body><div class="hexo-llm-zh" data-markdown="1">
 <blockquote>
 <p>Docker Desktop 是 Docker 在 Windows
 上常用的图形客户端，但默认安装与存储路径设置并不直观。</p>
@@ -511,7 +512,8 @@ reduce C drive pressure.</p>
 </blockquote>
 </div>
 <span id="more"></span>
-<h2><span id=""><iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2kUnjRdoBMkoXRLp8Q6Edu?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="1" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></span></h2>
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2kUnjRdoBMkoXRLp8Q6Edu?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="1" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+</iframe>
 <h1><span id="docker-desktop-%E5%AE%89%E8%A3%85%E7%9B%AE%E5%BD%95%E6%9B%B4%E6%94%B9">Docker Desktop 安装目录更改</span></h1>
 <p>首先下载<a target="_blank" rel="noopener" href="https://www.docker.com/products/docker-desktop/">Docker
 Desktop</a>。实际上Docker官方的文档中有写到如何手动设置其安装目录。不过笔者在网上查找时还是却很少有提到这点。还是之前在某个知乎帖子下面的回复找到的。网上有很多是通过创建软连接的方式“偷换”了其安装路径，笔者并没有使用这种方法，不知道其可行性。不过使用官方的方法是可行的。</p>
@@ -531,7 +533,154 @@ Desktop</a>。实际上Docker官方的文档中有写到如何手动设置其安
 <li><p>最后指定新的目录位置并还原备份的系统 </p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">wsl --import docker-desktop-data "&lt;你希望移动到的目录&gt;" "&lt;刚刚保存备份压缩包的目录&gt;\docker-desktop-data.tar" --version 之前查看的VERSION数字<br></code></pre></td></tr></tbody></table></figure><p></p></li>
 </ul>
 <p>完成之后目录就更改成功了，终于解放了系统盘Ꮚ･ꈊ･Ꮚ。</p>
-<!-- hexo injector body_end start --><script>window._hexo_title_pairs = [{"en":"Days In UCSB","zh":"Days In UCSB"},{"en":"Various Problems and Solutions when Using the Hexo Framework","zh":"使用Hexo框架时的种种问题和解决方法"},{"en":"Solving Chinese Input Method Issues in Kitty Terminal Emulator on KDE Desktop","zh":"KDE桌面下解决Kitty终端模拟器中文输入法问题"},{"en":"Windows Docker Installation and Storage Migration Method","zh":"Windows Docker 安装及存储转移方法"},{"en":"Solutions to OTA Development Issues Related to STM32G0 Series","zh":"STM32G0系OTA开发相关问题的解决方案"},{"en":"ZeroTier Intranet Penetration + Terminal Emulator to Build a Remote Mobile Productivity Tool","zh":"ZeroTier内网穿透+终端模拟器构建远程移动生产力工具"},{"en":"Algorithm Analysis Notes: Complexity Analysis and NP-Completeness Theory","zh":"算法分析笔记:复杂度分析与NP完全性理论"},{"en":"Algorithm Analysis Notes: Greedy Algorithm","zh":"算法分析笔记:贪心算法"},{"en":"Algorithm Analysis Notes: Recursion and Divide and Conquer Strategy","zh":"算法分析笔记:递归与分治策略"},{"en":"Algorithm Analysis Notes: Dynamic Programming","zh":"算法分析笔记:动态规划"},{"en":"Deployment of CLion+Qt Development Environment on Archlinux","zh":"CLion+Qt开发环境在Archlinux上的部署"},{"en":"Basic Implementation of Involution (Learning Notes)","zh":"Involution的基本实现方式(学习记录)"},{"en":"KPIT Interview Experience","zh":"KPIT 面经"}];</script><script>window._i18n_map = {"教程":"Tutorials","随记":"Musings","学习笔记":"Study Notes","面经":"Interview Experiences","游记":"Travelogue","访学":"Academic Visit","终端":"Terminal","深度学习":"Deep Learning","嵌入式开发":"Embedded Development","生产力工具":"Productivity Tools","虚拟组网":"Virtual Networking","算法设计与分析":"Algorithm Design and Analysis","算法复杂度分析":"Algorithm Complexity Analysis","通信协议":"Communication Protocols"};</script><!-- hexo injector body_end end --></body></html>
+<!-- hexo injector body_end start --><script>window._hexo_title_pairs = [{"en":"Days In UCSB","zh":"Days In UCSB"},{"en":"Various Problems and Solutions when Using the Hexo Framework","zh":"使用Hexo框架时的种种问题和解决方法"},{"en":"Solving Chinese Input Method Issues in Kitty Terminal Emulator on KDE Desktop","zh":"KDE桌面下解决Kitty终端模拟器中文输入法问题"},{"en":"Solutions to OTA Development Issues Related to STM32G0 Series","zh":"STM32G0系OTA开发相关问题的解决方案"},{"en":"ZeroTier Intranet Penetration + Terminal Emulator to Build a Remote Mobile Productivity Tool","zh":"ZeroTier内网穿透+终端模拟器构建远程移动生产力工具"},{"en":"Algorithm Analysis Notes: Complexity Analysis and NP-Completeness Theory","zh":"算法分析笔记:复杂度分析与NP完全性理论"},{"en":"Algorithm Analysis Notes: Greedy Algorithm","zh":"算法分析笔记:贪心算法"},{"en":"Algorithm Analysis Notes: Recursion and Divide and Conquer Strategy","zh":"算法分析笔记:递归与分治策略"},{"en":"Algorithm Analysis Notes: Dynamic Programming","zh":"算法分析笔记:动态规划"},{"en":"Deployment of CLion+Qt Development Environment on Archlinux","zh":"CLion+Qt开发环境在Archlinux上的部署"},{"en":"Basic Implementation of Involution (Learning Notes)","zh":"Involution的基本实现方式(学习记录)"},{"en":"KPIT Interview Experience","zh":"KPIT 面经"}];</script><script>window._i18n_map = {"教程":"Tutorials","随记":"Musings","学习笔记":"Study Notes","面经":"Interview Experiences","游记":"Travelogue","访学":"Academic Visit","终端":"Terminal","深度学习":"Deep Learning","嵌入式开发":"Embedded Development","生产力工具":"Productivity Tools","虚拟组网":"Virtual Networking","算法设计与分析":"Algorithm Design and Analysis","算法复杂度分析":"Algorithm Complexity Analysis","通信协议":"Communication Protocols"};</script><!-- hexo injector body_end end --></body></html>
+</div>
+<div class="hexo-llm-en">
+<div class="hexo-llm-en" data-markdown="1">
+<blockquote>
+<p>Docker Desktop is the common GUI client for Docker on Windows, but
+its installation and storage settings are not very transparent by
+default.</p>
+<p>This post summarizes practical steps to change the Docker Desktop
+install path, migrate WSL distributions, and move Docker data storage to
+reduce C drive pressure.</p>
+</blockquote>
+</div>
+<!-- more -->
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2kUnjRdoBMkoXRLp8Q6Edu?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="1" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+</iframe>
+<h1 id="changing-docker-desktop-installation-directory">Changing Docker
+Desktop Installation Directory</h1>
+<p>First, download <a
+target="_blank" rel="noopener" href="https://www.docker.com/products/docker-desktop/">Docker
+Desktop</a>. Actually, Docker's official documentation mentions how to
+manually set its installation directory. However, when I searched
+online, this point was rarely mentioned. I only found it in a reply
+under a Zhihu post previously. Many online methods involve "swapping"
+the installation path by creating soft links; I haven't used this method
+and don't know its feasibility. However, using the official method is
+feasible.</p>
+<p>The official method is to install via the command line. So, after
+downloading the official .exe installer, don't rush to double-click it.
+Open CMD and change the directory to your downloaded installer location.
+Command-line installation allows for many parameters to be set (I don't
+know why many basic functions, such as changing the installation
+location or download proxy, are not visualized). Here is the command to
+modify the installation location:</p>
+<hexoPostRenderCodeBlock>
+<figure class="highlight shell">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs shell">&quot;Docker Desktop Installer.exe&quot; install --installation-dir=&lt;安装目录&gt;<br></code></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></hexoPostRenderCodeBlock></p>
+If you are using PowerShell, the command is as follows:
+<hexoPostRenderCodeBlock>
+<figure class="highlight shell">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs shell">Start-Process &#x27;Docker Desktop Installer.exe&#x27; -Wait install --installation-dir=&lt;安装目录&gt;<br></code></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></hexoPostRenderCodeBlock></p>
+<p>Other parameter commands can be found in the <a
+target="_blank" rel="noopener" href="https://docs.docker.com/desktop/install/windows-install/">official
+manual</a>.</p>
+<h1 id="changing-wsl-system-directory">Changing WSL System
+Directory</h1>
+<p>The Windows system defaults to placing the simulated disk environment
+of WSL (Windows Subsystem for Linux) on the C drive. Docker's storage
+directory after using WSL is also on the C drive, typically at:
+<code>C:\Users\&lt;用户名&gt;\AppData\Local\Docker\wsl\data\ext4.vhdx</code>.
+If it's Docker's WSL directory, you can actually change it during
+installation using the command-line parameters mentioned above. If it's
+already installed, you can still change it, and the method applies to
+all WSL subsystem directory modifications.</p>
+First, use <code>wsl --list -v</code> to view the installed subsystems
+and their status, for example: <hexoPostRenderCodeBlock>
+<figure class="highlight crmsh">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs crmsh">  NAME                   STATE           <span class="hljs-keyword">VERSION</span><br>* Arch                   Running         <span class="hljs-number">2</span><br>  docker-desktop         <span class="hljs-literal">Stopped</span>         <span class="hljs-number">2</span><br>  docker-desktop-data    <span class="hljs-literal">Stopped</span>         <span class="hljs-number">2</span><br>  Ubuntu                 <span class="hljs-literal">Stopped</span>         <span class="hljs-number">2</span><br></code></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></hexoPostRenderCodeBlock> Remember the VERSION number of the system
+you need to move. If it is running, use <code>wsl --shutdown</code> to
+shut it down. Here, we take moving Docker's system data as an example.
+We need to move the <code>docker-desktop-data</code> system<b>(Please
+note: do not change the <code>docker-desktop</code> system!)</b>.</p>
+<ul>
+<li><p>First, we back up the system to be moved.
+<hexoPostRenderCodeBlock></p>
+<figure class="highlight shell">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs shell">wsl --export docker-desktop-data &quot;&lt;你想保存备份压缩包的目录(随意)&gt;\docker-desktop-data.tar&quot;<br></code></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></hexoPostRenderCodeBlock> This step compresses the entire system to
+be moved into a temporary archive, which will be used later to restore
+the original system.</p></li>
+<li><p>Then, unregister the system from its original location.
+<hexoPostRenderCodeBlock></p>
+<figure class="highlight shell">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs shell">wsl --unregister docker-desktop-data<br></code></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></hexoPostRenderCodeBlock></p></li>
+<li><p>Finally, specify the new directory location and restore the
+backed-up system. <hexoPostRenderCodeBlock></p>
+<figure class="highlight shell">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs shell">wsl --import docker-desktop-data &quot;&lt;你希望移动到的目录&gt;&quot; &quot;&lt;刚刚保存备份压缩包的目录&gt;\docker-desktop-data.tar&quot; --version 之前查看的VERSION数字<br></code></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></hexoPostRenderCodeBlock></p></li>
+</ul>
+<p>After completion, the directory change will be successful, finally
+freeing up the system drive Ꮚ･ꈊ･Ꮚ.</p>
+
+</div>
 		</div>
 	</article>
 
