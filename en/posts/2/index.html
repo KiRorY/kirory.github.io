@@ -1,0 +1,718 @@
+<!DOCTYPE html><html lang="en"><head><!-- hexo injector head_begin start -->
+
+<!-- hexo injector head_begin end -->
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title>Deployment of CLion+Qt Development Environment on Archlinux - KiRorY</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/BlogIcon-ver0.1.png" type="image/png">
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+			
+				
+<link rel="stylesheet" href="/css/custom.css">
+
+			
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+		
+		
+		
+	<!-- hexo injector head_end start -->
+<style>
+    .hexo-llm-zh { display: none; }
+    .hexo-llm-en { display: block; }
+    html[lang^="zh"] .hexo-llm-en { display: none !important; }
+    html[lang^="zh"] .hexo-llm-zh { display: block !important; }
+</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style>
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="canonical" href="https://kirory.xyz/en/posts/2/"><link rel="alternate" hreflang="zh-CN" href="https://kirory.xyz/posts/2/"><link rel="alternate" hreflang="en" href="https://kirory.xyz/en/posts/2/"><link rel="alternate" hreflang="x-default" href="https://kirory.xyz/posts/2/"><meta name="description" content="Foreword Qt is a cross-platform C++ application development framework, often used by frontend programmers to design and develop GUI applications. CLion, on the "><meta property="og:title" content="Deployment of CLion+Qt Development Environment on Archlinux"><meta property="og:description" content="Foreword Qt is a cross-platform C++ application development framework, often used by frontend programmers to design and develop GUI applications. CLion, on the "><meta property="og:url" content="https://kirory.xyz/en/posts/2/"><meta property="og:locale" content="en_US"><meta property="og:type" content="article"></head>
+
+	<body>
+		<div class="kira-background" style="background-image: url('https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/satori_and_koishi.JPG')"></div>
+		<div class="kira-header">
+    <a class="kira-drawer-button mdui-ripple" title="Navigation" onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');">
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/en/" title="KiRorY">
+        <img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" title="KiRorY">
+			<img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span class="hexo-llm-en">Posts</span>14</div>
+		<div><span class="hexo-llm-en">Tags</span>16</div>
+		<div><span class="hexo-llm-en">Categories</span>4</div>
+	</div>
+	<div class="kira-list">
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/" title="Home">
+			<i class="kirafont
+					
+						icon-home
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Home</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/archive.html" title="Archives">
+			<i class="kirafont
+					
+						icon-container
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Archives</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/about.html" title="About">
+			<i class="kirafont
+					
+						icon-user
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">About</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/friends.html" title="Friends">
+			<i class="kirafont
+					
+						icon-team
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Friends</span>
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a class="mdui-ripple" href="https://twitter.com/KiRorY223" target="_blank" mdui-tooltip="{content: 'Twitter'}" style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);">
+				<i class="kirafont
+					
+						icon-twitter
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://space.bilibili.com/79834065" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);">
+				<i class="kirafont
+					
+						icon-bilibili
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://github.com/KiRorY" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-github
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://steamcommunity.com/id/Kokoro_Daze/" target="_blank" mdui-tooltip="{content: 'Steam'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-steam
+					"></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+  <div class="kira-widget-wrap">
+    <h3 class="kira-widget-title"><span class="hexo-llm-en">Categories</span></h3>
+    <div class="kira-widget">
+      <ul class="category-list">
+        
+        
+
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-i18n-key="学习笔记">
+              Study Notes
+            </a>
+            <span class="category-list-count">4</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E6%95%99%E7%A8%8B/" data-i18n-key="教程">
+              Tutorials
+            </a>
+            <span class="category-list-count">7</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9A%8F%E8%AE%B0/" data-i18n-key="随记">
+              Musings
+            </a>
+            <span class="category-list-count">1</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9D%A2%E7%BB%8F/" data-i18n-key="面经">
+              Interview Experiences
+            </a>
+            <span class="category-list-count">2</span>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/en/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/en/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/en/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/en/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/en/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/en/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/" style="font-size: 15px;">Embedded Development</a> <a href="/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">Deep Learning</a> <a href="/en/tags/%E6%B8%B8%E8%AE%B0/" style="font-size: 10px;">Travelogue</a> <a href="/en/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">Productivity Tools</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" style="font-size: 10px;">Algorithm Complexity Analysis</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" style="font-size: 20px;">Algorithm Design and Analysis</a> <a href="/en/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 10px;">Terminal</a> <a href="/en/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" style="font-size: 10px;">Automation</a> <a href="/en/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" style="font-size: 10px;">Virtual Networking</a> <a href="/en/tags/%E8%AE%BF%E5%AD%A6/" style="font-size: 10px;">Academic Visit</a> <a href="/en/tags/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">Communication Protocols</a>
+		</div>
+		
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		© 2026
+		<a href="/en/">KiRorY</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &amp;
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br>
+		
+		
+	</div>
+</div>
+<div class="kira-sidebar-modal" id="sidebar-modal" onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img>
+                </div>
+                <div class="kira-image-now">
+                    <img>
+                </div>
+                <div class="kira-image-next">
+                    <img>
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div class="kira-post-cover">
+			<img data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post1/qt_and_clion.png" data-sizes="auto" alt="CLion+Qt开发环境在Archlinux上的部署" class="lazyload kira-post-cover-image disabled-kira-image">
+			<h1 data-zh-title="CLion+Qt开发环境在Archlinux上的部署" data-en-title="Deployment of CLion+Qt Development Environment on Archlinux">Deployment of CLion+Qt Development Environment on Archlinux</h1>
+		</div>
+		
+		
+		<div class="kira-post-meta kira-rainbow">
+			<a><i class="kirafont icon-calendar-fill"></i><span class="hexo-llm-en">07/17/2023</span></a>
+			<a><i class="kirafont icon-edit-fill"></i><span class="hexo-llm-en kira-stat-wordcount-en">2.1K words</span></a>
+			<a><i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-en kira-stat-readtime-en">About 12 min</span></a>
+		</div>
+		<div class="kira-post-content">
+			
+<div class="hexo-llm-en">
+<h1 id="foreword">Foreword</h1>
+<p>Qt is a cross-platform C++ application development framework, often
+used by frontend programmers to design and develop GUI applications.
+CLion, on the other hand, is a powerful cross-platform IDE developed by
+JetBrains for C/C++ program development.</p>
+<p>Qt's integrated development environment comes with QtCreator as an
+IDE for writing programs, which is quite good. However, as a
+multi-platform user, the author has become accustomed to CLion's C++
+development environment. Therefore, I tried to use CLion as a platform
+for developing Qt applications. CLion itself supports creating Qt
+projects and also supports using QtDesigner (the visual graphic design
+interface in the Qt integrated development environment) as an external
+tool, so its deployment is not actually complicated. However, tutorials
+on the internet are generally based on Windows systems, and while Linux
+systems can theoretically adopt the deployment method of Windows systems
+without issues (after all, both are cross-platform applications, and the
+codebase is completely portable), in practice, the author encountered
+several pitfalls and discovered some problems that might not occur on
+Windows but do on Linux. This article will briefly describe the
+deployment method of the Qt+CLion environment on Archlinux and solutions
+for potential problems.</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post1/qt_and_clion.png" alt="Clion+Qt" class="lazyload"></p>
+<h1 id="deployment-process">Deployment Process</h1>
+<h2 id="installing-qt5.15.x">Installing Qt5.15.x</h2>
+<p>There are many methods for installing Qt on Linux available online.
+Here, I will use ArchLinux, which the author uses, as an example
+(installation methods for different Linux distributions are largely
+similar and can be found online, so I won't elaborate here). Qt 5.x and
+6.x versions can be installed from Arch's official repositories, while
+earlier versions can be installed from the AUR repository. Here, the
+author recommends installing version 5.15, as Qt5 is a relatively stable
+and long-term supported version. Open a terminal and enter the following
+commands:</p>
+<pre class="shell"><code>sudo pacman -Syyu
+sudo pacman -S qt5-base
+sudo pacman -S qt5-doc</code></pre>
+<p>If you need to use Qt's built-in IDE, you can also install
+QtCreator:</p>
+<pre class="shell"><code>sudo pacman -S qtcreator</code></pre>
+<p>Since CLion will be used as the development environment, installing
+QtCreator is optional. For information on Qt installation and
+configuration, refer to the <a target="_blank" rel="noopener" href="https://wiki.archlinuxcn.org/zh-hans/Qt">official wiki's
+documentation on Qt</a>.</p>
+<p>If you are using a KDE desktop system, it is highly likely that you
+have already installed Qt-related development components when installing
+the desktop system (as KDE itself is developed based on Qt's GUI tools).
+You can check the installed qmake and Qt component versions in your
+system using the following command, and also get information about the
+Qt installation location:</p>
+<pre class="shell"><code>qmake -v</code></pre>
+<p>If the system reports an error stating that the command cannot be
+found after inputting it, this indicates that Qt basic components are
+not installed in your system, or your qmake program cannot be found in
+the <code>/usr/bin/</code> directory. qmake not being in this directory
+might be because it wasn't downloaded via the system's package manager,
+but rather Qt was manually installed using the official downloader or an
+offline package. Then you can try the following command to link the
+qmake program to the specified directory:</p>
+<pre class="shell"><code>ln -s /你的Qt路径/Qt版本号/gcc_64/bin/qmake /usr/bin</code></pre>
+<p>If, after entering the qmake version query command, qmake shows that
+no qmake path and version are specified, or if you have multiple
+versions of Qt installed and want to specify a particular version for
+use, then you need to change the Qtchooser settings; this is a package
+that allows you to specify Qt and qmake versions. There are many
+documents available online regarding the usage of Qtchooser, which you
+can search for yourself. Generally, Qtchooser defaults to a specific
+version and does not require manual changes.</p>
+<h2 id="clion-configuration-for-qt-environment">CLion Configuration for
+Qt Environment</h2>
+<p>First, of course, you need to install CLion. Go to <a target="_blank" rel="noopener" href="https://www.jetbrains.com/clion/download/#section=linux">JetBrains'
+official CLion download page</a> to download and install the relevant
+package. Of course, there are also CLion packages in Arch's AUR
+repository, which can be installed directly using package managers like
+yay or paru:</p>
+<pre class="shell"><code>paru -S clion #或者yay -S clion</code></pre>
+<p>After downloading, open CLion and create a QtWidgets project, as
+shown below:</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post1/CreatProject.png" alt="create project" class="lazyload"></p>
+<p>Select the language standard and Qt version according to your
+installation. Version 5 means version number 5.x.x, and so on. Here, the
+author installed version 5.15, so I will choose 5.</p>
+<p>The Qt CMake prefix path allows CMake files to find your Qt
+components during compilation. Normally, if you install from official
+repositories, you don't need to fill in this field. If you installed it
+manually, or if the project compilation later reports an error that Qt
+cannot be found, then you need to add your Qt path in this field, or in
+the project's <code>CMakeLists.txt</code>, add the following code before
+the <code>find_package()</code> function:</p>
+<pre><code>set(cmake_prefix_path "你的Qt安装路径")</code></pre>
+<p>Of course, there's another way: add this prefix path to your
+environment variables. Enter the following command in the terminal:</p>
+<pre class="shell"><code>export CMAKE_PREFIX_PATH = 你的Qt安装路径</code></pre>
+<p><b>The above two setup methods were found by the author online. Their
+feasibility cannot be guaranteed due to variations in each person's
+installed environment and system. For more information about CMake
+compilation of Qt, you can refer to the <a target="_blank" rel="noopener" href="https://doc.qt.io/qt-5/cmake-manual.html">official Qt
+documentation here</a>.</b></p>
+<p>After the project is created, it will come with example code. Let's
+directly compile and run the <code>main.cpp</code> file to see if it can
+run successfully:</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post1/Succussfully_build_samplecode.png" alt="sample is succussfully running" class="lazyload"></p>
+<p>After successful execution, you will see the example program. It is a
+window filled with a "Hello world!" button, and the window name is the
+project name.</p>
+<p>Of course, by now you can already use CLion to write Qt-related
+programs. However, we also need to configure Qt's GUI design tool. This
+way, you can use a visual interface when designing window styles, rather
+than tweaking code line by line. Qt's visual graphic design interface
+tool is QtDesigner. It is usually included in the <code>qt-base</code>
+package we installed and does not require separate installation. Now we
+need to import this tool into CLion. In CLion's settings menu, select
+Tools <span class="math inline">\(\rightarrow\)</span> External Tools,
+and add the designer (or designer-qt5) program to external tools, as
+shown below:</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post1/AddExternal%20tool.png" alt="addExternalTool" class="lazyload"></p>
+<p>In the Program field, enter the directory of the QtDesigner program.
+You can refer to the path filled in by the author here. The target
+program name can be <code>designer</code> or <code>designer-qt5</code>.
+Refer to the information entered by the author in the image above for
+the Arguments and Working directory fields. This ensures that any files
+you create in the project's subdirectories can be found.</p>
+<p>After creation, create a Qt .ui class file in the project directory
+(you can create it wherever you want within the project directory). When
+creating this file, a .h header file and a .cpp file with the same name
+will be automatically created. Then right-click your .ui file and open
+it with External Tools <span class="math inline">\(\rightarrow\)</span>
+Designer:</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post1/useQtDesigner.png" alt="useQtDesigner" class="lazyload"></p>
+<p>After opening, you can visually design window components in this
+interface:</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post1/Qtdesigner.png" alt="Qtdesigner">
+<figcaption aria-hidden="true">Qtdesigner</figcaption>
+</figure>
+<p>After designing the window, save and exit the interface. If you need
+to use the newly saved window at this point, you can include the header
+file created along with the .ui class (in the author's example, it's
+<code>testui.h</code>) in <code>main.cpp</code>. The class declared in
+this header file is the window class that was previously saved. We
+declare a variable of this class and display it using the
+<code>.show()</code> function. Here is the example code:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;QApplication&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">"testui.h"</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">*</span>argv<span class="op">[])</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">QApplication</span> a<span class="op">(</span>argc<span class="op">,</span> argv<span class="op">);</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    testui w<span class="op">;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    w<span class="op">.</span>show<span class="op">();</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a<span class="op">.</span>exec<span class="op">();</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Before running, we need to check the CMake configuration to ensure
+that the three newly added files can also be compiled. In the project's
+<code>CMakeLists.txt</code>, modify the <code>add_executable()</code>
+line to include all files that need to be compiled:</p>
+<pre><code>add_executable(qt_test main.cpp testui.cpp testui.h testui.ui)</code></pre>
+<p>Normally, CLion automatically adds new files to the list of compiled
+files, so manual addition is not necessary.</p>
+<p>Then we compile and run the project, and the window is displayed
+successfully:</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post1/Succeeded.png" alt="Succeeded">
+<figcaption aria-hidden="true">Succeeded</figcaption>
+</figure>
+<p><b>Possible Problems</b>: AutoUic error</p>
+<pre><code>AutoUic error
+-------------
+"SRC:/testui.cpp"
+includes the uic file "ui_testUi.h",
+but the user interface file "testUi.ui"
+could not be found in the following directories
+  "SRC:"
+
+ninja: build stopped: subcommand failed.</code></pre>
+<p>Uic is the user interface compiler that transforms your .ui class
+file into a .h header file. CLion automatically configures it for
+automatic compilation in <code>CMakeLists.txt</code> by default.
+Automatic compilation errors often occur when the name of the .ui class
+contains uppercase characters during creation (This is a peculiar
+characteristic of AutoUic: you enter uppercase when creating it, but the
+actual generated .ui file and corresponding header file are lowercase,
+while the class within the header file is uppercase. This can lead to
+incorrect parameters during uic compilation, preventing the generation
+of the correct header file or header filename).</p>
+<p>To avoid this error, please set the name of the .ui class to all
+lowercase letters when creating it. If you need to use an uppercase name
+for the .ui class, you can also manually compile the .ui file using uic.
+In the directory where your .ui file is located, enter the following
+simple command:</p>
+<pre class="shell"><code>uic 你的ui类文件名.ui -o ui_你的ui类文件名.h</code></pre>
+<p>This will generate a header file starting with <code>ui_</code> in
+the same directory as the .ui file.</p>
+<p>If you frequently use uic manually with the above method, then the
+author recommends adding uic to external tools as well. The adding and
+usage methods are consistent with QtDesigner, and the parameters for
+adding are as follows:</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post1/uic.png" alt="addUic" class="lazyload"></p>
+<p>Note that the Arguments field should follow the author's writing
+above. The effect of use is consistent with the command-line method. The
+Program field should be adjusted according to the uic program's
+directory.</p>
+<p>At this point, the basic configuration of the CLion+Qt development
+environment is complete.</p>
+<h1 id="postscript">Postscript</h1>
+<p>This is my first blog post, driven by interest, and doesn't contain
+much advanced technical content. CLion itself has excellent support for
+Qt. This article mainly records the author's process of configuring Qt
+tools in CLion and some solutions to problems encountered. Some problems
+encountered during the first configuration can be quite frustrating
+because the solutions found online often do not specify the exact error
+situations they address. This led to having to try these methods one by
+one (and for some problems, very little information could even be found
+TAT). This article provides specific solutions for certain problems, at
+least they worked for the author when these issues were encountered.
+There are also some untested methods proposed considering potential
+situations; some of these methods come from online resources, and others
+from official documentation.</p>
+<p>Due to the limited length of the article, there may be omissions or
+errors. Please feel free to point them out.</p>
+
+</div>
+		</div>
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong><span class="hexo-llm-en">Author</span>：</strong>KiRorY<br>
+        <strong><span class="hexo-llm-en">Permalink</span>：</strong><a href="/en/posts/2/" title="https://kirory.xyz/posts/2/" target="_blank" rel="noopener">https://kirory.xyz/posts/2/</a><br>
+        
+            <span class="hexo-llm-en"><strong>License：</strong>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN</a></span>
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			
+			
+			<div class="new">
+				<span><span class="hexo-llm-en">Next</span></span>
+				<a href="/en/posts/1/"> Common Issues and Fixes When Using Hexo</a>
+			</div>
+			
+			
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			
+				<a href="/en/categories/%E6%95%99%E7%A8%8B/" data-i18n-key="教程"><i class="kirafont icon-container-fill"></i> Tutorials</a>
+			
+		
+		
+			
+				<a href="/en/tags/Linux/" data-i18n-key="Linux"><i class="kirafont icon-tag-fill"></i> Linux</a>
+			
+				<a href="/en/tags/Qt/" data-i18n-key="Qt"><i class="kirafont icon-tag-fill"></i> Qt</a>
+			
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	<div class="giscus"></div>
+  
+    <script src="https://giscus.app/client.js" data-repo="KiRorY/kirory.github.io" data-repo-id="R_kgDOJ7eH2w" data-category="General" data-category-id="DIC_kwDOJ7eH284CX72n" data-mapping="specific" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async="" data-term="/posts/2/"></script>
+  
+
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+		<div class="kira-right-column">
+	<a class="kira-lang-switch" aria-label="切换到中文" title="切换到中文" href="/posts/2/" hreflang="zh-CN">
+		<button class="mdui-fab mdui-ripple">
+			<span id="lang-icon">中</span>
+		</button>
+	</a>
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="Back to top" title="Back to top">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+	</div>
+	
+<script src="/js/lang-switch.js"></script>
+
+
+
+</body></html>

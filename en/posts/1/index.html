@@ -1,0 +1,779 @@
+<!DOCTYPE html><html lang="en"><head><!-- hexo injector head_begin start -->
+
+<!-- hexo injector head_begin end -->
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title>Common Issues and Fixes When Using Hexo - KiRorY</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/BlogIcon-ver0.1.png" type="image/png">
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+			
+				
+<link rel="stylesheet" href="/css/custom.css">
+
+			
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+		
+		
+		
+	<!-- hexo injector head_end start -->
+<style>
+    .hexo-llm-zh { display: none; }
+    .hexo-llm-en { display: block; }
+    html[lang^="zh"] .hexo-llm-en { display: none !important; }
+    html[lang^="zh"] .hexo-llm-zh { display: block !important; }
+</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style>
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="canonical" href="https://kirory.xyz/en/posts/1/"><link rel="alternate" hreflang="zh-CN" href="https://kirory.xyz/posts/1/"><link rel="alternate" hreflang="en" href="https://kirory.xyz/en/posts/1/"><link rel="alternate" hreflang="x-default" href="https://kirory.xyz/posts/1/"><meta name="description" content="While maintaining the blog, I found several common issues in Hexo's default setup, especially around Markdown rendering and missing plugin support. This post re"><meta property="og:title" content="Common Issues and Fixes When Using Hexo"><meta property="og:description" content="While maintaining the blog, I found several common issues in Hexo's default setup, especially around Markdown rendering and missing plugin support. This post re"><meta property="og:url" content="https://kirory.xyz/en/posts/1/"><meta property="og:locale" content="en_US"><meta property="og:type" content="article"></head>
+
+	<body>
+		<div class="kira-background" style="background-image: url('https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/satori_and_koishi.JPG')"></div>
+		<div class="kira-header">
+    <a class="kira-drawer-button mdui-ripple" title="Navigation" onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');">
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/en/" title="KiRorY">
+        <img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" title="KiRorY">
+			<img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span class="hexo-llm-en">Posts</span>14</div>
+		<div><span class="hexo-llm-en">Tags</span>16</div>
+		<div><span class="hexo-llm-en">Categories</span>4</div>
+	</div>
+	<div class="kira-list">
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/" title="Home">
+			<i class="kirafont
+					
+						icon-home
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Home</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/archive.html" title="Archives">
+			<i class="kirafont
+					
+						icon-container
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Archives</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/about.html" title="About">
+			<i class="kirafont
+					
+						icon-user
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">About</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/friends.html" title="Friends">
+			<i class="kirafont
+					
+						icon-team
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Friends</span>
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a class="mdui-ripple" href="https://twitter.com/KiRorY223" target="_blank" mdui-tooltip="{content: 'Twitter'}" style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);">
+				<i class="kirafont
+					
+						icon-twitter
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://space.bilibili.com/79834065" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);">
+				<i class="kirafont
+					
+						icon-bilibili
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://github.com/KiRorY" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-github
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://steamcommunity.com/id/Kokoro_Daze/" target="_blank" mdui-tooltip="{content: 'Steam'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-steam
+					"></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+  <div class="kira-widget-wrap">
+    <h3 class="kira-widget-title"><span class="hexo-llm-en">Categories</span></h3>
+    <div class="kira-widget">
+      <ul class="category-list">
+        
+        
+
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-i18n-key="学习笔记">
+              Study Notes
+            </a>
+            <span class="category-list-count">4</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E6%95%99%E7%A8%8B/" data-i18n-key="教程">
+              Tutorials
+            </a>
+            <span class="category-list-count">7</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9A%8F%E8%AE%B0/" data-i18n-key="随记">
+              Musings
+            </a>
+            <span class="category-list-count">1</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9D%A2%E7%BB%8F/" data-i18n-key="面经">
+              Interview Experiences
+            </a>
+            <span class="category-list-count">2</span>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/en/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/en/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/en/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/en/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/en/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/en/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/" style="font-size: 15px;">Embedded Development</a> <a href="/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">Deep Learning</a> <a href="/en/tags/%E6%B8%B8%E8%AE%B0/" style="font-size: 10px;">Travelogue</a> <a href="/en/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">Productivity Tools</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" style="font-size: 10px;">Algorithm Complexity Analysis</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" style="font-size: 20px;">Algorithm Design and Analysis</a> <a href="/en/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 10px;">Terminal</a> <a href="/en/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" style="font-size: 10px;">Automation</a> <a href="/en/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" style="font-size: 10px;">Virtual Networking</a> <a href="/en/tags/%E8%AE%BF%E5%AD%A6/" style="font-size: 10px;">Academic Visit</a> <a href="/en/tags/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">Communication Protocols</a>
+		</div>
+		
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		© 2026
+		<a href="/en/">KiRorY</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &amp;
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br>
+		
+		
+	</div>
+</div>
+<div class="kira-sidebar-modal" id="sidebar-modal" onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img>
+                </div>
+                <div class="kira-image-now">
+                    <img>
+                </div>
+                <div class="kira-image-next">
+                    <img>
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div class="kira-post-cover">
+			<img data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post2/hexo.jpg" data-sizes="auto" alt="使用Hexo框架时的种种问题和解决方法" class="lazyload kira-post-cover-image disabled-kira-image">
+			<h1 data-zh-title="使用Hexo框架时的种种问题和解决方法" data-en-title="Common Issues and Fixes When Using Hexo">Common Issues and Fixes When Using Hexo</h1>
+		</div>
+		
+		
+		<div class="kira-post-meta kira-rainbow">
+			<a><i class="kirafont icon-calendar-fill"></i><span class="hexo-llm-en">07/19/2023</span></a>
+			<a><i class="kirafont icon-edit-fill"></i><span class="hexo-llm-en kira-stat-wordcount-en">1.3K words</span></a>
+			<a><i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-en kira-stat-readtime-en">About 8 min</span></a>
+		</div>
+		<div class="kira-post-content">
+			
+<div class="hexo-llm-en">
+
+<div class="hexo-llm-en" data-markdown="1">
+<blockquote>
+<p>While maintaining the blog, I found several common issues in Hexo's
+default setup, especially around Markdown rendering and missing plugin
+support.</p>
+<p>This post records practical fixes I used, mainly for LaTeX rendering
+and Emoji support.</p>
+</blockquote>
+</div>
+<!-- more -->
+<!-- toc -->
+<h2 id="hexo-official-documentation"><b><a target="_blank" rel="noopener" href="https://hexo.io/docs/">Hexo Official Documentation</a></b></h2>
+<h1 id="latex-formula-rendering-issues-in-markdown">LaTeX Formula
+Rendering Issues in Markdown</h1>
+<p>By default, the Hexo framework uses <code>hexo-renderer-marked</code>
+as the Markdown renderer, and then passes the output to the default
+MathJax installation to render formulas. Under this rendering method,
+all <span class="math inline">\(\LaTeX\)</span> formulas in my posts
+were rendered twice. This seems to be due to conflicting syntax and
+escaping rules between the two renderers.</p>
+<p>There are many solutions available online, such as replacing the
+default Markdown renderer with <code>hexo-renderer-kramed</code>, or
+directly modifying MathJax's rendering engine scripts. However, some
+blogs mention that the <code>hexo-renderer-kramed</code> engine requires
+altering some document syntax and may cause code block highlighting to
+break. Modifying scripts is also quite tedious. Therefore, I opted for a
+simpler solution: <b>Pandoc renderer + hexo-filter-mathjax formula
+plugin</b>. Its configuration and installation are straightforward, it
+solves the limited plugin support issue of the default renderer, and the
+formula writing syntax remains consistent with most Markdown
+editors.</p>
+<h2 id="replacing-the-renderer">Replacing the Renderer</h2>
+<p>There are several renderers that work better than Hexo's default
+renderer. I chose <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-renderer-pandoc">hexo-renderer-pandoc</a>
+(because it supports more languages). In addition to the two mentioned
+above, I also recommend <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-renderer-markdown-it">hexo-renderer-markdown-it</a>,
+which supports many useful plugins.</p>
+<h3 id="step-1-uninstall-the-default-renderer">Step 1: Uninstall the
+Default Renderer</h3>
+Before installation, we need to remove the original default renderer.
+Open a terminal in the root directory of your Hexo blog and run the
+following command: <hexopostrendercodeblock>
+<figure class="highlight shell">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs shell">npm uninstall hexo-renderer-marked  --save<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p></p>
+<h3 id="step-2-install-the-new-renderer">Step 2: Install the New
+Renderer</h3>
+Also in your blog root directory, install the Pandoc renderer:
+<hexopostrendercodeblock>
+<figure class="highlight shell">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs shell">npm install hexo-renderer-pandoc  --save<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p> If you want to install another renderer,
+simply replace <code>hexo-renderer-pandoc</code> above with its
+name.</p>
+<h3 id="step-3-install-required-dependencies">Step 3: Install Required
+Dependencies</h3>
+<p>For the Pandoc renderer, you just need to install Pandoc directly: <a target="_blank" rel="noopener" href="https://pandoc.org/installing.html">Pandoc Official Installation
+Page</a>. Choose the installation method based on your operating
+system.</p>
+<h2 id="replacing-the-formula-rendering-plugin">Replacing the Formula
+Rendering Plugin</h2>
+<p>The <a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-filter-mathjax">hexo-filter-mathjax</a>
+plugin is one of the officially supported formula plugins, and its
+supported formula syntax is largely consistent with mainstream Markdown
+editors.</p>
+<h3 id="step-1-uninstall-hexo-math">Step 1: Uninstall hexo-math</h3>
+Open a terminal in the root directory of your Hexo blog and run the
+following command: <hexopostrendercodeblock>
+<figure class="highlight shell">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs shell">npm uninstall hexo-math --save<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p></p>
+<h3 id="step-2-install-hexo-filter-mathjax">Step 2: Install
+hexo-filter-mathjax</h3>
+Also in your blog root directory, install the plugin:
+<hexopostrendercodeblock>
+<figure class="highlight shell">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs shell">npm install hexo-filter-mathjax  --save<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p></p>
+<h3 id="step-3-configure-formula-rendering-in-the-global-configuration">Step
+3: Configure Formula Rendering in the Global Configuration</h3>
+<p>Open the <code>_config.yml</code> file in the root directory of your
+Hexo blog and add the following content:</p>
+<hexopostrendercodeblock>
+<figure class="highlight yml">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs yml"><span class="hljs-attr">mathjax:</span><br>  <span class="hljs-attr">tags:</span> <span class="hljs-string">none</span> <span class="hljs-comment"># or 'ams' or 'all'</span><br>  <span class="hljs-attr">single_dollars:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># enable single dollar signs as in-line math delimiters</span><br>  <span class="hljs-attr">cjk_width:</span> <span class="hljs-number">0.9</span> <span class="hljs-comment"># relative CJK char width</span><br>  <span class="hljs-attr">normal_width:</span> <span class="hljs-number">0.6</span> <span class="hljs-comment"># relative normal (monospace) width</span><br>  <span class="hljs-attr">append_css:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># add CSS to pages rendered by MathJax</span><br>  <span class="hljs-attr">every_page:</span> <span class="hljs-literal">false</span> <span class="hljs-comment"># if true, every page will be rendered by MathJax regardless the `mathjax` setting in Front-matter</span><br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p> The purpose of each parameter can be seen
+in the code comments. Unless you have specific needs, no changes are
+typically necessary.</p>
+<h3 id="step-4-enable-the-formula-renderer-in-blog-posts-that-require-formulas">Step
+4: Enable the Formula Renderer in Blog Posts That Require Formulas</h3>
+Add a parameter to the Front-matter of your Markdown post where you need
+to use <span class="math inline">\(\LaTeX\)</span> formulas:
+<hexopostrendercodeblock>
+<figure class="highlight yml">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs yml"><span class="hljs-attr">mathjax:</span> <span class="hljs-literal">true</span><br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+</hexopostrendercodeblock> Taking the Front-matter of this post as an
+example: <hexopostrendercodeblock>
+<figure class="highlight yml">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs yml"><span class="hljs-meta">---</span><br><span class="hljs-attr">title:</span> <span class="hljs-string">Issues and Solutions When Using the Hexo Framework</span><br><span class="hljs-attr">date:</span> <span class="hljs-number">2023-07-19 01:17:17</span><br><span class="hljs-attr">cover:</span> <span class="hljs-string">https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post2/hexo.jpg</span><br><span class="hljs-attr">tags:</span> <br><span class="hljs-bullet">-</span> <span class="hljs-string">Hexo</span><br><span class="hljs-attr">categories:</span> <span class="hljs-string">Tutorial</span><br><span class="hljs-attr">mathjax:</span> <span class="hljs-literal">true</span><br><span class="hljs-meta">---</span><br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p> If you feel it is too tedious to add the
+parameter to each post individually, you can also change the
+<code>every_page</code> parameter to <code>true</code> under the
+<code>mathjax</code> settings you just added in
+<code>_config.yml</code>.</p>
+At this point, formulas should render properly. Try the following matrix
+expression to see if it displays correctly: <hexopostrendercodeblock>
+<figure class="highlight md">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs md">$$<br>\alpha=<br>\begin{pmatrix}<br>a &amp; b &amp; c \\<br>d &amp; e &amp; f \\<br>g &amp; h &amp; i <br>\end{pmatrix} <br>$$<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p> Rendered result: <span class="math display">\[
+\alpha=
+\begin{pmatrix}
+a &amp; b &amp; c \\
+d &amp; e &amp; f \\
+g &amp; h &amp; i
+\end{pmatrix}
+\]</span></p>
+<h2 id="references">References</h2>
+<p>[1] <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45511189/article/details/115798563">Adding
+Math Formula Support to Next Theme in Hexo Blog</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="http://masikkk.com/article/hexo-13-MathJax/">Hexo Blog
+(13) Adding MathJax Formula Rendering</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://www.zhangwei.press/2021/03/03/%E5%B7%A5%E5%85%B7/Hexo/%E5%9C%A8Hexo%E4%B8%AD%E6%B8%B2%E6%9F%93MathJax%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">Rendering
+Math Formulas with MathJax in Hexo</a></p>
+<hr>
+<h1 id="adding-emojis-to-blog-posts">Adding Emojis to Blog Posts</h1>
+Markdown supports emojis, but plugins are required under the Hexo
+framework to render them. In <a href="#latex-formula-rendering-issues-in-markdown">LaTeX Formula
+Rendering Issues in Markdown</a>, I mentioned the
+<code>hexo-renderer-markdown-it</code> renderer. If you installed this
+renderer, you can directly install the renderer plugin
+<code>markdown-it-emoji</code> (though this renderer usually includes
+this plugin by default). Open a terminal in the root directory of your
+Hexo blog and run the following command: <hexopostrendercodeblock>
+<figure class="highlight shell">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs shell">npm install markdown-it-emoji --save<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p> Since I installed the Pandoc renderer, I
+needed to install another plugin,
+<code>hexo-filter-github-emojis</code>. Below is the installation and
+configuration process for this plugin.</p>
+<h3 id="step-1-install-the-plugin">Step 1: Install the Plugin</h3>
+Open a terminal in the root directory of your Hexo blog and run the
+following command: <hexopostrendercodeblock>
+<figure class="highlight shell">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs shell">npm install hexo-filter-github-emojis --save<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p></p>
+<h3 id="step-2-enable-the-plugin-in-the-global-configuration">Step 2:
+Enable the Plugin in the Global Configuration</h3>
+<p>Open the <code>_config.yml</code> configuration file in your blog
+root directory and add the following lines:</p>
+<hexopostrendercodeblock>
+<figure class="highlight yml">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs yml"><span class="hljs-attr">githubEmojis:</span><br>  <span class="hljs-attr">enable:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">className:</span> <span class="hljs-string">github-emoji</span><br>  <span class="hljs-attr">unicode:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">styles:</span><br>    <span class="hljs-attr">display:</span> <span class="hljs-string">inline</span><br>    <span class="hljs-attr">vertical-align:</span> <span class="hljs-string">middle</span> <span class="hljs-comment"># For Freemind</span><br>  <span class="hljs-attr">localEmojis:</span><br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p> For parameter descriptions, refer to its
+<a target="_blank" rel="noopener" href="https://github.com/crimx/hexo-filter-github-emojis">GitHub
+documentation</a>.</p>
+<h3 id="inserting-emojis-into-posts-smiley">Inserting Emojis into Posts
+:smiley:</h3>
+<p>There are many ways to insert emojis; a convenient approach is to
+directly use emoji shortcodes, for example: <code>:grinning:</code>
+:grinning:. Emoji shortcodes can be found online; here is an <a target="_blank" rel="noopener" href="https://www.ifreesite.com/emoji/shortcode.htm">Emoji Shortcodes
+Reference Site</a>.</p>
+<h2 id="references-1">References</h2>
+<p>[1] <a target="_blank" rel="noopener" href="https://spacefan.github.io/2018/06/30/hexo-emoji/">Using
+Emojis in Hexo Blog</a></p>
+<hr>
+
+</hexopostrendercodeblock></hexopostrendercodeblock></hexopostrendercodeblock></hexopostrendercodeblock></hexopostrendercodeblock></hexopostrendercodeblock></hexopostrendercodeblock></hexopostrendercodeblock></hexopostrendercodeblock></hexopostrendercodeblock></div>
+		</div>
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong><span class="hexo-llm-en">Author</span>：</strong>KiRorY<br>
+        <strong><span class="hexo-llm-en">Permalink</span>：</strong><a href="/en/posts/1/" title="https://kirory.xyz/posts/1/" target="_blank" rel="noopener">https://kirory.xyz/posts/1/</a><br>
+        
+            <span class="hexo-llm-en"><strong>License：</strong>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN</a></span>
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			
+			
+			<div class="new">
+				<span><span class="hexo-llm-en">Next</span></span>
+				<a href="/en/posts/3/"> Algorithm Analysis Notes: Complexity Analysis and NP-Completeness Theory</a>
+			</div>
+			
+			
+			<div class="old">
+				<span><span class="hexo-llm-en">Previous</span></span>
+				<a href="/en/posts/2/"> Deployment of CLion+Qt Development Environment on Archlinux</a>
+			</div>
+			
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			
+				<a href="/en/categories/%E6%95%99%E7%A8%8B/" data-i18n-key="教程"><i class="kirafont icon-container-fill"></i> Tutorials</a>
+			
+		
+		
+			
+				<a href="/en/tags/Hexo/" data-i18n-key="Hexo"><i class="kirafont icon-tag-fill"></i> Hexo</a>
+			
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	<div class="giscus"></div>
+  
+    <script src="https://giscus.app/client.js" data-repo="KiRorY/kirory.github.io" data-repo-id="R_kgDOJ7eH2w" data-category="General" data-category-id="DIC_kwDOJ7eH284CX72n" data-mapping="specific" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async="" data-term="/posts/1/"></script>
+  
+
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+		<div class="kira-right-column">
+	<a class="kira-lang-switch" aria-label="切换到中文" title="切换到中文" href="/posts/1/" hreflang="zh-CN">
+		<button class="mdui-fab mdui-ripple">
+			<span id="lang-icon">中</span>
+		</button>
+	</a>
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="Back to top" title="Back to top">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+	</div>
+	
+<script src="/js/lang-switch.js"></script>
+
+
+
+</body></html>

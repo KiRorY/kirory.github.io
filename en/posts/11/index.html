@@ -1,0 +1,536 @@
+<!DOCTYPE html><html lang="en"><head><!-- hexo injector head_begin start -->
+
+<!-- hexo injector head_begin end -->
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title>Solutions to STM32G0 OTA Development Issues - KiRorY</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/BlogIcon-ver0.1.png" type="image/png">
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+			
+				
+<link rel="stylesheet" href="/css/custom.css">
+
+			
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+		
+		
+		
+	<!-- hexo injector head_end start -->
+<style>
+    .hexo-llm-zh { display: none; }
+    .hexo-llm-en { display: block; }
+    html[lang^="zh"] .hexo-llm-en { display: none !important; }
+    html[lang^="zh"] .hexo-llm-zh { display: block !important; }
+</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="canonical" href="https://kirory.xyz/en/posts/11/"><link rel="alternate" hreflang="zh-CN" href="https://kirory.xyz/posts/11/"><link rel="alternate" hreflang="en" href="https://kirory.xyz/en/posts/11/"><link rel="alternate" hreflang="x-default" href="https://kirory.xyz/posts/11/"><meta name="description" content="During internship OTA development on an STM32G0 board, I ran into several issues and summarized the fixes, mainly around Bootloader jump logic and APP partition"><meta property="og:title" content="Solutions to STM32G0 OTA Development Issues"><meta property="og:description" content="During internship OTA development on an STM32G0 board, I ran into several issues and summarized the fixes, mainly around Bootloader jump logic and APP partition"><meta property="og:url" content="https://kirory.xyz/en/posts/11/"><meta property="og:locale" content="en_US"><meta property="og:type" content="article"></head>
+
+	<body>
+		<div class="kira-background" style="background-image: url('https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/satori_and_koishi.JPG')"></div>
+		<div class="kira-header">
+    <a class="kira-drawer-button mdui-ripple" title="Navigation" onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');">
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/en/" title="KiRorY">
+        <img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" title="KiRorY">
+			<img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span class="hexo-llm-en">Posts</span>14</div>
+		<div><span class="hexo-llm-en">Tags</span>16</div>
+		<div><span class="hexo-llm-en">Categories</span>4</div>
+	</div>
+	<div class="kira-list">
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/" title="Home">
+			<i class="kirafont
+					
+						icon-home
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Home</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/archive.html" title="Archives">
+			<i class="kirafont
+					
+						icon-container
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Archives</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/about.html" title="About">
+			<i class="kirafont
+					
+						icon-user
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">About</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/friends.html" title="Friends">
+			<i class="kirafont
+					
+						icon-team
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Friends</span>
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a class="mdui-ripple" href="https://twitter.com/KiRorY223" target="_blank" mdui-tooltip="{content: 'Twitter'}" style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);">
+				<i class="kirafont
+					
+						icon-twitter
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://space.bilibili.com/79834065" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);">
+				<i class="kirafont
+					
+						icon-bilibili
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://github.com/KiRorY" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-github
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://steamcommunity.com/id/Kokoro_Daze/" target="_blank" mdui-tooltip="{content: 'Steam'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-steam
+					"></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+  <div class="kira-widget-wrap">
+    <h3 class="kira-widget-title"><span class="hexo-llm-en">Categories</span></h3>
+    <div class="kira-widget">
+      <ul class="category-list">
+        
+        
+
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-i18n-key="学习笔记">
+              Study Notes
+            </a>
+            <span class="category-list-count">4</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E6%95%99%E7%A8%8B/" data-i18n-key="教程">
+              Tutorials
+            </a>
+            <span class="category-list-count">7</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9A%8F%E8%AE%B0/" data-i18n-key="随记">
+              Musings
+            </a>
+            <span class="category-list-count">1</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9D%A2%E7%BB%8F/" data-i18n-key="面经">
+              Interview Experiences
+            </a>
+            <span class="category-list-count">2</span>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/en/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/en/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/en/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/en/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/en/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/en/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/" style="font-size: 15px;">Embedded Development</a> <a href="/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">Deep Learning</a> <a href="/en/tags/%E6%B8%B8%E8%AE%B0/" style="font-size: 10px;">Travelogue</a> <a href="/en/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">Productivity Tools</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" style="font-size: 10px;">Algorithm Complexity Analysis</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" style="font-size: 20px;">Algorithm Design and Analysis</a> <a href="/en/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 10px;">Terminal</a> <a href="/en/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" style="font-size: 10px;">Automation</a> <a href="/en/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" style="font-size: 10px;">Virtual Networking</a> <a href="/en/tags/%E8%AE%BF%E5%AD%A6/" style="font-size: 10px;">Academic Visit</a> <a href="/en/tags/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">Communication Protocols</a>
+		</div>
+		
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		© 2026
+		<a href="/en/">KiRorY</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &amp;
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br>
+		
+		
+	</div>
+</div>
+<div class="kira-sidebar-modal" id="sidebar-modal" onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img>
+                </div>
+                <div class="kira-image-now">
+                    <img>
+                </div>
+                <div class="kira-image-next">
+                    <img>
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div class="kira-post-cover" style="padding-bottom: '56.25%'">
+			<img data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/satori_and_koishi.JPG" data-sizes="auto" alt="STM32G0系OTA开发相关问题的解决方案" class="lazyload kira-post-cover-image disabled-kira-image">
+			<h1 data-zh-title="STM32G0系OTA开发相关问题的解决方案" data-en-title="Solutions to STM32G0 OTA Development Issues">Solutions to STM32G0 OTA Development Issues</h1>
+		</div>
+		
+		
+		<div class="kira-post-meta kira-rainbow">
+			<a><i class="kirafont icon-calendar-fill"></i><span class="hexo-llm-en">12/18/2024</span></a>
+			<a><i class="kirafont icon-edit-fill"></i><span class="hexo-llm-en kira-stat-wordcount-en">1.4K words</span></a>
+			<a><i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-en kira-stat-readtime-en">About 8 min</span></a>
+		</div>
+		<div class="kira-post-content">
+			
+<div class="hexo-llm-en">
+
+<div class="hexo-llm-en" data-markdown="1">
+<blockquote>
+<p>During internship OTA development on an STM32G0 board, I ran into
+several issues and summarized the fixes, mainly around Bootloader jump
+logic and APP partition strategy.</p>
+<ul>
+<li>The system hangs after Bootloader jumps to the APP region.</li>
+<li>With dual APP partitions, Bootloader can jump to only one partition
+instead of both.</li>
+</ul>
+</blockquote>
+</div>
+<!-- more -->
+<!-- toc -->
+<h1 id="system-hangs-after-bootloader-jump">System Hangs After
+Bootloader Jump</h1>
+First, let's briefly explain the mechanism of jumping to an application.
+It involves setting the PC pointer position and the stack pointer
+position. The address the PC pointer points to should be <span class="math inline">\([\text{program flash address}] + 4\)</span>. For
+development boards with the CBT6 suffix, you can refer to the following
+HAL library code: <hexopostrendercodeblock>
+<figure class="highlight c">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-title function_">void</span> <span class="hljs-params">(*load)</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><br>__set_MSP(*(<span class="hljs-type">uint32_t</span>*)addr);           <span class="hljs-comment">// addr is the jump destination address, i.e., the APP flashing address</span><br>load = (load)* (<span class="hljs-type">uint32_t</span>*)(addr + <span class="hljs-number">4</span>);<br>load();<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p> Of course, we can directly use the code
+above to perform the jump, provided that the address pointed to by addr
+exists in RAM. In actual execution, it was found that the program
+successfully jumped and ran, but it would hang somewhere and fail to
+proceed. The reason is simple: we redirected the PC pointer and the
+stack pointer, but did not relocate its <b>interrupt vector pointer</b>.
+As a result, when the APP encounters an interrupt function during
+execution, it jumps back to the Bootloader's interrupt vector table,
+naturally causing the program pointer to run astray. By default, the
+program's interrupt vector table pointer points to 0x0, but in reality,
+the starting position of the corresponding interrupt vector table for a
+program is the program's starting address. Refer to the diagram below:
+<img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post11/2024-10-08_16-44.png" alt="Diagram"></p>
+<h2 id="solution">Solution</h2>
+In Cortex-M series chips, except for the M0, all chips retain the VTOR
+register for relocating the interrupt vector table. The G0 series
+development board uses an M0+ core, which supports this register.
+Therefore, before jumping to the program, simply assign the
+corresponding address to the VTOR register. Based on the diagram above,
+the vector table address is the start address of the program. The
+complete jump function code is as follows: <hexopostrendercodeblock>
+<figure class="highlight c">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-title function_">void</span> <span class="hljs-params">(*load)</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">jump</span><span class="hljs-params">(<span class="hljs-type">uint32_t</span> addr)</span>{<br>    <span class="hljs-keyword">if</span>((*(<span class="hljs-type">uint32_t</span>*)addr &gt;= <span class="hljs-number">0x20000000</span>) &amp;&amp; (*(<span class="hljs-type">uint32_t</span>*)addr &lt; <span class="hljs-number">0x20000000</span> + ram_size)){             <span class="hljs-comment">// 0x20000000 here is the base address of RAM; this checks if the jump target data is in RAM</span><br>        __set_MSP(*(<span class="hljs-type">uint32_t</span>*)addr);               <br>        load = (load)* (<span class="hljs-type">uint32_t</span>*)(addr + <span class="hljs-number">4</span>);<br>        <br>        SCB-&gt;VTOR = addr;                                    <span class="hljs-comment">// Newly added line</span><br>        load();<br>    }<br>}<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p> In other projects, I have also encountered
+situations where OTA had to be implemented on M0 series chips. When
+registers cannot be configured directly, it becomes slightly more
+troublesome: we need to manually relocate the interrupt vector table.
+The general idea is to copy the entire interrupt vector table into RAM
+before jumping, and then remap the vector table pointer address to the
+base address of RAM (mapped to 0x20000000 according to the example
+above). A remap function in the corresponding STM32 library is typically
+used here. Unfortunately, because the board I developed did not use the
+STM standard library and lacked the corresponding function, I have not
+yet found another way to implement this feature. If needed, you can look
+up relevant documentation on implementing Bootloaders for the M0 series;
+since I have not verified it in practice, I will not discuss it further
+here.</p>
+<h1 id="bootloader-can-only-jump-to-one-partition-in-a-dual-app-setup">Bootloader
+Can Only Jump to One Partition in a Dual-APP Setup</h1>
+<p>A dual-APP partition setup was the first method I conceived to
+achieve OTA without an external EEPROM, dividing the flash into
+Bootloader + Flag + Region A/B. The OTA update logic goes as follows: 1.
+The program enters Region A by default on startup; 2. An OTA request
+occurs, and the new program is written to Region B; 3. Once writing
+succeeds, the flag corresponding to the address in the Flag region is
+set to valid; 4. Force the program into an infinite loop and let the
+watchdog reset the system; 5. After the Bootloader verifies the program,
+it jumps to Region B to execute, while Region A becomes the new download
+region.</p>
+<p>The advantage of this approach is that it always ensures one
+partition contains executable code. Even if OTA fails or the write
+process is forcibly interrupted, there remains a valid partition to run.
+In addition, it makes effective use of program flash space, reduces the
+erase/write cycles for a single region, and prolongs flash lifespan.</p>
+<p>However, the above approach overlooks the issue of program address
+pointers. After compiling with various toolchains, the resulting binary
+executable actually retains information such as the program's starting
+address. This address information is generally located at the beginning
+of the bin file (which is also the interrupt vector table address
+mentioned in the previous issue). When hardware executes the bin
+program, it first reads this address information and jumps to the
+corresponding location to execute. In fact, if we configure different
+flash addresses for the same program, the generated bin files will be
+different. The comparison below illustrates this clearly: <img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post11/bin_diff_marked.png" alt="bin file comparison"> From the differences between the
+partitioned data segments, the difference in the header data segments is
+obvious. If we simply flash the exact same binary (compiled for a
+specific flash region) into different regions, even if the Bootloader
+jumps to the correct address, interrupts will jump back to the original
+region when the program reads its initial header fields. This means that
+when compiling a new program, we must know the target flash address
+beforehand; otherwise, partition jump errors will occur. This is very
+inconvenient for subsequent OTA updates, so this method cannot be used
+directly.</p>
+<h2 id="solutions">Solutions</h2>
+<h3 id="modifying-header-fields-in-the-program-not-reusable">1.
+Modifying Header Fields in the Program [Not Reusable]</h3>
+<p>This method involves modifying the header fields of the pending OTA
+program within the code based on the OTA target address stored in the
+flag region. As seen from the comparison data in the image above, the
+header fields repeat a certain field value within a specific range. This
+value is roughly <span class="math inline">\(\text{program flashing
+target address} + \text{a certain offset}\)</span>. However, I haven't
+found a fixed pattern for this offset yet, as it seems to vary across
+different programs. Given that projects should eliminate such unstable
+factors as much as possible, this solution was temporarily
+abandoned.</p>
+<h3 id="revised-solution-application-region-download-region">2. Revised
+Solution: Application Region + Download Region</h3>
+<p>In short, the goal is to avoid jumping to different regions and
+instead fix the startup jump to a single region whenever possible.
+Region A is configured as the APP region. When OTA is performed, the
+program is downloaded into Region B, and the OTA flag along with CRC
+checksum information are written to the flag region, followed by a
+watchdog reset. The Bootloader program verifies the validity of the
+program in Region B, copies it to Region A for execution, and then
+resets the flag region.</p>
+<p>Of course, this solution comes with operational stability trade-offs:
+Bootloader startup latency increases when OTA is required, and ensuring
+the integrity of the copied program is challenging. Therefore, it is
+best to use an external EEPROM or flash to handle temporary storage of
+OTA binaries.</p>
+
+</hexopostrendercodeblock></hexopostrendercodeblock></div>
+		</div>
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong><span class="hexo-llm-en">Author</span>：</strong>KiRorY<br>
+        <strong><span class="hexo-llm-en">Permalink</span>：</strong><a href="/en/posts/11/" title="https://kirory.xyz/posts/11/" target="_blank" rel="noopener">https://kirory.xyz/posts/11/</a><br>
+        
+            <span class="hexo-llm-en"><strong>License：</strong>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN</a></span>
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			
+			
+			<div class="new">
+				<span><span class="hexo-llm-en">Next</span></span>
+				<a href="/en/posts/12/"> Involution Implementation Basics (Study Notes)</a>
+			</div>
+			
+			
+			<div class="old">
+				<span><span class="hexo-llm-en">Previous</span></span>
+				<a href="/en/posts/10/"> Days In UCSB</a>
+			</div>
+			
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			
+				<a href="/en/categories/%E6%95%99%E7%A8%8B/" data-i18n-key="教程"><i class="kirafont icon-container-fill"></i> Tutorials</a>
+			
+		
+		
+			
+				<a href="/en/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/" data-i18n-key="嵌入式开发"><i class="kirafont icon-tag-fill"></i> Embedded Development</a>
+			
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	<div class="giscus"></div>
+  
+    <script src="https://giscus.app/client.js" data-repo="KiRorY/kirory.github.io" data-repo-id="R_kgDOJ7eH2w" data-category="General" data-category-id="DIC_kwDOJ7eH284CX72n" data-mapping="specific" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async="" data-term="/posts/11/"></script>
+  
+
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+		<div class="kira-right-column">
+	<a class="kira-lang-switch" aria-label="切换到中文" title="切换到中文" href="/posts/11/" hreflang="zh-CN">
+		<button class="mdui-fab mdui-ripple">
+			<span id="lang-icon">中</span>
+		</button>
+	</a>
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="Back to top" title="Back to top">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+	</div>
+	
+<script src="/js/lang-switch.js"></script>
+
+
+
+</body></html>

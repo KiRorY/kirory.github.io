@@ -1,0 +1,644 @@
+<!DOCTYPE html><html lang="en"><head><!-- hexo injector head_begin start -->
+
+<!-- hexo injector head_begin end -->
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title>Algorithm Analysis Notes: Complexity Analysis and NP-Completeness Theory - KiRorY</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/BlogIcon-ver0.1.png" type="image/png">
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+			
+				
+<link rel="stylesheet" href="/css/custom.css">
+
+			
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+		
+	<!-- hexo injector head_end start -->
+<style>
+    .hexo-llm-zh { display: none; }
+    .hexo-llm-en { display: block; }
+    html[lang^="zh"] .hexo-llm-en { display: none !important; }
+    html[lang^="zh"] .hexo-llm-zh { display: block !important; }
+</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style>
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="canonical" href="https://kirory.xyz/en/posts/3/"><link rel="alternate" hreflang="zh-CN" href="https://kirory.xyz/posts/3/"><link rel="alternate" hreflang="en" href="https://kirory.xyz/en/posts/3/"><link rel="alternate" hreflang="x-default" href="https://kirory.xyz/posts/3/"><meta name="description" content="1. Algorithm Complexity Analysis Algorithm complexity indicates how much computer resources an algorithm consumes. From this, we know that algorithm complexity "><meta property="og:title" content="Algorithm Analysis Notes: Complexity Analysis and NP-Completeness Theory"><meta property="og:description" content="1. Algorithm Complexity Analysis Algorithm complexity indicates how much computer resources an algorithm consumes. From this, we know that algorithm complexity "><meta property="og:url" content="https://kirory.xyz/en/posts/3/"><meta property="og:locale" content="en_US"><meta property="og:type" content="article"></head>
+
+	<body>
+		<div class="kira-background" style="background-image: url('https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/satori_and_koishi.JPG')"></div>
+		<div class="kira-header">
+    <a class="kira-drawer-button mdui-ripple" title="Navigation" onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');">
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/en/" title="KiRorY">
+        <img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" title="KiRorY">
+			<img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span class="hexo-llm-en">Posts</span>14</div>
+		<div><span class="hexo-llm-en">Tags</span>16</div>
+		<div><span class="hexo-llm-en">Categories</span>4</div>
+	</div>
+	<div class="kira-list">
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/" title="Home">
+			<i class="kirafont
+					
+						icon-home
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Home</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/archive.html" title="Archives">
+			<i class="kirafont
+					
+						icon-container
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Archives</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/about.html" title="About">
+			<i class="kirafont
+					
+						icon-user
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">About</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/friends.html" title="Friends">
+			<i class="kirafont
+					
+						icon-team
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Friends</span>
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a class="mdui-ripple" href="https://twitter.com/KiRorY223" target="_blank" mdui-tooltip="{content: 'Twitter'}" style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);">
+				<i class="kirafont
+					
+						icon-twitter
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://space.bilibili.com/79834065" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);">
+				<i class="kirafont
+					
+						icon-bilibili
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://github.com/KiRorY" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-github
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://steamcommunity.com/id/Kokoro_Daze/" target="_blank" mdui-tooltip="{content: 'Steam'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-steam
+					"></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+  <div class="kira-widget-wrap">
+    <h3 class="kira-widget-title"><span class="hexo-llm-en">Categories</span></h3>
+    <div class="kira-widget">
+      <ul class="category-list">
+        
+        
+
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-i18n-key="学习笔记">
+              Study Notes
+            </a>
+            <span class="category-list-count">4</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E6%95%99%E7%A8%8B/" data-i18n-key="教程">
+              Tutorials
+            </a>
+            <span class="category-list-count">7</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9A%8F%E8%AE%B0/" data-i18n-key="随记">
+              Musings
+            </a>
+            <span class="category-list-count">1</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9D%A2%E7%BB%8F/" data-i18n-key="面经">
+              Interview Experiences
+            </a>
+            <span class="category-list-count">2</span>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/en/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/en/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/en/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/en/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/en/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/en/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/" style="font-size: 15px;">Embedded Development</a> <a href="/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">Deep Learning</a> <a href="/en/tags/%E6%B8%B8%E8%AE%B0/" style="font-size: 10px;">Travelogue</a> <a href="/en/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">Productivity Tools</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" style="font-size: 10px;">Algorithm Complexity Analysis</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" style="font-size: 20px;">Algorithm Design and Analysis</a> <a href="/en/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 10px;">Terminal</a> <a href="/en/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" style="font-size: 10px;">Automation</a> <a href="/en/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" style="font-size: 10px;">Virtual Networking</a> <a href="/en/tags/%E8%AE%BF%E5%AD%A6/" style="font-size: 10px;">Academic Visit</a> <a href="/en/tags/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">Communication Protocols</a>
+		</div>
+		
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		© 2026
+		<a href="/en/">KiRorY</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &amp;
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br>
+		
+		
+	</div>
+</div>
+<div class="kira-sidebar-modal" id="sidebar-modal" onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img>
+                </div>
+                <div class="kira-image-now">
+                    <img>
+                </div>
+                <div class="kira-image-next">
+                    <img>
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div class="kira-post-cover">
+			<img data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/pjsk/knd_pajamas_.png" data-sizes="auto" alt="算法分析笔记:复杂度分析与NP完全性理论" class="lazyload kira-post-cover-image disabled-kira-image">
+			<h1>Algorithm Analysis Notes: Complexity Analysis and NP-Completeness Theory</h1>
+		</div>
+		
+		
+		<div class="kira-post-meta kira-rainbow">
+			<a><i class="kirafont icon-calendar-fill"></i><span class="hexo-llm-en">07/28/2023</span></a>
+			<a><i class="kirafont icon-edit-fill"></i><span class="hexo-llm-en kira-stat-wordcount-en">1.4K words</span></a>
+			<a><i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-en kira-stat-readtime-en">About 9 min</span></a>
+		</div>
+		<div class="kira-post-content">
+			
+<div class="hexo-llm-en">
+<style>
+table {
+margin: auto;
+}
+</style>
+<h1 id="algorithm-complexity-analysis">1. Algorithm Complexity
+Analysis</h1>
+<p>Algorithm complexity indicates how much computer resources an
+algorithm consumes. From this, we know that algorithm complexity can be
+divided into time complexity and space complexity. Given that computer
+storage space is generally abundant nowadays, we often focus more on the
+time complexity of an algorithm—that is, the optimization of algorithm
+efficiency. Therefore, when analyzing algorithm complexity, we mainly
+discuss the algorithm's time complexity.</p>
+<h2 id="concretization-of-the-algorithm-complexity-function">1.1
+Concretization of the Algorithm Complexity Function</h2>
+<p>We use <span class="math inline">\(N\)</span>, <span class="math inline">\(I\)</span>, and <span class="math inline">\(A\)</span> to represent the size of the problem to
+be solved, the algorithm's input, and the algorithm itself,
+respectively, and use <span class="math inline">\(C\)</span> to
+represent algorithm complexity. Then we can let <span class="math inline">\(C=F(N,I,A)\)</span>. Here, <span class="math inline">\(F(N,I,A)\)</span> is the complexity function,
+which is generally determined by the inherent characteristics of the
+algorithm itself, so we can omit <span class="math inline">\(A\)</span>.
+For ease of understanding, we replace <span class="math inline">\(C\)</span> with <span class="math inline">\(T\)</span> to represent time complexity, yielding
+the function <span class="math inline">\(T=T(N,I)\)</span>, and analyze
+this function concretely.</p>
+<p>Suppose we have an abstract computer running an algorithm. The
+smallest operation executed in the algorithm is called an
+<b><u>elementary operation</u></b>. Assume there are <span class="math inline">\(k\)</span> types of elementary operations, denoted
+as <span class="math inline">\(O_1,O_2,\cdots,O_k\)</span>, and the
+execution time for a single run of each elementary operation is <span class="math inline">\(t_1,t_2,\cdots,t_k\)</span>, respectively.
+Statistically, the number of times the elementary operation <span class="math inline">\(O_i\)</span> is executed in the algorithm is <span class="math inline">\(e_i(i=1,2,\cdots,k)\)</span>. Note that the
+execution count <span class="math inline">\(e_i\)</span> is often
+related to the problem size and the algorithm input; thus, we have <span class="math inline">\(e_i=e_i(N,I)\)</span>, where <span class="math inline">\(e_i(N,I)\)</span> is the relation function. From
+this, we obtain: <span class="math display">\[
+T(N,I)=\sum_{i=1}^{k}t_ie_i(N,I)
+\]</span></p>
+<p>where <span class="math inline">\(t_i(i=1,2,\cdots,k)\)</span> are
+constants independent of <span class="math inline">\(N\)</span> and
+<span class="math inline">\(I\)</span>.</p>
+<p>Further concretely, we can consider the best-case, worst-case, and
+average-case time complexities. In general, the performance of the same
+algorithm varies according to its input condition <span class="math inline">\(I\)</span>. Therefore, we can easily derive the
+complexity for the three cases. Let <span class="math inline">\(\tilde{I}\)</span> be a valid input that allows
+the algorithm's time complexity to achieve <span class="math inline">\(T_{min}(N)\)</span>, <span class="math inline">\(I^*\)</span> be a valid input that causes the time
+complexity to reach <span class="math inline">\(T_{max}(N)\)</span>, and
+<span class="math inline">\(P(I)\)</span> be the probability of input
+<span class="math inline">\(I\)</span>. Then we have:</p>
+<p><span class="math display">\[\begin{align*}
+&amp;T_{min}=\sum_{i=1}^kt_ie_i(N,\tilde{I})=T(N,\tilde{I})\\
+
+&amp;T_{max}=\sum_{i=1}^kt_ie_i(N,I^*)=T(N,I^*)\\
+
+&amp;T_{avg}=\sum_{I\in D_N}P(I)T(N,I)=\sum_{I\in
+D_N}P(I)\sum_{i=1}^kt_ie_i(N,I)
+\end{align*}\]</span></p>
+<p>where <span class="math inline">\(D_N\)</span> is the set of valid
+inputs of size <span class="math inline">\(N\)</span>.</p>
+<h2 id="asymptotic-complexity-analysis">1.2 Asymptotic Complexity
+Analysis</h2>
+<p>When dealing with large-scale algorithms, it is difficult to
+calculate their exact complexity. Therefore, the concept of asymptotic
+complexity is introduced to facilitate comparing the efficiency of two
+algorithms. Taking time complexity <span class="math inline">\(T(N)\)</span> as an example: for <span class="math inline">\(T(N)\)</span>, if there exists <span class="math inline">\(\tilde{T}(N)\)</span> such that <span class="math inline">\(\frac{(T(N)-\tilde{T}(N))}{T(N)}\rightarrow0\)</span>
+as <span class="math inline">\(N\rightarrow \infty\)</span>, then <span class="math inline">\(\tilde{T}(N)\)</span> is called the asymptotic
+complexity of the algorithm as <span class="math inline">\(N\rightarrow
+\infty\)</span>. Generally, we consider <span class="math inline">\(\tilde{T}(N)\)</span> to be the simplified
+expression of <span class="math inline">\(T(N)\)</span> after removing
+constant terms and lower-order terms.</p>
+<p>For example, given <span class="math inline">\(T(N)=3N^2+4N\log{N}+7\)</span>, then <span class="math inline">\(3N^2\)</span> is one form of <span class="math inline">\(\tilde{T}(N)\)</span>. We know that when <span class="math inline">\(N\rightarrow \infty\)</span>, we can use <span class="math inline">\(\tilde{T}(N)\)</span> to approximate <span class="math inline">\(T(N)\)</span>, thereby analyzing and comparing
+algorithm complexity. Therefore, in the example above, the expression
+<span class="math inline">\(3N^2\)</span> can substitute for <span class="math inline">\(T(N)\)</span> to analyze time complexity. For the
+asymptotic behavior of a function under different conditions,
+mathematics provides five notations to define common cases:</p>
+<ul>
+<li><p><b>Upper Bound</b>: <span class="math inline">\(O\)</span> (big
+O). Let <span class="math inline">\(f(N)\)</span> and <span class="math inline">\(g(N)\)</span> be positive functions defined on the
+set of positive numbers. If there exist positive constants <span class="math inline">\(C\)</span> and <span class="math inline">\(N_0\)</span> such that <span class="math inline">\(f(N)\leq Cg(N)\)</span> when <span class="math inline">\(N\geq N_0\)</span>, then we say that <span class="math inline">\(g(N)\)</span> is an upper bound of <span class="math inline">\(f(N)\)</span> as <span class="math inline">\(N\rightarrow \infty\)</span>: <span class="math inline">\(f(N)=O(g(N))\)</span>.</p></li>
+<li><p><b>Lower Bound</b>: <span class="math inline">\(\Omega\)</span>
+(big Omega). Let <span class="math inline">\(f(N)\)</span> and <span class="math inline">\(g(N)\)</span> be positive functions defined on the
+set of positive numbers. If there exist positive constants <span class="math inline">\(C\)</span> and <span class="math inline">\(N_0\)</span> such that <span class="math inline">\(f(N)\geq Cg(N)\)</span> when <span class="math inline">\(N\geq N_0\)</span>, then we say that <span class="math inline">\(g(N)\)</span> is a lower bound of <span class="math inline">\(f(N)\)</span> as <span class="math inline">\(N\rightarrow \infty\)</span>: <span class="math inline">\(f(N)=\Omega(g(N))\)</span>.</p></li>
+<li><p><b>Same Order / Tight Bound</b>: <span class="math inline">\(\theta\)</span> (theta). Defined as <span class="math inline">\(f(N)=\theta(g(N))\)</span> if and only if <span class="math inline">\(f(N)=O(g(N))\)</span> and <span class="math inline">\(f(N)=\Omega(g(N))\)</span>; we say that <span class="math inline">\(f(N)\)</span> and <span class="math inline">\(g(N)\)</span> are of the same order.</p></li>
+<li><p><b>Strict Upper Bound</b>: <span class="math inline">\(o\)</span>
+(little o). For any given positive constant <span class="math inline">\(\varepsilon\)</span>, there exists a positive
+number <span class="math inline">\(N_0\)</span> such that <span class="math inline">\(|f(N)|&lt; \varepsilon g(N)\)</span> when <span class="math inline">\(N\geq N_0\)</span>. Then we say that <span class="math inline">\(g(N)\)</span> is a non-tight upper bound of <span class="math inline">\(f(N)\)</span> as <span class="math inline">\(N\rightarrow \infty\)</span>: <span class="math inline">\(f(N)=o(g(N))\)</span>.</p></li>
+<li><p><b>Strict Lower Bound</b>: <span class="math inline">\(\omega\)</span> (little omega). For any given
+positive constant <span class="math inline">\(\varepsilon\)</span>,
+there exists a positive number <span class="math inline">\(N_0\)</span>
+such that <span class="math inline">\(|f(N)|&gt; \varepsilon
+g(N)\)</span> when <span class="math inline">\(N\geq N_0\)</span>. Then
+we say that <span class="math inline">\(g(N)\)</span> is a non-tight
+lower bound of <span class="math inline">\(f(N)\)</span> as <span class="math inline">\(N\rightarrow \infty\)</span>: <span class="math inline">\(f(N)=\omega(g(N))\)</span>.</p></li>
+</ul>
+<h1 id="np-completeness-theory">2. NP-Completeness Theory</h1>
+<p>In the content above, we learned how to analyze an algorithm's
+complexity. Now we need to determine and evaluate the computational
+complexity of an algorithm. Similar to complexity estimation, it is
+difficult to determine the actual computing time of an algorithm for a
+problem, but we can evaluate whether an algorithm is "easy" or "hard" by
+categorizing algorithm complexity. NP (Non-deterministic Polynomial)
+completeness theory is a theoretical approach used to classify the
+"difficulty" of computational problem-solving.</p>
+<h2 id="class-p-problems">2.1 Class P Problems</h2>
+<pre><code>Class P problems (Polynomial Problems) refer to all decision problems that can be solved in polynomial time.</code></pre>
+<p>The volume of data involved in computer computing is usually massive,
+so whether an algorithm's complexity falls within polynomial time often
+determines whether the algorithm is worth discussing. For class P
+problems, because their solving time is within polynomial time and the
+problems addressed are decision problems dealing only with true and
+false, class P problems can be considered relatively easy to solve. We
+categorize class P problems as the class of tractable problems under
+deterministic models.</p>
+<h2 id="class-np-problems">2.2 Class NP Problems</h2>
+<pre><code>Class NP problems (Non-deterministic Polynomial Problems) refer to all decision problems whose solutions can be verified in polynomial time.</code></pre>
+<p>As mentioned above, class P problems are decision problems that can
+be solved in polynomial time. In contrast, class NP problems treat the
+correctness of a problem's solution as a decision problem. The solution
+to such a problem is non-deterministic, and we cannot compute its
+solution in polynomial time. However, we can verify whether a given
+candidate solution is correct in polynomial time. For example: for a
+given graph, we can verify whether a given path is a Hamiltonian path of
+the graph in polynomial time.</p>
+<h2 id="class-np-c-problems">2.3 Class NP-C Problems</h2>
+<pre><code>Class NP-Complete problems (Non-deterministic Polynomial Complete Problems) are a special case of class NP problems.</code></pre>
+<p>Class NP-C problems are actually more specialized cases within class
+NP problems. The complexity of these problems is linked to the entire
+class. If a polynomial-time algorithm exists for any one of these
+problems, then all NP problems can be solved in polynomial time. In
+other words, all class NP problems can be <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E6%AD%B8%E7%B4%84">reduced to</a>
+it.</p>
+<h2 id="np-hard-problems">2.4 NP-Hard Problems</h2>
+<p>NP-hard problems are quite special: they refer to problems to which
+all class NP problems can be reduced, but which themselves do not
+necessarily belong to class NP.</p>
+<h2 id="relationships-among-the-four-problem-classes">2.5 Relationships
+Among the Four Problem Classes</h2>
+<p>Regarding class P and class NP problems, their exact relationship has
+not yet been definitively determined, and the correctness of the
+statement <span class="math inline">\(P\neq NP\)</span> is still an open
+question. Here are Venn diagrams illustrating two possible
+relationships:</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post3/P_np_np-complete_np-hard.png" alt="useQtDesigner" class="lazyload"></p>
+
+</div>
+		</div>
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong><span class="hexo-llm-en">Author</span>：</strong>KiRorY<br>
+        <strong><span class="hexo-llm-en">Permalink</span>：</strong><a href="/en/posts/3/" title="https://kirory.xyz/posts/3/" target="_blank" rel="noopener">https://kirory.xyz/posts/3/</a><br>
+        
+            <span class="hexo-llm-en"><strong>License：</strong>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN</a></span>
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			
+			
+			<div class="new">
+				<span><span class="hexo-llm-en">Next</span></span>
+				<a href="/en/posts/4/"> Algorithm Analysis Notes: Recursion and Divide-and-Conquer Strategies</a>
+			</div>
+			
+			
+			<div class="old">
+				<span><span class="hexo-llm-en">Previous</span></span>
+				<a href="/en/posts/1/"> Common Issues and Fixes When Using Hexo</a>
+			</div>
+			
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			
+				<a href="/en/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-i18n-key="学习笔记"><i class="kirafont icon-container-fill"></i> Study Notes</a>
+			
+		
+		
+			
+				<a href="/en/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" data-i18n-key="算法设计与分析"><i class="kirafont icon-tag-fill"></i> Algorithm Design and Analysis</a>
+			
+				<a href="/en/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" data-i18n-key="算法复杂度分析"><i class="kirafont icon-tag-fill"></i> Algorithm Complexity Analysis</a>
+			
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	<div class="giscus"></div>
+  
+    <script src="https://giscus.app/client.js" data-repo="KiRorY/kirory.github.io" data-repo-id="R_kgDOJ7eH2w" data-category="General" data-category-id="DIC_kwDOJ7eH284CX72n" data-mapping="specific" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async="" data-term="/posts/3/"></script>
+  
+
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+		<div class="kira-right-column">
+	<a class="kira-lang-switch" aria-label="切换到中文" title="切换到中文" href="/posts/3/" hreflang="zh-CN">
+		<button class="mdui-fab mdui-ripple">
+			<span id="lang-icon">中</span>
+		</button>
+	</a>
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="Back to top" title="Back to top">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+	</div>
+	
+<script src="/js/lang-switch.js"></script>
+
+
+
+</body></html>

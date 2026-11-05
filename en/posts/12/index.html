@@ -1,0 +1,699 @@
+<!DOCTYPE html><html lang="en"><head><!-- hexo injector head_begin start -->
+
+<!-- hexo injector head_begin end -->
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title>Involution Implementation Basics (Study Notes) - KiRorY</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/BlogIcon-ver0.1.png" type="image/png">
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+			
+				
+<link rel="stylesheet" href="/css/custom.css">
+
+			
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+		
+		
+		
+	<!-- hexo injector head_end start -->
+<style>
+    .hexo-llm-zh { display: none; }
+    .hexo-llm-en { display: block; }
+    html[lang^="zh"] .hexo-llm-en { display: none !important; }
+    html[lang^="zh"] .hexo-llm-zh { display: block !important; }
+</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style>
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="canonical" href="https://kirory.xyz/en/posts/12/"><link rel="alternate" hreflang="zh-CN" href="https://kirory.xyz/posts/12/"><link rel="alternate" hreflang="en" href="https://kirory.xyz/en/posts/12/"><link rel="alternate" hreflang="x-default" href="https://kirory.xyz/posts/12/"><meta name="description" content="Involution is a neural network operator proposed by Li et al. in 2021. It is designed with characteristics opposite to standard convolution, and is often referr"><meta property="og:title" content="Involution Implementation Basics (Study Notes)"><meta property="og:description" content="Involution is a neural network operator proposed by Li et al. in 2021. It is designed with characteristics opposite to standard convolution, and is often referr"><meta property="og:url" content="https://kirory.xyz/en/posts/12/"><meta property="og:locale" content="en_US"><meta property="og:type" content="article"></head>
+
+	<body>
+		<div class="kira-background" style="background-image: url('https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/satori_and_koishi.JPG')"></div>
+		<div class="kira-header">
+    <a class="kira-drawer-button mdui-ripple" title="Navigation" onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');">
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/en/" title="KiRorY">
+        <img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" title="KiRorY">
+			<img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span class="hexo-llm-en">Posts</span>14</div>
+		<div><span class="hexo-llm-en">Tags</span>16</div>
+		<div><span class="hexo-llm-en">Categories</span>4</div>
+	</div>
+	<div class="kira-list">
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/" title="Home">
+			<i class="kirafont
+					
+						icon-home
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Home</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/archive.html" title="Archives">
+			<i class="kirafont
+					
+						icon-container
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Archives</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/about.html" title="About">
+			<i class="kirafont
+					
+						icon-user
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">About</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/friends.html" title="Friends">
+			<i class="kirafont
+					
+						icon-team
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Friends</span>
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a class="mdui-ripple" href="https://twitter.com/KiRorY223" target="_blank" mdui-tooltip="{content: 'Twitter'}" style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);">
+				<i class="kirafont
+					
+						icon-twitter
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://space.bilibili.com/79834065" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);">
+				<i class="kirafont
+					
+						icon-bilibili
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://github.com/KiRorY" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-github
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://steamcommunity.com/id/Kokoro_Daze/" target="_blank" mdui-tooltip="{content: 'Steam'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-steam
+					"></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+  <div class="kira-widget-wrap">
+    <h3 class="kira-widget-title"><span class="hexo-llm-en">Categories</span></h3>
+    <div class="kira-widget">
+      <ul class="category-list">
+        
+        
+
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-i18n-key="学习笔记">
+              Study Notes
+            </a>
+            <span class="category-list-count">4</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E6%95%99%E7%A8%8B/" data-i18n-key="教程">
+              Tutorials
+            </a>
+            <span class="category-list-count">7</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9A%8F%E8%AE%B0/" data-i18n-key="随记">
+              Musings
+            </a>
+            <span class="category-list-count">1</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9D%A2%E7%BB%8F/" data-i18n-key="面经">
+              Interview Experiences
+            </a>
+            <span class="category-list-count">2</span>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/en/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/en/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/en/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/en/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/en/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/en/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/" style="font-size: 15px;">Embedded Development</a> <a href="/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">Deep Learning</a> <a href="/en/tags/%E6%B8%B8%E8%AE%B0/" style="font-size: 10px;">Travelogue</a> <a href="/en/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">Productivity Tools</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" style="font-size: 10px;">Algorithm Complexity Analysis</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" style="font-size: 20px;">Algorithm Design and Analysis</a> <a href="/en/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 10px;">Terminal</a> <a href="/en/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" style="font-size: 10px;">Automation</a> <a href="/en/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" style="font-size: 10px;">Virtual Networking</a> <a href="/en/tags/%E8%AE%BF%E5%AD%A6/" style="font-size: 10px;">Academic Visit</a> <a href="/en/tags/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">Communication Protocols</a>
+		</div>
+		
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		© 2026
+		<a href="/en/">KiRorY</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &amp;
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br>
+		
+		
+	</div>
+</div>
+<div class="kira-sidebar-modal" id="sidebar-modal" onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img>
+                </div>
+                <div class="kira-image-now">
+                    <img>
+                </div>
+                <div class="kira-image-next">
+                    <img>
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div class="kira-post-cover">
+			<img data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post12/Corver.png?raw=true" data-sizes="auto" alt="Involution的基本实现方式(学习记录)" class="lazyload kira-post-cover-image disabled-kira-image">
+			<h1 data-zh-title="Involution的基本实现方式(学习记录)" data-en-title="Involution Implementation Basics (Study Notes)">Involution Implementation Basics (Study Notes)</h1>
+		</div>
+		
+		
+		<div class="kira-post-meta kira-rainbow">
+			<a><i class="kirafont icon-calendar-fill"></i><span class="hexo-llm-en">10/14/2025</span></a>
+			<a><i class="kirafont icon-edit-fill"></i><span class="hexo-llm-en kira-stat-wordcount-en">1.9K words</span></a>
+			<a><i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-en kira-stat-readtime-en">About 11 min</span></a>
+		</div>
+		<div class="kira-post-content">
+			
+<div class="hexo-llm-en">
+
+<div class="hexo-llm-en" data-markdown="1">
+<blockquote>
+<p>Involution is a neural network operator proposed by Li et al. in
+2021. It is designed with characteristics opposite to standard
+convolution, and is often referred to as an inverse-style convolutional
+operator.</p>
+<p>This post records my study and implementation notes from
+undergraduate thesis work, including core ideas, structural
+modifications, and early parallelization attempts for acceleration.</p>
+</blockquote>
+</div>
+<!-- more -->
+<h2 id="foreword">Foreword</h2>
+<p>The author of the technical paper discussed in this article currently
+<strong>faces some controversy regarding academic misconduct</strong>;
+however, this specific paper itself has not been confirmed to involve
+any problematic content. This post is solely for study and recording
+purposes. If this paper or its techniques are later proven to involve
+academic integrity issues, this post will be permanently archived or
+removed.</p>
+<h1 id="preliminary-introduction">Preliminary Introduction</h1>
+<p>In machine learning, convolution is one of the most classic
+operations, especially in the field of computer vision (CV). We can
+briefly review the 2D convolution operation, which extracts features
+from 2D data by sliding a kernel across it. Before diving into
+Involution, we need to understand several characteristics of traditional
+convolution. The convolution operation slides shared convolution kernels
+across spatial locations, a design featuring two core properties:
+spatial-agnostic and channel-specific.</p>
+<p>Spatial-agnostic means the same convolution kernel is applied to all
+spatial positions across the feature map; regardless of the location,
+the weights used remain identical. While this design is
+parameter-efficient, it limits the model's ability to adaptively model
+different spatial locations. Channel-specific means convolution learns
+independent kernels for each output channel, introducing redundancy
+across convolution kernels.</p>
+<p>The Involution operator is designed based on the inverse
+characteristics of convolution, possessing
+<strong>spatial-specific</strong> and <strong>channel-agnostic</strong>
+properties. This means Involution generates dedicated kernels for each
+spatial location that are shared across the channel dimension, offering
+the following advantages:</p>
+<ol type="1">
+<li>Enhanced adaptability: Each pixel location has its own processing
+kernel, allowing it to better capture local context information;</li>
+<li>Improved parameter efficiency: The channel sharing mechanism
+drastically reduces the parameter count, especially in deep networks
+with large channel numbers;</li>
+<li>Long-range dependency modeling: By expanding the kernel size,
+Involution can efficiently model long-range spatial relationships while
+reducing the loss of close-range information, balancing feature
+extraction capabilities across both near and distant scales.</li>
+</ol>
+<p>Simply put, this operator generates adaptive kernels at each
+position, while channels are grouped to determine which channels share a
+common kernel. In this way, distinct kernels are utilized for each
+element while avoiding redundancy generated across different channels.
+Next, the author will briefly explain its principles.</p>
+<h1 id="overview-of-principles">Overview of Principles</h1>
+<p>Taking 2D data as an example, for an input feature map <span class="math inline">\(\mathbf{X} \in \mathbb{R}^{H \times W \times
+C}\)</span>, the output of Involution at position <span class="math inline">\((i, j)\)</span> can be represented as:</p>
+<p><span class="math display">\[
+Y_{i,j}= \sum_{(u,v)\in\mathcal{N}(i,j)} \mathcal{H}_{i,j,u,v} \cdot
+\mathbf{X}_{u,v}
+\]</span></p>
+<p>where <span class="math inline">\(\mathcal{N}(i,j)\)</span> is the
+neighborhood centered at <span class="math inline">\((i,j)\)</span>, and
+<span class="math inline">\(\mathcal{H}_{i,j} \in \mathbb{R}^{K \times K
+\times C}\)</span> is the involution kernel at that position. Its kernel
+mapping function is defined as: <span class="math display">\[
+\phi = \mathbb{R}^C \mapsto \mathbb{R}^{K\times K\times G}
+\]</span> This expression implies that the kernel mapping takes channels
+as the input dimension and maps them to a three-dimensional form of
+kernel size multiplied by groups. It can be understood as performing the
+kernel mapping operation based on the channel vector corresponding to
+the element location. The specific expression is given below: <span class="math display">\[
+\mathcal{H}_{i,j} =
+\phi(\mathbf{X}_{i,j})=W_1\sigma(W_0\mathbf{X}_{i,j})
+\]</span> where <span class="math inline">\(W_0\)</span> and <span class="math inline">\(W_1\)</span> are two linear transformations, and
+<span class="math inline">\(\sigma\)</span> represents an activation
+function. After obtaining the kernel parameters through the above
+mapping, they are applied to the original data to complete the kernel
+operation. Below is the schematic diagram used in the original paper:
+<img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post12/Inv-img.png" alt="Inv Schematic Diagram"> The author understands it as follows:
+Involution generates kernels based on single-position channel
+information, so the kernel parameters themselves already encode channel
+characteristics. Through channel sharing, it avoids independent channel
+calculations and the aggregation of multiple channels during output,
+thereby reducing computational cost.</p>
+<h1 id="basic-implementation-analysis-code">Basic Implementation
+Analysis (Code)</h1>
+<p>The kernel generation function of Involution was mentioned above,
+which utilizes two linear transformations to generate kernel weights.
+How is this implemented in practice? The original paper provided the
+implementation code; let's observe the specific methods of both
+transformations from a code perspective.</p>
+First, let's look at the PyTorch-style code: <hexopostrendercodeblock>
+<figure class="highlight python">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs python"><span class="hljs-comment"># B: batch size, H: height, W: width</span><br><span class="hljs-comment"># C: channel number, G: group number</span><br><span class="hljs-comment"># K: kernel size, s: stride, r: reduction ratio</span><br><span class="hljs-comment">################### initialization ###################</span><br>o = nn.AvgPool2d(s, s) <span class="hljs-keyword">if</span> s &gt; <span class="hljs-number">1</span> <span class="hljs-keyword">else</span> nn.Identity()<br>reduce = nn.Conv2d(C, C//r, <span class="hljs-number">1</span>)<br>span = nn.Conv2d(C//r, K*K*G, <span class="hljs-number">1</span>)<br>unfold = nn.Unfold(K, dilation, padding, s) <span class="hljs-comment"># Extract spatial neighborhoods and unfold into columns for subsequent computation with kernel parameters</span><br><span class="hljs-comment">#################### forward pass ####################</span><br>x_unfolded = unfold(x) <span class="hljs-comment"># B,CxKxK,HxW</span><br>x_unfolded = x_unfolded.view(B, G, C//G, K*K, H, W)<br><span class="hljs-comment"># kernel generation, Eqn.(6)</span><br>kernel = span(reduce(o(x))) <span class="hljs-comment"># B,KxKxG,H,W</span><br>kernel = kernel.view(B, G, K*K, H, W).unsqueeze(<span class="hljs-number">2</span>)<br><span class="hljs-comment"># Multiply-Add operation, Eqn.(4)</span><br>out = mul(kernel, x_unfolded).<span class="hljs-built_in">sum</span>(dim=<span class="hljs-number">3</span>) <span class="hljs-comment"># B,G,C/G,H,W</span><br>out = out.view(B, C, H, W)<br><span class="hljs-keyword">return</span> out<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p></p>
+<p>In the <strong>initialization</strong> section, we can see that two
+Conv2d functions are used, and the convolution kernel size specified in
+both is 1. As we know, a <span class="math inline">\(1\times 1\)</span>
+convolution kernel calculation only involves the channel dimension of
+the data, without touching other dimensional information. In other
+words, this function performs a linear combination across channels
+corresponding to each position. Connecting this with the formulas above,
+these two 2D convolution functions with a kernel size of 1 are
+essentially the linear transformations <span class="math inline">\(W_0\)</span> and <span class="math inline">\(W_1\)</span> mentioned earlier. Their forms can be
+written as: <span class="math display">\[
+\begin{align*}
+&amp;W_0:\mathbb{R}^C \mapsto \mathbb{R}^{C//r}\\
+&amp;W_1:\mathbb{R}^{C//r} \mapsto \mathbb{R}^{K\times K\times G}\\
+\end{align*}
+\]</span> The first transformation <span class="math inline">\(W_0\)</span> performs dimensionality reduction to
+reduce the parameter count for computing the kernel; the second
+transformation <span class="math inline">\(W_1\)</span> performs
+mapping, projecting the compressed features into the required number of
+weight values.</p>
+<p>These two transformations are the core steps of kernel generation.
+However, up to this point, the core parameters have not yet assumed the
+theoretical 3D shape. Therefore, in the <strong>forward pass</strong>
+section, the array is reshaped. The neighborhood of the output is
+unfolded into columns, which are then grouped according to channels,
+rearranging the dimensions to obtain the desired kernel shape <span class="math inline">\((B, G, K\times K, H, W)\)</span>. Here, <span class="math inline">\(H\)</span> and <span class="math inline">\(W\)</span> refer to the spatial output positions,
+and it is finally applied across the complete channel dimension to yield
+the final feature map.</p>
+<p>Of course, the above is only a brief analysis of the basic code
+implementation. Understanding up to this point is sufficient to adjust
+the operator according to project requirements.</p>
+<h1 id="simple-project-application">Simple Project Application</h1>
+<p>In the author's project, the Involution operator was used to build a
+neural network to predict disease probability, utilizing a dataset based
+on patient information and clinical data manifestations as features
+(refer to the <a target="_blank" rel="noopener" href="https://archive.ics.uci.edu/dataset/45/heart+disease">UCI Heart
+Disease Dataset</a>). This dataset does not consist of sequential
+information, yet convolution can still be used to extract relational
+features among attributes within a local range. As mentioned earlier,
+the characteristics of the Involution operator allow it to retain local
+feature extraction capabilities across broad data spans while demanding
+lower computational cost, making it suitable for non-sequential datasets
+as well. However, because this dataset is one-dimensional, the original
+code cannot be directly applied, and the operator needs to be reduced in
+dimension.</p>
+<p>Once the basic implementation method is understood, the logic for
+dimensional reduction is straightforward: simply modify the original 2D
+convolution operations to 1D convolutions. The logic of a 1D involution
+operator can be referenced in the example below: <img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post12/1d-inv_img.svg" alt="1d-inv"></p>
+<p>The kernel generation operation is carried out across channels and
+does not have much to do with the spatial dimensionality of the data
+itself. It can also be generalized to higher-dimensional datasets;
+however, existing libraries cannot be directly invoked, and
+high-dimensional convolution operations must be implemented
+manually.</p>
+<p>Of course, as seen in the example above, the author also modified the
+activation function in the operator's kernel generation step. The
+original code used ReLU, while the author chose Swish, which is more
+sensitive to small negative values. This can be selectively adjusted
+according to the project. If the network constructed using the
+involution operator does not perform as expected, you can try adjusting
+the activation function. In the author's project, the improvement
+brought by this adjustment was relatively minor.</p>
+<h1 id="thoughts-on-model-acceleration-schemes">Thoughts on Model
+Acceleration Schemes</h1>
+<p>An idea occurred to the author while completing another course on
+parallel computing: since kernel generation in involution is computed
+based on fixed data, it could potentially be parallelized for
+acceleration. In fact, a CUDA-accelerated version is already provided in
+the original authors' source code. According to conventional
+parallelization thinking, the kernel generation operation at each
+position can be parallelized. The author experimented with a
+step-by-step parallelization method: parallelizing the matrix operations
+of the two convolutions separately, with a wait state at the
+intermediate layer. This parallelization approach achieved good speedup
+even when running on a CPU. However, this was merely a simple
+experiment, as model training is rarely conducted on CPUs in most
+scenarios. Perhaps there are other approaches...</p>
+<h1 id="references">References</h1>
+<p>[1] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.06255">Li D, Hu J, Wang C, et
+al. Involution: Inverting the inherence of convolution for visual
+recognition[C]//Proceedings of the IEEE/CVF conference on computer
+vision and pattern recognition. 2021: 12321-12330.</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/531234378">Involution:
+Spatial Non-sharing? A High-Performance Operator Fully Replacing
+Convolution | CVPR 2021</a></p>
+
+</hexopostrendercodeblock></div>
+		</div>
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong><span class="hexo-llm-en">Author</span>：</strong>KiRorY<br>
+        <strong><span class="hexo-llm-en">Permalink</span>：</strong><a href="/en/posts/12/" title="https://kirory.xyz/posts/12/" target="_blank" rel="noopener">https://kirory.xyz/posts/12/</a><br>
+        
+            <span class="hexo-llm-en"><strong>License：</strong>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN</a></span>
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			
+			
+			<div class="new">
+				<span><span class="hexo-llm-en">Next</span></span>
+				<a href="/en/posts/13/"> KPIT Interview Experience</a>
+			</div>
+			
+			
+			<div class="old">
+				<span><span class="hexo-llm-en">Previous</span></span>
+				<a href="/en/posts/11/"> Solutions to STM32G0 OTA Development Issues</a>
+			</div>
+			
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			
+				<a href="/en/categories/%E6%95%99%E7%A8%8B/" data-i18n-key="教程"><i class="kirafont icon-container-fill"></i> Tutorials</a>
+			
+		
+		
+			
+				<a href="/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" data-i18n-key="深度学习"><i class="kirafont icon-tag-fill"></i> Deep Learning</a>
+			
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	<div class="giscus"></div>
+  
+    <script src="https://giscus.app/client.js" data-repo="KiRorY/kirory.github.io" data-repo-id="R_kgDOJ7eH2w" data-category="General" data-category-id="DIC_kwDOJ7eH284CX72n" data-mapping="specific" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async="" data-term="/posts/12/"></script>
+  
+
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+		<div class="kira-right-column">
+	<a class="kira-lang-switch" aria-label="切换到中文" title="切换到中文" href="/posts/12/" hreflang="zh-CN">
+		<button class="mdui-fab mdui-ripple">
+			<span id="lang-icon">中</span>
+		</button>
+	</a>
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="Back to top" title="Back to top">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+	</div>
+	
+<script src="/js/lang-switch.js"></script>
+
+
+
+</body></html>

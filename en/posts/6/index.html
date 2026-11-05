@@ -1,0 +1,742 @@
+<!DOCTYPE html><html lang="en"><head><!-- hexo injector head_begin start -->
+
+<!-- hexo injector head_begin end -->
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title>Algorithm Analysis Notes: Greedy Algorithm - KiRorY</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/BlogIcon-ver0.1.png" type="image/png">
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+			
+				
+<link rel="stylesheet" href="/css/custom.css">
+
+			
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+		
+	<!-- hexo injector head_end start -->
+<style>
+    .hexo-llm-zh { display: none; }
+    .hexo-llm-en { display: block; }
+    html[lang^="zh"] .hexo-llm-en { display: none !important; }
+    html[lang^="zh"] .hexo-llm-zh { display: block !important; }
+</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style>
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="canonical" href="https://kirory.xyz/en/posts/6/"><link rel="alternate" hreflang="zh-CN" href="https://kirory.xyz/posts/6/"><link rel="alternate" hreflang="en" href="https://kirory.xyz/en/posts/6/"><link rel="alternate" hreflang="x-default" href="https://kirory.xyz/posts/6/"><meta name="description" content="Greedy Algorithm 1. Basic Idea of the Algorithm Dynamic programming can be used when optimal substructure is present, but sometimes there are simpler and more e"><meta property="og:title" content="Algorithm Analysis Notes: Greedy Algorithm"><meta property="og:description" content="Greedy Algorithm 1. Basic Idea of the Algorithm Dynamic programming can be used when optimal substructure is present, but sometimes there are simpler and more e"><meta property="og:url" content="https://kirory.xyz/en/posts/6/"><meta property="og:locale" content="en_US"><meta property="og:type" content="article"></head>
+
+	<body>
+		<div class="kira-background" style="background-image: url('https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/satori_and_koishi.JPG')"></div>
+		<div class="kira-header">
+    <a class="kira-drawer-button mdui-ripple" title="Navigation" onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');">
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/en/" title="KiRorY">
+        <img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" title="KiRorY">
+			<img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span class="hexo-llm-en">Posts</span>14</div>
+		<div><span class="hexo-llm-en">Tags</span>16</div>
+		<div><span class="hexo-llm-en">Categories</span>4</div>
+	</div>
+	<div class="kira-list">
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/" title="Home">
+			<i class="kirafont
+					
+						icon-home
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Home</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/archive.html" title="Archives">
+			<i class="kirafont
+					
+						icon-container
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Archives</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/about.html" title="About">
+			<i class="kirafont
+					
+						icon-user
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">About</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/friends.html" title="Friends">
+			<i class="kirafont
+					
+						icon-team
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Friends</span>
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a class="mdui-ripple" href="https://twitter.com/KiRorY223" target="_blank" mdui-tooltip="{content: 'Twitter'}" style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);">
+				<i class="kirafont
+					
+						icon-twitter
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://space.bilibili.com/79834065" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);">
+				<i class="kirafont
+					
+						icon-bilibili
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://github.com/KiRorY" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-github
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://steamcommunity.com/id/Kokoro_Daze/" target="_blank" mdui-tooltip="{content: 'Steam'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-steam
+					"></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+  <div class="kira-widget-wrap">
+    <h3 class="kira-widget-title"><span class="hexo-llm-en">Categories</span></h3>
+    <div class="kira-widget">
+      <ul class="category-list">
+        
+        
+
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-i18n-key="学习笔记">
+              Study Notes
+            </a>
+            <span class="category-list-count">4</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E6%95%99%E7%A8%8B/" data-i18n-key="教程">
+              Tutorials
+            </a>
+            <span class="category-list-count">7</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9A%8F%E8%AE%B0/" data-i18n-key="随记">
+              Musings
+            </a>
+            <span class="category-list-count">1</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9D%A2%E7%BB%8F/" data-i18n-key="面经">
+              Interview Experiences
+            </a>
+            <span class="category-list-count">2</span>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/en/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/en/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/en/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/en/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/en/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/en/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/" style="font-size: 15px;">Embedded Development</a> <a href="/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">Deep Learning</a> <a href="/en/tags/%E6%B8%B8%E8%AE%B0/" style="font-size: 10px;">Travelogue</a> <a href="/en/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">Productivity Tools</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" style="font-size: 10px;">Algorithm Complexity Analysis</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" style="font-size: 20px;">Algorithm Design and Analysis</a> <a href="/en/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 10px;">Terminal</a> <a href="/en/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" style="font-size: 10px;">Automation</a> <a href="/en/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" style="font-size: 10px;">Virtual Networking</a> <a href="/en/tags/%E8%AE%BF%E5%AD%A6/" style="font-size: 10px;">Academic Visit</a> <a href="/en/tags/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">Communication Protocols</a>
+		</div>
+		
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		© 2026
+		<a href="/en/">KiRorY</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &amp;
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br>
+		
+		
+	</div>
+</div>
+<div class="kira-sidebar-modal" id="sidebar-modal" onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img>
+                </div>
+                <div class="kira-image-now">
+                    <img>
+                </div>
+                <div class="kira-image-next">
+                    <img>
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div class="kira-post-cover">
+			<img data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/bangdream/5_anon_tomori.png" data-sizes="auto" alt="算法分析笔记:贪心算法" class="lazyload kira-post-cover-image disabled-kira-image">
+			<h1>Algorithm Analysis Notes: Greedy Algorithm</h1>
+		</div>
+		
+		
+		<div class="kira-post-meta kira-rainbow">
+			<a><i class="kirafont icon-calendar-fill"></i><span class="hexo-llm-en">09/14/2023</span></a>
+			<a><i class="kirafont icon-edit-fill"></i><span class="hexo-llm-en kira-stat-wordcount-en">2.4K words</span></a>
+			<a><i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-en kira-stat-readtime-en">About 14 min</span></a>
+		</div>
+		<div class="kira-post-content">
+			
+<div class="hexo-llm-en">
+<h1 id="greedy-algorithm">Greedy Algorithm</h1>
+<h2 id="basic-idea-of-the-algorithm">1. Basic Idea of the Algorithm</h2>
+<p>Dynamic programming can be used when optimal substructure is present,
+but sometimes there are simpler and more efficient methods. A greedy
+algorithm always makes the choice that looks best at the current moment
+when solving subproblems. It can be said that its approach is myopic and
+local; it does not consider the overall optimal solution, focusing only
+on the solution to the local subproblem.</p>
+<p>From the description above, greedy algorithms are more direct and
+efficient, but their limitations are also significant: for many
+problems, the overall optimal solution cannot be obtained simply by
+solving the subproblems optimally. Although greedy algorithms clearly
+cannot solve all problems, we can still use them to obtain locally
+optimal solutions.</p>
+<h3 id="greedy-choice-property">1.1 Greedy Choice Property</h3>
+<p>As mentioned above, a greedy algorithm only makes the optimal choice
+for the current subproblem. Its choice can depend on choices made so
+far, but it definitely never depends on future choices or the solutions
+to subproblems. Therefore, this algorithm typically follows a top-down
+strategy.</p>
+<h3 id="difference-between-greedy-algorithms-and-dynamic-programming">1.2
+Difference Between Greedy Algorithms and Dynamic Programming</h3>
+<p>Both algorithms exhibit the optimal substructure property. In the
+author's previous post <a href="/en/posts/5/">Algorithm
+Analysis Notes: Dynamic Programming</a>, the <strong>0-1 Knapsack
+Problem</strong> was mentioned. A problem similar to this is the
+<strong>Fractional Knapsack Problem</strong> (often referred to simply
+as the Knapsack Problem).</p>
+<h4 id="fractional-knapsack-problem">Fractional Knapsack Problem</h4>
+Similar to the 0-1 knapsack problem, given <span class="math inline">\(n\)</span> items, item <span class="math inline">\(i\)</span> has weight <span class="math inline">\(w_i\)</span>, value <span class="math inline">\(v_i\)</span>, and the knapsack capacity is <span class="math inline">\(c\)</span>. The goal is to choose items to put
+into the knapsack such that the total value of items in the knapsack is
+maximized. However, in the fractional knapsack problem, you can take a
+fraction of item <span class="math inline">\(i\)</span> rather than
+having to take the item as a whole. Therefore, the fractional knapsack
+problem can be loaded directly based on the value per unit weight of
+each item. Items with higher value per unit weight are prioritized; once
+an item is fully packed, if the capacity <span class="math inline">\(c\)</span> is still not reached, the item with the
+next highest unit value is chosen, continuing until the knapsack is
+full. Obviously, this problem can be solved using a greedy algorithm,
+whereas the 0-1 knapsack problem cannot—because items in the 0-1
+knapsack problem cannot be divided, which means the overall optimal
+solution does not necessarily correspond to the top-down optimal choices
+of subproblems. The basic code of the algorithm is as follows:
+<hexopostrendercodeblock>
+<figure class="highlight c++">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">knapsack</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">float</span> M, <span class="hljs-type">float</span> v[], <span class="hljs-type">float</span> w[], <span class="hljs-type">float</span> x[])</span></span><br><span class="hljs-function"></span>{<br>    <span class="hljs-built_in">Sort</span>(n,v,w);<br>    <span class="hljs-type">int</span> i;<br>    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>    {<br>        x[i] = <span class="hljs-number">0</span>;<br>    }<br>    <span class="hljs-type">float</span> c = M;<br>    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">1</span>;i &lt;= n; i++)<br>    {<br>        <span class="hljs-keyword">if</span> (w[i] &gt; c)<br>        {<br>            <span class="hljs-keyword">break</span>;<br>        }<br>        x[i] = <span class="hljs-number">1</span>;<br>        c -= w[i];<br>    }<br>    <br>    <span class="hljs-keyword">if</span>(i &lt;= n)<br>    {<br>        x[i] = c/w[i];<br>    }<br>}<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p></p>
+<p>The upper bound of the computation time for the algorithm above is
+<span class="math inline">\(O(n \log{n})\)</span>.</p>
+<h2 id="algorithm-applications">2. Algorithm Applications</h2>
+<h3 id="single-source-shortest-path">2.1 Single Source Shortest
+Path</h3>
+<h4 id="problem-description">2.1.1 Problem Description</h4>
+<p>Given a weighted directed graph <span class="math inline">\(G=(V,E)\)</span>, where each edge's weight is a
+non-negative real number, and a given vertex in <span class="math inline">\(V\)</span> is designated as the source. Find the
+shortest path from the source to all other vertices in <span class="math inline">\(V\)</span>. The diagram below illustrates this
+problem:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post6/single_source_shortest_path.png" width="50%"></p>
+<h4 id="dijkstras-algorithm">2.1.2 Dijkstra's Algorithm</h4>
+<p>Dijkstra's algorithm is another classic example of the greedy
+algorithm design strategy. It selects the vertex <span class="math inline">\(u\)</span> in <span class="math inline">\(V-S\)</span> with the shortest distance and adds
+it to <span class="math inline">\(S\)</span>. Then, for each vertex
+<span class="math inline">\(v\)</span> in <span class="math inline">\(V-S\)</span>, if there exists an edge from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>, it updates the shortest path from the
+source to <span class="math inline">\(v\)</span>.</p>
+We describe Dijkstra's algorithm as follows: given an input weighted
+directed graph <span class="math inline">\(G=(V,E),
+V=\left\{1,2,\cdots,n\right\}\)</span>, with vertex <span class="math inline">\(v\)</span> as the source. A 2D array <span class="math inline">\(c[i][j]\)</span> is used to represent the weight
+of edge <span class="math inline">\((i,j)\)</span>. An array <span class="math inline">\(dist[i]\)</span> is used to store the current
+shortest path length from the source to vertex <span class="math inline">\(i\)</span>. The basic code is as follows:
+<hexopostrendercodeblock>
+<figure class="highlight c++">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs c++"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">Type</span>&gt;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Dijkstra</span><span class="hljs-params">(<span class="hljs-type">int</span> n, <span class="hljs-type">int</span> v, Type dist[], <span class="hljs-type">int</span> prev[], Type **c)</span></span><br><span class="hljs-function"></span>{<br>    <span class="hljs-type">bool</span> s[maxint];             <span class="hljs-comment">// Determine whether the shortest path has been found</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>    {<br>        dist[i] = c[v][i];<br>        s[i] = <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">if</span> (dist[i] == maxint)<br>        {<br>            prev[i] = <span class="hljs-number">0</span>;<br>        }<br>        <span class="hljs-keyword">else</span><br>        {<br>            prev[i] = v;<br>        }<br>    }<br>    dist[v] = <span class="hljs-number">0</span>;<br>    s[v] = <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; n; i++)<br>    {<br>        Type temp = maxint;<br>        <span class="hljs-type">int</span> u = v;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= n; j++)<br>        {<br>            <span class="hljs-keyword">if</span> ((!s[j]) &amp;&amp; (dist[j] &lt; temp))<br>            {<br>                u = j;<br>                temp = dist[j];<br>            }<br>        }<br>        s[u] = <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= n; j++)<br>        {<br>            <span class="hljs-keyword">if</span> ((!s[j]) &amp;&amp; (c[u][j] &lt; maxint))<br>            {<br>                Type newdist = dist[u] + c[u][j];<br>                <span class="hljs-keyword">if</span> (newdist &lt; dist[j])<br>                {<br>                    dist[j] = newdist;<br>                    prev[j] = u;<br>                }<br>            }<br>        }<br>    }<br>}<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p></p>
+<p>The overall time required to complete the algorithm above is <span class="math inline">\(O(n^2)\)</span>.</p>
+<p>For the directed graph given in problem description 2.1.1 above, we
+compute the shortest paths from source vertex 1 to other vertices and
+trace its iteration process, recorded in the table below:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Iteration</th>
+<th style="text-align: center;">S</th>
+<th style="text-align: center;">u</th>
+<th style="text-align: center;">dist[2]</th>
+<th style="text-align: center;">dist[3]</th>
+<th style="text-align: center;">dist[4]</th>
+<th style="text-align: center;">dist[5]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Initial</td>
+<td style="text-align: center;">{1}</td>
+<td style="text-align: center;">--</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">maxint</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">100</td>
+</tr>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">{1,2}</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">100</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">{1,2,4}</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">90</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">{1,2,4,3}</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">60</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">{1,2,4,3,5}</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">60</td>
+</tr>
+</tbody>
+</table>
+<p>For a detailed step-by-step analysis of the algorithm above, refer to
+this article: <a target="_blank" rel="noopener" href="https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/">Dijkstra's
+Shortest Path Algorithm - A Visual Introduction</a></p>
+<h3 id="minimum-spanning-tree">2.2 Minimum Spanning Tree</h3>
+<h4 id="problem-description-1">2.2.1 Problem Description</h4>
+<p>Let <span class="math inline">\(G(V,E)\)</span> be an undirected
+connected weighted graph. The weight of each edge <span class="math inline">\((v,w)\)</span> in <span class="math inline">\(E\)</span> is <span class="math inline">\(c[v][w]\)</span>. If a subgraph <span class="math inline">\(G'\)</span> of <span class="math inline">\(G\)</span> is a tree containing all vertices of
+<span class="math inline">\(G\)</span>, then <span class="math inline">\(G'\)</span> is called a spanning tree of <span class="math inline">\(G\)</span>. Among these, the spanning tree with
+the minimum total cost (or the minimum total edge weight) is called the
+Minimum Spanning Tree.</p>
+<p>Before solving this problem, we need to understand its properties.
+Let <span class="math inline">\(G=(V,E)\)</span> be a connected weighted
+graph, and let <span class="math inline">\(U\)</span> be a proper subset
+of <span class="math inline">\(V\)</span>. If <span class="math inline">\((u,v)\in E\)</span>, <span class="math inline">\(u\in U\)</span>, <span class="math inline">\(v \in
+V-U\)</span>, and <span class="math inline">\((u,v)\)</span> has the
+minimum weight among all such edges crossing the cut, then this edge
+must belong to a minimum spanning tree of <span class="math inline">\(G\)</span>.</p>
+<h4 id="prims-algorithm">2.2.2 Prim's Algorithm</h4>
+<p>For the aforementioned <span class="math inline">\(G\)</span>, first
+set <span class="math inline">\(S=\left\{1\right\}\)</span>. As long as
+<span class="math inline">\(S\)</span> is a proper subset of <span class="math inline">\(V\)</span>, make the following choice: pick the
+edge <span class="math inline">\((i,j)\)</span> with minimum <span class="math inline">\(c[i][j]\)</span> satisfying <span class="math inline">\(i \in S\)</span> and <span class="math inline">\(j
+\in V-S\)</span>, and add vertex <span class="math inline">\(j\)</span>
+to <span class="math inline">\(S\)</span>. Repeat until <span class="math inline">\(S=V\)</span>. In simple terms, it involves
+iteratively adding the "shortest" connecting edge to the spanning tree
+until all vertices are included, thereby obtaining the minimum spanning
+tree. Take the following connected weighted graph as an example:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post6/g.PNG"></p>
+<p>The image below illustrates the process of Prim's algorithm: <img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post6/Prim.PNG"></p>
+Simply put, the algorithm takes the original graph apart, starts from
+the initial vertex, evaluates all edges connecting visited vertices to
+unvisited vertices, finds the shortest one, adds the corresponding
+unvisited vertex to the set of visited vertices, and repeats this
+process. Below is the basic code: <hexopostrendercodeblock>
+<figure class="highlight c++">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs c++"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">Type</span>&gt;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Prim</span><span class="hljs-params">(<span class="hljs-type">int</span> n, Type** c)</span></span><br><span class="hljs-function"></span>{<br>    Type lowcost[maxint];<br>    <span class="hljs-type">int</span> closest[maxint];<br>    <span class="hljs-type">bool</span> s[maxint];<br>    s[<span class="hljs-number">1</span>] = <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++)<br>    {<br>        lowcost[i] = c[<span class="hljs-number">1</span>][i];<br>        closest[i] = <span class="hljs-number">1</span>;<br>        s[i] = <span class="hljs-literal">false</span>;<br>    }<br><br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; n; i++)<br>    {<br>        Type min = inf;<br>        <span class="hljs-type">int</span> j = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = <span class="hljs-number">2</span>; k &lt;= n; k++)<br>        {<br>            <span class="hljs-keyword">if</span>((lowcost[k] &lt; min) &amp;&amp; (!s[k]))<br>            {<br>                min = lowcost[k];<br>                j = k;<br>            }<br>        }<br>    }<br><br>    cout &lt;&lt; <span class="hljs-string">"("</span> &lt;&lt; closest[j] &lt;&lt; <span class="hljs-string">","</span> &lt;&lt; j &lt;&lt; <span class="hljs-string">")"</span> &lt;&lt; endl;<br>    s[j] = ture;<br>}<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p> Its time complexity is <span class="math inline">\(O(n^2)\)</span>.</p>
+<h4 id="kruskals-algorithm">2.2.3 Kruskal's Algorithm</h4>
+<p>Kruskal's algorithm is another commonly used algorithm for solving
+the minimum spanning tree problem. If Prim's algorithm starts from
+adjacent vertices and finds the next vertex by picking the shortest
+edge, Kruskal's algorithm starts by finding the shortest edges, using
+edges as the starting point to connect vertices and build the minimum
+spanning tree.</p>
+<p>The basic idea of the algorithm is: initially treat each vertex in
+the graph as an independent component (or tree). Sort all edges in
+non-decreasing order of weight, and inspect each edge in sequence to see
+whether it connects two independent components. If it does, add this
+edge and the connected vertices to the tree; otherwise, skip it and
+inspect the next edge. Once all edges have been processed, the minimum
+spanning tree is obtained.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post6/Kruskal.png"></p>
+Below is the basic code for the algorithm: <hexopostrendercodeblock>
+<figure class="highlight c++">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs c++"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">Type</span>&gt;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">EdgeNode</span><br>{<br>    freind ostream&amp; <span class="hljs-keyword">operator</span>&lt;&lt; (ostream&amp;,EdgeNode&lt;Type&gt;);<br>    <span class="hljs-function"><span class="hljs-keyword">friend</span> <span class="hljs-type">bool</span> <span class="hljs-title">Kruskal</span><span class="hljs-params">(<span class="hljs-type">int</span>, <span class="hljs-type">int</span>, EdgeNode&lt;Type&gt;*, EdgeNode&lt;Type&gt;* )</span></span>;<br>    <span class="hljs-function"><span class="hljs-keyword">friend</span> <span class="hljs-type">void</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span></span>;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">operator</span> <span class="hljs-title">Type</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span><br><span class="hljs-function">    </span>{<br>        <span class="hljs-keyword">return</span> weight;<br>    }<br><span class="hljs-keyword">private</span>:<br>    Type weight;<br>    <span class="hljs-type">int</span> u, v;<br>}<br><br><span class="hljs-comment">//Kruskal algorithm</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">Type</span>&gt;<br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Kruskal</span><span class="hljs-params">(<span class="hljs-type">int</span> n, <span class="hljs-type">int</span> e, EdgeNode&lt;Type&gt; E[], EdgeNode&lt;Type&gt; t[])</span></span><br><span class="hljs-function"></span>{<br>    MinHeap&lt;EdgeNode&lt;Type&gt;&gt; <span class="hljs-built_in">H</span>(<span class="hljs-number">1</span>); <span class="hljs-comment">// Use a min-heap to store sorted edges</span><br>    H.<span class="hljs-built_in">Initialize</span>(E, e, e);<br>    <span class="hljs-function">UnionFind <span class="hljs-title">UF</span><span class="hljs-params">(n)</span></span>; <span class="hljs-comment">// This is an abstract disjoint-set data structure supporting union and find operations</span><br>    <span class="hljs-type">int</span> k = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span> (e &amp;&amp; k &lt; n<span class="hljs-number">-1</span>)<br>    {<br>        EdgeNode&lt;<span class="hljs-type">int</span>&gt; x;<br>        H.<span class="hljs-built_in">DeleteMin</span>(x);<br>        e--;<br>        <span class="hljs-type">int</span> a = U.<span class="hljs-built_in">Find</span>(x.u);<span class="hljs-comment">// Find operation, returns the representative/root of the component containing the vertex</span><br>        <span class="hljs-type">int</span> b = U.<span class="hljs-built_in">Find</span>(x.v);<br>        <span class="hljs-keyword">if</span> (a != b)<span class="hljs-comment">// Check if vertices are in the same component</span><br>        {<br>            t[k++] = x;<br>            U.<span class="hljs-built_in">Union</span>(a, b);<span class="hljs-comment">// Union operation, merges the two components</span><br>        }<br>        H.<span class="hljs-built_in">Deactivate</span>(x);<br>        <span class="hljs-keyword">return</span> (k == n<span class="hljs-number">-1</span>);<br>    }<br>}<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p></p>
+<p>For a graph with <span class="math inline">\(e\)</span> edges,
+constructing the priority queue takes <span class="math inline">\(O(e)\)</span> time. DeleteMin takes <span class="math inline">\(O(\log{e})\)</span> time. Implementing UnionFind
+requires <span class="math inline">\(O(e \log{e})\)</span> or <span class="math inline">\(O(e \alpha(e))\)</span> time (where <span class="math inline">\(\alpha\)</span> is the inverse Ackermann function,
+often written as <span class="math inline">\(O(e \log^*{e})\)</span>).
+Therefore, the overall time complexity of Kruskal's algorithm is <span class="math inline">\(O(e \log{e})\)</span>.</p>
+<p>From this, it can be seen that when <span class="math inline">\(e=\Omega(n^2)\)</span> (dense graph), Kruskal's
+algorithm performs worse than Prim's algorithm, but when <span class="math inline">\(e=o(n^2)\)</span> (sparse graph), Kruskal's
+algorithm performs better than Prim's algorithm.</p>
+
+</hexopostrendercodeblock></hexopostrendercodeblock></hexopostrendercodeblock></hexopostrendercodeblock></div>
+		</div>
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong><span class="hexo-llm-en">Author</span>：</strong>KiRorY<br>
+        <strong><span class="hexo-llm-en">Permalink</span>：</strong><a href="/en/posts/6/" title="https://kirory.xyz/posts/6/" target="_blank" rel="noopener">https://kirory.xyz/posts/6/</a><br>
+        
+            <span class="hexo-llm-en"><strong>License：</strong>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN</a></span>
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			
+			
+			<div class="new">
+				<span><span class="hexo-llm-en">Next</span></span>
+				<a href="/en/posts/7/"> Windows Docker Installation and Storage Migration</a>
+			</div>
+			
+			
+			<div class="old">
+				<span><span class="hexo-llm-en">Previous</span></span>
+				<a href="/en/posts/5/"> Algorithm Analysis Notes: Dynamic Programming</a>
+			</div>
+			
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			
+				<a href="/en/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-i18n-key="学习笔记"><i class="kirafont icon-container-fill"></i> Study Notes</a>
+			
+		
+		
+			
+				<a href="/en/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" data-i18n-key="算法设计与分析"><i class="kirafont icon-tag-fill"></i> Algorithm Design and Analysis</a>
+			
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	<div class="giscus"></div>
+  
+    <script src="https://giscus.app/client.js" data-repo="KiRorY/kirory.github.io" data-repo-id="R_kgDOJ7eH2w" data-category="General" data-category-id="DIC_kwDOJ7eH284CX72n" data-mapping="specific" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async="" data-term="/posts/6/"></script>
+  
+
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+		<div class="kira-right-column">
+	<a class="kira-lang-switch" aria-label="切换到中文" title="切换到中文" href="/posts/6/" hreflang="zh-CN">
+		<button class="mdui-fab mdui-ripple">
+			<span id="lang-icon">中</span>
+		</button>
+	</a>
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="Back to top" title="Back to top">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+	</div>
+	
+<script src="/js/lang-switch.js"></script>
+
+
+
+</body></html>

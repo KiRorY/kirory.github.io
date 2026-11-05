@@ -1,0 +1,599 @@
+<!DOCTYPE html><html lang="en"><head><!-- hexo injector head_begin start -->
+
+<!-- hexo injector head_begin end -->
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title>Building a Remote Mobile Productivity Setup with ZeroTier and Terminal Emulators - KiRorY</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/BlogIcon-ver0.1.png" type="image/png">
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+			
+				
+<link rel="stylesheet" href="/css/custom.css">
+
+			
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+		
+		
+		
+	<!-- hexo injector head_end start -->
+<style>
+    .hexo-llm-zh { display: none; }
+    .hexo-llm-en { display: block; }
+    html[lang^="zh"] .hexo-llm-en { display: none !important; }
+    html[lang^="zh"] .hexo-llm-zh { display: block !important; }
+</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="canonical" href="https://kirory.xyz/en/posts/8/"><link rel="alternate" hreflang="zh-CN" href="https://kirory.xyz/posts/8/"><link rel="alternate" hreflang="en" href="https://kirory.xyz/en/posts/8/"><link rel="alternate" hreflang="x-default" href="https://kirory.xyz/posts/8/"><meta name="description" content="A practical guide to using ZeroTier virtual networking with terminal emulators on mobile devices, so tablets and phones can be used as remote productivity termi"><meta property="og:title" content="Building a Remote Mobile Productivity Setup with ZeroTier and Terminal Emulators"><meta property="og:description" content="A practical guide to using ZeroTier virtual networking with terminal emulators on mobile devices, so tablets and phones can be used as remote productivity termi"><meta property="og:url" content="https://kirory.xyz/en/posts/8/"><meta property="og:locale" content="en_US"><meta property="og:type" content="article"></head>
+
+	<body>
+		<div class="kira-background" style="background-image: url('https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/satori_and_koishi.JPG')"></div>
+		<div class="kira-header">
+    <a class="kira-drawer-button mdui-ripple" title="Navigation" onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');">
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/en/" title="KiRorY">
+        <img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" title="KiRorY">
+			<img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span class="hexo-llm-en">Posts</span>14</div>
+		<div><span class="hexo-llm-en">Tags</span>16</div>
+		<div><span class="hexo-llm-en">Categories</span>4</div>
+	</div>
+	<div class="kira-list">
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/" title="Home">
+			<i class="kirafont
+					
+						icon-home
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Home</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/archive.html" title="Archives">
+			<i class="kirafont
+					
+						icon-container
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Archives</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/about.html" title="About">
+			<i class="kirafont
+					
+						icon-user
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">About</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/friends.html" title="Friends">
+			<i class="kirafont
+					
+						icon-team
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Friends</span>
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a class="mdui-ripple" href="https://twitter.com/KiRorY223" target="_blank" mdui-tooltip="{content: 'Twitter'}" style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);">
+				<i class="kirafont
+					
+						icon-twitter
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://space.bilibili.com/79834065" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);">
+				<i class="kirafont
+					
+						icon-bilibili
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://github.com/KiRorY" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-github
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://steamcommunity.com/id/Kokoro_Daze/" target="_blank" mdui-tooltip="{content: 'Steam'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-steam
+					"></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+  <div class="kira-widget-wrap">
+    <h3 class="kira-widget-title"><span class="hexo-llm-en">Categories</span></h3>
+    <div class="kira-widget">
+      <ul class="category-list">
+        
+        
+
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-i18n-key="学习笔记">
+              Study Notes
+            </a>
+            <span class="category-list-count">4</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E6%95%99%E7%A8%8B/" data-i18n-key="教程">
+              Tutorials
+            </a>
+            <span class="category-list-count">7</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9A%8F%E8%AE%B0/" data-i18n-key="随记">
+              Musings
+            </a>
+            <span class="category-list-count">1</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9D%A2%E7%BB%8F/" data-i18n-key="面经">
+              Interview Experiences
+            </a>
+            <span class="category-list-count">2</span>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/en/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/en/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/en/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/en/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/en/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/en/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/" style="font-size: 15px;">Embedded Development</a> <a href="/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">Deep Learning</a> <a href="/en/tags/%E6%B8%B8%E8%AE%B0/" style="font-size: 10px;">Travelogue</a> <a href="/en/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">Productivity Tools</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" style="font-size: 10px;">Algorithm Complexity Analysis</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" style="font-size: 20px;">Algorithm Design and Analysis</a> <a href="/en/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 10px;">Terminal</a> <a href="/en/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" style="font-size: 10px;">Automation</a> <a href="/en/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" style="font-size: 10px;">Virtual Networking</a> <a href="/en/tags/%E8%AE%BF%E5%AD%A6/" style="font-size: 10px;">Academic Visit</a> <a href="/en/tags/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">Communication Protocols</a>
+		</div>
+		
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		© 2026
+		<a href="/en/">KiRorY</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &amp;
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br>
+		
+		
+	</div>
+</div>
+<div class="kira-sidebar-modal" id="sidebar-modal" onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img>
+                </div>
+                <div class="kira-image-now">
+                    <img>
+                </div>
+                <div class="kira-image-next">
+                    <img>
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div class="kira-post-cover">
+			<img data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/padcover.png" data-sizes="auto" alt="ZeroTier内网穿透+终端模拟器构建远程移动生产力工具" class="lazyload kira-post-cover-image disabled-kira-image">
+			<h1 data-zh-title="ZeroTier内网穿透+终端模拟器构建远程移动生产力工具" data-en-title="Building a Remote Mobile Productivity Setup with ZeroTier and Terminal Emulators">Building a Remote Mobile Productivity Setup with ZeroTier and Terminal Emulators</h1>
+		</div>
+		
+		
+		<div class="kira-post-meta kira-rainbow">
+			<a><i class="kirafont icon-calendar-fill"></i><span class="hexo-llm-en">12/07/2023</span></a>
+			<a><i class="kirafont icon-edit-fill"></i><span class="hexo-llm-en kira-stat-wordcount-en">1.2K words</span></a>
+			<a><i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-en kira-stat-readtime-en">About 7 min</span></a>
+		</div>
+		<div class="kira-post-content">
+			
+<div class="hexo-llm-en">
+
+<div class="hexo-llm-en" data-markdown="1">
+<blockquote>
+<p>A practical guide to using ZeroTier virtual networking with terminal
+emulators on mobile devices, so tablets and phones can be used as remote
+productivity terminals.</p>
+</blockquote>
+</div>
+<!-- more -->
+<hr>
+<h1 id="building-a-remote-mobile-productivity-tool-with-zerotier-nat-traversal-and-terminal-emulators">Building
+a Remote Mobile Productivity Tool with ZeroTier NAT Traversal and
+Terminal Emulators</h1>
+<p>Recently, I have been looking into NAT traversal and searching for
+traversal tools. Many recommendations online point to ZeroTier for
+virtual networking, so I decided to give it a try. The tool is free and
+essentially provides fool-proof networking, making it very convenient.
+Although its servers are located overseas, resulting in somewhat slower
+speeds, it is more than sufficient for SSH or FTP. Moreover, I recently
+discovered that ZeroTier also has mobile clients, which means that with
+a terminal emulator on a mobile device, remote development work becomes
+entirely feasible!</p>
+<h2 id="basic-usage-of-zerotier">Basic Usage of ZeroTier</h2>
+<h3 id="register-create-a-virtual-lan">Register / Create a Virtual
+LAN</h3>
+<p>Visit the <a target="_blank" rel="noopener" href="https://www.zerotier.com/">ZeroTier Official
+Website</a>, register an account, and log in. Once logged in, you will
+see an interface like the one below:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/Create_net.jpg"></p>
+<ul>
+<li>Click [Create A Network] at the top, and a new virtual LAN will be
+created in the Network list below. Click on it to enter the network
+settings interface.</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/Basic.png"></p>
+<ul>
+<li>In Basic settings, you can modify the network name, description, and
+privacy settings. It is recommended to set it to Private; after all, you
+don't want unauthorized access to your virtual LAN. The information
+required for connecting is the Network ID field.</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/advance.png"></p>
+<ul>
+<li>Next is the Advanced settings section. Here, you can configure
+subnet IP ranges, routes, and other details according to your
+preference. If you want to keep it simple, just select a memorable LAN
+address prefix in the IPv4 Address section and leave the rest as
+default.</li>
+</ul>
+<h3 id="install-the-client-on-target-devices-and-join-the-network">Install
+the Client on Target Devices and Join the Network</h3>
+<h4 id="desktop">1. Desktop</h4>
+<p>The client referred to here is zerotier-one. The <a target="_blank" rel="noopener" href="https://www.zerotier.com/download/">official download page</a>
+provides installation methods for various platforms. Our remote
+development server is typically a Linux system; you can download the
+corresponding package manually or install it using your system's package
+manager.</p>
+<hexopostrendercodeblock>
+<figure class="highlight bash">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs bash">sudo pacman -S zerotier-one <span class="hljs-comment">#Installation method on Arch Linux using pacman</span><br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p></p>
+<p>macOS and Windows use clients with graphical user interfaces (GUI);
+simply download and run the corresponding installer.</p>
+<h5 id="start-the-service-and-join-the-network-on-linux">Start the
+Service and Join the Network on Linux</h5>
+<ul>
+<li>First, start the zerotier-one service using your system's service
+manager:</li>
+</ul>
+<hexopostrendercodeblock>
+<figure class="highlight bash">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs bash">sudo systemctl <span class="hljs-built_in">enable</span> zerotier-one   <span class="hljs-comment">#Enable service on boot in Arch Linux</span><br>sudo systemctl start zerotier-one    <span class="hljs-comment">#Start the service</span><br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p></p>
+Run <code>sudo systemctl status zerotier-one</code> to verify if the
+service is running. A successful output looks like this:
+<hexopostrendercodeblock>
+<figure class="highlight bash">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs bash">● zerotier-one.service - ZeroTier One<br>     Loaded: loaded (/usr/lib/systemd/system/zerotier-one.service; enabled; preset: disabled)<br>     Active: active (running) since Fri 2023-12-08 15:16:00 CST; 7h ago<br>   Main PID: 2895 (zerotier-one)<br>      Tasks: 40 (<span class="hljs-built_in">limit</span>: 18783)<br>     Memory: 17.5M<br>        CPU: 29.195s<br>     CGroup: /system.slice/zerotier-one.service<br>             └─2895 /usr/bin/zerotier-one<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p></p>
+Join the network via the terminal (copy the Network ID you just
+created): <hexopostrendercodeblock>
+<figure class="highlight bash">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs bash">sudo zerotier-cli <span class="hljs-built_in">join</span> [YOUR_NETWORK_ID] <span class="hljs-comment">#Replace the brackets with your Network ID</span><br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p></p>
+Upon successful joining, a <code>200 join ok</code> prompt will appear.
+You can then run <code>sudo zerotier-cli status</code> to check which
+networks you have joined and confirm connection status. After joining,
+information formatted as follows should be displayed:
+<hexopostrendercodeblock>
+<figure class="highlight bash">
+<table>
+<tbody><tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><code class="hljs bash">200 info [JOINED_NETWORK_ID] [CLIENT_VERSION] [CONNECTION_STATUS (ONLINE/OFFLINE)]<br></code></pre>
+</td>
+</tr>
+</tbody></table>
+</figure>
+<p></p>
+<p>At this point, the client device has joined the network, but the
+administrator has not yet authorized its connection. The authorization
+procedure is detailed later in this article.</p>
+<h5 id="start-service-and-join-network-via-gui-on-windows-macos">Start
+Service and Join Network via GUI on Windows / macOS</h5>
+<p>Clients on Windows or macOS provide a GUI, making joining
+straightforward. After installation, launch ZeroTier One and right-click
+its system tray / menu bar icon (personal info redacted):</p>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/win.png"></p>
+<p>Click <code>Join New Network</code>, and paste your Network ID into
+the pop-up window.</p>
+<h4 id="mobile">2. Mobile</h4>
+<p>Android devices can download the app from the official website or
+Google Play Store. Apple devices may require an App Store account from
+an available region. Once downloaded, open the app and tap the + icon in
+the top right corner to add a new virtual LAN connection, which will
+bring up the following screen:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/ipad.png"></p>
+<p>Paste your Network ID into the NetworkID field.</p>
+<p>After joining, return to the main screen, where the corresponding
+network entry will appear with a toggle button on the right. When
+toggled on, the device will typically prompt you to authorize VPN
+configuration; grant permission. Once enabled, the device will connect
+to the network. If the VPN icon appears in your device's status bar, it
+means the connection attempt was initiated! However, since we haven't
+authorized the device on the subnet yet, the actual connection won't
+fully establish until authorized. Next, I will explain how to authorize
+devices to successfully connect to the newly created virtual LAN.</p>
+<h3 id="authorizing-devices">Authorizing Devices</h3>
+<p>After a device requests to join the network, you must approve access
+in the admin dashboard to enable the device connection within the
+network. Return to the management page of your network; under the
+<code>Members</code> section below, you will see the devices requesting
+to join:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/members.png"></p>
+<p>The Address column displays the device's Node ID / physical address.
+You can run <code>sudo zerotier-cli listnetworks</code> in the terminal
+or check the GUI client to find the current device's Node ID to match
+the target device.</p>
+<p>In front of each unauthorized device, there is an <code>Auth?</code>
+checkbox. Check this box to authorize the corresponding device to join
+the virtual network. You can also assign a name and a static IPv4
+address within the virtual network for each device; it is recommended to
+set unique names and addresses for better management. At this stage, the
+basic virtual network connection is established, and you can test
+connectivity by pinging between the assigned IP addresses within the
+network.</p>
+<h2 id="remote-development-using-mobile-ssh-tools-or-terminal-emulators">Remote
+Development Using Mobile SSH Tools or Terminal Emulators</h2>
+<p>Since I have recently been using the Neovim editor for development, I
+connect directly using a terminal emulator. Of course, there are plenty
+of editors available on mobile platforms for remote connections; choose
+whatever fits your workflow best. Below are demonstrations using the
+Termius terminal emulator and Code editor for remote connection, both
+tested on iPadOS.</p>
+<h4 id="termius-in-action">Termius in Action</h4>
+<ul>
+<li><p>Adding a connection <img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/1.gif"></p></li>
+<li><p>Workflow demonstration</p></li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/2.gif"></p>
+<h4 id="code-in-action">Code in Action</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post8/3.gif"></p>
+<p>Turn your mobile device into a real productivity powerhouse!</p>
+
+</hexopostrendercodeblock></hexopostrendercodeblock></hexopostrendercodeblock></hexopostrendercodeblock></hexopostrendercodeblock></div>
+		</div>
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong><span class="hexo-llm-en">Author</span>：</strong>KiRorY<br>
+        <strong><span class="hexo-llm-en">Permalink</span>：</strong><a href="/en/posts/8/" title="https://kirory.xyz/posts/8/" target="_blank" rel="noopener">https://kirory.xyz/posts/8/</a><br>
+        
+            <span class="hexo-llm-en"><strong>License：</strong>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN</a></span>
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			
+			
+			<div class="new">
+				<span><span class="hexo-llm-en">Next</span></span>
+				<a href="/en/posts/9/"> Solving Chinese Input Method Issues in Kitty Terminal Emulator under KDE Desktop</a>
+			</div>
+			
+			
+			<div class="old">
+				<span><span class="hexo-llm-en">Previous</span></span>
+				<a href="/en/posts/7/"> Windows Docker Installation and Storage Migration</a>
+			</div>
+			
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			
+				<a href="/en/categories/%E6%95%99%E7%A8%8B/" data-i18n-key="教程"><i class="kirafont icon-container-fill"></i> Tutorials</a>
+			
+		
+		
+			
+				<a href="/en/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" data-i18n-key="生产力工具"><i class="kirafont icon-tag-fill"></i> Productivity Tools</a>
+			
+				<a href="/en/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" data-i18n-key="虚拟组网"><i class="kirafont icon-tag-fill"></i> Virtual Networking</a>
+			
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	<div class="giscus"></div>
+  
+    <script src="https://giscus.app/client.js" data-repo="KiRorY/kirory.github.io" data-repo-id="R_kgDOJ7eH2w" data-category="General" data-category-id="DIC_kwDOJ7eH284CX72n" data-mapping="specific" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async="" data-term="/posts/8/"></script>
+  
+
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+		<div class="kira-right-column">
+	<a class="kira-lang-switch" aria-label="切换到中文" title="切换到中文" href="/posts/8/" hreflang="zh-CN">
+		<button class="mdui-fab mdui-ripple">
+			<span id="lang-icon">中</span>
+		</button>
+	</a>
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="Back to top" title="Back to top">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+	</div>
+	
+<script src="/js/lang-switch.js"></script>
+
+
+
+</body></html>

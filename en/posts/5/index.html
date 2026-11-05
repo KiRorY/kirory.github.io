@@ -1,0 +1,824 @@
+<!DOCTYPE html><html lang="en"><head><!-- hexo injector head_begin start -->
+
+<!-- hexo injector head_begin end -->
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title>Algorithm Analysis Notes: Dynamic Programming - KiRorY</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/BlogIcon-ver0.1.png" type="image/png">
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+			
+				
+<link rel="stylesheet" href="/css/custom.css">
+
+			
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+		
+	<!-- hexo injector head_end start -->
+<style>
+    .hexo-llm-zh { display: none; }
+    .hexo-llm-en { display: block; }
+    html[lang^="zh"] .hexo-llm-en { display: none !important; }
+    html[lang^="zh"] .hexo-llm-zh { display: block !important; }
+</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style>
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="canonical" href="https://kirory.xyz/en/posts/5/"><link rel="alternate" hreflang="zh-CN" href="https://kirory.xyz/posts/5/"><link rel="alternate" hreflang="en" href="https://kirory.xyz/en/posts/5/"><link rel="alternate" hreflang="x-default" href="https://kirory.xyz/posts/5/"><meta name="description" content="Dynamic Programming 1. Basic Algorithmic Idea It also solves problems by breaking down large problems into smaller ones, but it is specifically designed for cas"><meta property="og:title" content="Algorithm Analysis Notes: Dynamic Programming"><meta property="og:description" content="Dynamic Programming 1. Basic Algorithmic Idea It also solves problems by breaking down large problems into smaller ones, but it is specifically designed for cas"><meta property="og:url" content="https://kirory.xyz/en/posts/5/"><meta property="og:locale" content="en_US"><meta property="og:type" content="article"></head>
+
+	<body>
+		<div class="kira-background" style="background-image: url('https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/satori_and_koishi.JPG')"></div>
+		<div class="kira-header">
+    <a class="kira-drawer-button mdui-ripple" title="Navigation" onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');">
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/en/" title="KiRorY">
+        <img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" title="KiRorY">
+			<img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" alt="KiRorY">
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span class="hexo-llm-en">Posts</span>14</div>
+		<div><span class="hexo-llm-en">Tags</span>16</div>
+		<div><span class="hexo-llm-en">Categories</span>4</div>
+	</div>
+	<div class="kira-list">
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/" title="Home">
+			<i class="kirafont
+					
+						icon-home
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Home</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/archive.html" title="Archives">
+			<i class="kirafont
+					
+						icon-container
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Archives</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/about.html" title="About">
+			<i class="kirafont
+					
+						icon-user
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">About</span>
+			</div>
+		</a>
+		
+		<a class="kira-list-item mdui-ripple false" href="/en/friends.html" title="Friends">
+			<i class="kirafont
+					
+						icon-team
+					"></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-en">Friends</span>
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a class="mdui-ripple" href="https://twitter.com/KiRorY223" target="_blank" mdui-tooltip="{content: 'Twitter'}" style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);">
+				<i class="kirafont
+					
+						icon-twitter
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://space.bilibili.com/79834065" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);">
+				<i class="kirafont
+					
+						icon-bilibili
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://github.com/KiRorY" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-github
+					"></i>
+			</a>
+		
+			<a class="mdui-ripple" href="https://steamcommunity.com/id/Kokoro_Daze/" target="_blank" mdui-tooltip="{content: 'Steam'}" style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);">
+				<i class="kirafont
+					
+						icon-steam
+					"></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+  <div class="kira-widget-wrap">
+    <h3 class="kira-widget-title"><span class="hexo-llm-en">Categories</span></h3>
+    <div class="kira-widget">
+      <ul class="category-list">
+        
+        
+
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-i18n-key="学习笔记">
+              Study Notes
+            </a>
+            <span class="category-list-count">4</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E6%95%99%E7%A8%8B/" data-i18n-key="教程">
+              Tutorials
+            </a>
+            <span class="category-list-count">7</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9A%8F%E8%AE%B0/" data-i18n-key="随记">
+              Musings
+            </a>
+            <span class="category-list-count">1</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/en/categories/%E9%9D%A2%E7%BB%8F/" data-i18n-key="面经">
+              Interview Experiences
+            </a>
+            <span class="category-list-count">2</span>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/en/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/en/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/en/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/en/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/en/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/en/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/" style="font-size: 15px;">Embedded Development</a> <a href="/en/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">Deep Learning</a> <a href="/en/tags/%E6%B8%B8%E8%AE%B0/" style="font-size: 10px;">Travelogue</a> <a href="/en/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">Productivity Tools</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" style="font-size: 10px;">Algorithm Complexity Analysis</a> <a href="/en/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" style="font-size: 20px;">Algorithm Design and Analysis</a> <a href="/en/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 10px;">Terminal</a> <a href="/en/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" style="font-size: 10px;">Automation</a> <a href="/en/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" style="font-size: 10px;">Virtual Networking</a> <a href="/en/tags/%E8%AE%BF%E5%AD%A6/" style="font-size: 10px;">Academic Visit</a> <a href="/en/tags/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">Communication Protocols</a>
+		</div>
+		
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		© 2026
+		<a href="/en/">KiRorY</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &amp;
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br>
+		
+		
+	</div>
+</div>
+<div class="kira-sidebar-modal" id="sidebar-modal" onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img>
+                </div>
+                <div class="kira-image-now">
+                    <img>
+                </div>
+                <div class="kira-image-next">
+                    <img>
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div class="kira-post-cover">
+			<img data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/pjsk/mafuyu_pajamas.png" data-sizes="auto" alt="算法分析笔记:动态规划" class="lazyload kira-post-cover-image disabled-kira-image">
+			<h1>Algorithm Analysis Notes: Dynamic Programming</h1>
+		</div>
+		
+		
+		<div class="kira-post-meta kira-rainbow">
+			<a><i class="kirafont icon-calendar-fill"></i><span class="hexo-llm-en">08/18/2023</span></a>
+			<a><i class="kirafont icon-edit-fill"></i><span class="hexo-llm-en kira-stat-wordcount-en">3.1K words</span></a>
+			<a><i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-en kira-stat-readtime-en">About 19 min</span></a>
+		</div>
+		<div class="kira-post-content">
+			
+<div class="hexo-llm-en">
+<style>
+table {
+margin: auto;
+}
+</style>
+<h1 id="dynamic-programming">Dynamic Programming</h1>
+<h2 id="basic-algorithmic-idea">1. Basic Algorithmic Idea</h2>
+<blockquote>
+<p>It also solves problems by breaking down large problems into smaller
+ones, but it is specifically designed for cases where the subproblems
+are not independent.</p>
+</blockquote>
+<p>Dynamic programming algorithms are often used to solve optimization
+problems. The decomposed substructures at each level usually overlap,
+meaning that the subproblems generated each time are not completely new;
+a subproblem may contain solutions to subproblems from the previous
+level. To improve computational efficiency, a table is generally used to
+record the solutions to subproblems so that they can be easily retrieved
+when combining upwards. Generally speaking, it can be designed according
+to the following steps:</p>
+<ol type="1">
+<li>Characterize the structure of an optimal solution;</li>
+<li>Recursively define the value of an optimal solution;</li>
+<li>Compute the value of an optimal solution in a bottom-up
+fashion;</li>
+<li>Construct an optimal solution from the computed information.</li>
+</ol>
+<p><b>Basic Elements of Dynamic Programming:</b></p>
+<ol type="1">
+<li><i>Optimal Substructure:</i> A problem is said to have optimal
+substructure if an optimal solution to the problem contains within it
+optimal solutions to subproblems.</li>
+<li><i>Overlapping Subproblems:</i> When using a dynamic programming
+algorithm, the subproblems generated at each step are not entirely new;
+they may share common subproblems. By utilizing the table-recording
+method mentioned above, problems can generally be solved in polynomial
+time.</li>
+<li><i>Memoization Method:</i> This is a variation of the dynamic
+programming algorithm. Also using a table, the memoization method
+employs a top-down computational approach. It creates an entry for each
+subproblem, checks whether the subproblem has already been solved, uses
+the recorded value if it has, and otherwise computes and records
+it.</li>
+</ol>
+<h2 id="algorithm-applications">2. Algorithm Applications</h2>
+<h3 id="matrix-chain-multiplication">2.1 Matrix Chain
+Multiplication</h3>
+<h4 id="problem-description">2.1.1 Problem Description</h4>
+<p>Given <span class="math inline">\(n\)</span> matrices <span class="math inline">\(\{A_1, A_2, \dots, A_n\}\)</span>, where <span class="math inline">\(A_i\)</span> and <span class="math inline">\(A_{i+1}\)</span> are compatible for multiplication
+(<span class="math inline">\(i=1, 2, \dots, n-1\)</span>). Find the
+matrix product <span class="math inline">\(A_1A_2\cdots
+A_n\)</span>.</p>
+<p>Matrix multiplication is associative, so the order of multiplications
+can be altered. We use parenthesization to specify the order of
+multiplications in the matrix chain product.</p>
+<p>For example, for the product of four matrices <span class="math inline">\(A_1A_2A_3A_4\)</span>, there are 5 possible
+parenthesizations: <span class="math display">\[
+\begin{gathered}
+(A_1(A_2(A_3A_4))),(A_1((A_2A_3)A_4)),((A_1A_2)(A_3A_4)),\\
+((A_1(A_2A_3))A_4),(((A_1A_2)A_3)A_4)
+\end{gathered}
+\]</span> Due to the properties of matrix multiplication, different
+multiplication orders require different numbers of scalar
+multiplications. Let <span class="math inline">\(ra, ca\)</span> and
+<span class="math inline">\(rb, cb\)</span> denote the dimensions of
+matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> respectively. The standard algorithm
+code to compute their matrix product is as follows: </p><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">matrix_multiply</span><span class="hljs-params">(<span class="hljs-type">int</span> **a, <span class="hljs-type">int</span> **b, <span class="hljs-type">int</span> ra, <span class="hljs-type">int</span> ca, <span class="hljs-type">int</span> rb, <span class="hljs-type">int</span> cb)</span>  <span class="hljs-comment">//a,b表示表示矩阵</span></span><br><span class="hljs-function"></span>{<br>    <span class="hljs-keyword">if</span>(ca != cb)<br>    {<br>        <span class="hljs-built_in">error</span>(<span class="hljs-string">"Unmultiplyable matrix!"</span>);<br>    }<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; ra; i++)<br>    {<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; cb; j++)<br>        {<br>            <span class="hljs-type">int</span> sum = a[i][<span class="hljs-number">0</span>]*b[<span class="hljs-number">0</span>][j];<br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = <span class="hljs-number">1</span>; k &lt; ca; k++ )<br>            {<br>                sum += a[i][k]*b[k][j];<br>            }<br>            c[i][j] = sum;<br>        }<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure><p></p>
+<h4 id="algorithm-design">2.1.2 Algorithm Design</h4>
+<p>For the matrix chain product <span class="math inline">\(A_iA_{i+1}\cdots A_j\)</span>, denote it as <span class="math inline">\(A[i:j]\)</span>. For a parenthesization <span class="math inline">\(((A_1\cdots A_k)(A_{k+1}\cdots A_n))\)</span>, the
+number of operations required is the cost of computing <span class="math inline">\(A[1:k]\)</span> plus the cost of computing <span class="math inline">\(A[k+1:n]\)</span>, plus the cost of multiplying
+the two resulting matrices together.</p>
+<h5 id="computing-the-optimal-value">Computing the Optimal Value:</h5>
+<p>Let <span class="math inline">\(m[i][j]\)</span> be the minimum
+number of scalar multiplications needed to compute <span class="math inline">\(A[i:j]\)</span> (<span class="math inline">\(1\leqslant i\leqslant j \leqslant n\)</span>). The
+optimal solution to the original problem is the value of <span class="math inline">\(m[1][n]\)</span>. Assuming the optimal split
+occurs at <span class="math inline">\(k\)</span> (<span class="math inline">\(i\leqslant k&lt;j\)</span>), <span class="math inline">\(m[i][j]\)</span> can be recursively defined
+as:</p>
+<p><span class="math display">\[
+m[i][j]=
+\left\{
+    \begin{aligned}
+        &amp;0 &amp;i=j \\
+        &amp;\min_{i\leqslant k &lt; j} \left \{
+m[i][k]+m[k+1][j]+p_{i-1}p_{k}p_{j}\right\} &amp;i&lt;j
+    \end{aligned}
+\right.
+\]</span></p>
+<p>where <span class="math inline">\(p_i\)</span> denotes the number of
+columns of matrix <span class="math inline">\(A_i\)</span>, and from the
+properties of matrix multiplication, <span class="math inline">\(p_{i-1}\)</span> denotes the number of rows of
+matrix <span class="math inline">\(A_i\)</span>.</p>
+<p>For each <span class="math inline">\(k\)</span>, there is a
+corresponding <span class="math inline">\(m[i][j]\)</span>. We establish
+another table <span class="math inline">\(s[i][j]\)</span> to store the
+value of <span class="math inline">\(k\)</span>, so that after obtaining
+the optimal value <span class="math inline">\(m[i][j]\)</span>, the
+corresponding optimal solution can be reconstructed recursively from
+<span class="math inline">\(s[i][j]\)</span>. We compute the matrix
+<span class="math inline">\(m\)</span> using the recurrence relation.
+The basic code is given below: </p><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">matrix_chain</span><span class="hljs-params">(<span class="hljs-type">int</span> *p, <span class="hljs-type">int</span> n, <span class="hljs-type">int</span> **m, <span class="hljs-type">int</span> **s)</span></span><br><span class="hljs-function"></span>{<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>    {<br>        m[i][i] = <span class="hljs-number">0</span>;<br>    }<br><br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> r = <span class="hljs-number">2</span>; r &lt;= n; r++)<br>    {<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n-r+<span class="hljs-number">1</span>; i++)<br>        {<br>            <span class="hljs-type">int</span> j = i+r<span class="hljs-number">-1</span>;<br>            m[i][j] = m[i+<span class="hljs-number">1</span>][j]+p[i<span class="hljs-number">-1</span>]*p[i]*p[j];<br>            s[i][j] = i;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = i+<span class="hljs-number">1</span>; k &lt; j; k++)<br>            {<br>                <span class="hljs-type">int</span> t = m[i][k]+m[k+<span class="hljs-number">1</span>][j]+p[i<span class="hljs-number">-1</span>]*p[k]*p[j];<br>                <span class="hljs-keyword">if</span>(t &lt; m[i][j])<br>                {<br>                    m[i][j] = t;<br>                    s[i][j] = k;<br>                }<br>            }<br>        }<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure><p></p>
+<p>Here is an example from the book <em>Computer Algorithm Design and
+Analysis</em> for better understanding. Suppose we need to compute the
+matrix chain product <span class="math inline">\(A_1A_2A_3A_4A_5A_6\)</span>. The dimensions are as
+follows:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Matrix</th>
+<th style="text-align: center;">A1</th>
+<th style="text-align: center;">A2</th>
+<th style="text-align: center;">A3</th>
+<th style="text-align: center;">A4</th>
+<th style="text-align: center;">A5</th>
+<th style="text-align: center;">A6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Dimensions</td>
+<td style="text-align: center;">30x35</td>
+<td style="text-align: center;">35x15</td>
+<td style="text-align: center;">15x5</td>
+<td style="text-align: center;">5x10</td>
+<td style="text-align: center;">10x20</td>
+<td style="text-align: center;">20x25</td>
+</tr>
+</tbody>
+</table>
+<p>The computation order and the corresponding <span class="math inline">\(m\)</span> and <span class="math inline">\(s\)</span> tables are as follows:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post5/maxtrix.png"></p>
+<p>For example, when calculating <span class="math inline">\(m[1][3]\)</span>, the recurrence is:</p>
+<span class="math display">\[\begin{aligned}
+
+m[1][3] &amp;= \min
+\left \{
+    \begin{aligned}
+        &amp;m[1][1]+m[2][3]+p_0p_1p_3 &amp;=&amp;
+0+2625+30\times35\times5=7875 \\
+        &amp;m[1][2]+m[3][3]+p_0p_2p_3 &amp;=&amp;
+15750+0+30\times15\times5=18000 \\
+    \end{aligned}
+\right.
+
+\\
+
+&amp;=7875
+\end{aligned}\]</span>
+<p>During the computation, we find that the smaller value is achieved
+when <span class="math inline">\(k=1\)</span>, so <span class="math inline">\(s[1][3]=1\)</span>. After completing the
+computation of table <span class="math inline">\(m\)</span>, the optimal
+value <span class="math inline">\(m[1][n]\)</span> is obtained.</p>
+<h5 id="constructing-the-optimal-solution">Constructing the Optimal
+Solution:</h5>
+<p>The above method only computes the minimum number of operations, but
+does not provide the specific multiplication sequence. In fact, the data
+stored in table <span class="math inline">\(s\)</span> contains the
+sequence information corresponding to each computation.</p>
+<p>For example, the information recorded in <span class="math inline">\(s[1][n]\)</span> indicates that the optimal way to
+compute <span class="math inline">\(A[1:n]\)</span> is: <span class="math inline">\((A[1:s[1][n]])(A[s[1][n]+1:n])\)</span>.
+Similarly, the optimal parenthesization for the internal <span class="math inline">\(A[1:s[1][n]]\)</span> is: <span class="math inline">\((A[1:s[1][s[1][n]]])(A[s[1][s[1][n]]+1:s[1][s[1][n]]])\)</span>.
+By continuing this recursion, the optimal computation order for <span class="math inline">\(A[1:n]\)</span> can finally be determined. Below
+is the code implementation of this recursion: </p><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Trace_back_matrix</span><span class="hljs-params">(<span class="hljs-type">int</span> i, <span class="hljs-type">int</span> j, <span class="hljs-type">int</span> **s)</span></span><br><span class="hljs-function"></span>{<br>    <span class="hljs-keyword">if</span> (i == j)<br>    {<br>        <span class="hljs-keyword">return</span>;<br>    }<br><br>    <span class="hljs-built_in">Trace_back_matrix</span>(i, s[i][j], s);<br>    <span class="hljs-built_in">Trace_back_matrix</span>(s[i][j]+<span class="hljs-number">1</span>, j, s);<br>    cout &lt;&lt; <span class="hljs-string">"Multiply A"</span> &lt;&lt; i &lt;&lt;<span class="hljs-string">","</span> &lt;&lt;s[i][j];<br>    cout &lt;&lt; <span class="hljs-string">" and A"</span> &lt;&lt; s[i][j]+<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-string">","</span> &lt;&lt; j &lt;&lt; endl;<br>}<br></code></pre></td></tr></tbody></table></figure> By calling
+<code>Trace_back_matrix(1, n, s)</code>, the optimal computation order
+can be obtained.<p></p>
+<h3 id="longest-common-subsequence-lcs">2.2 Longest Common Subsequence
+(LCS)</h3>
+<h4 id="problem-description-1">2.2.1 Problem Description</h4>
+<p>Given two sequences <span class="math inline">\(X=\{x_1,x_2,\dots,x_m\}\)</span> and <span class="math inline">\(Y=\{y_1,y_2,\dots,y_n\}\)</span>, find the longest
+common subsequence of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<p>For this type of problem, it is clear that it has the optimal
+substructure property. Let <span class="math inline">\(Z=\left\{z_1,z_2,\dots,z_k\right\}\)</span> be any
+longest common subsequence of sequences <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, then:</p>
+<ol type="1">
+<li>If <span class="math inline">\(x_m=y_n\)</span>, then <span class="math inline">\(z_k=x_m=y_n\)</span>, and <span class="math inline">\(Z_{k-1}\)</span> is a longest common subsequence
+of <span class="math inline">\(X_{m-1}\)</span> and <span class="math inline">\(Y_{n-1}\)</span>;</li>
+<li>If <span class="math inline">\(x_m\neq y_n\)</span> and <span class="math inline">\(z_k\neq x_m\)</span>, then <span class="math inline">\(Z\)</span> is a longest common subsequence of
+<span class="math inline">\(X_{m-1}\)</span> and <span class="math inline">\(Y\)</span>;</li>
+<li>If <span class="math inline">\(x_m\neq y_n\)</span> and <span class="math inline">\(z_k\neq y_n\)</span>, then <span class="math inline">\(Z\)</span> is a longest common subsequence of
+<span class="math inline">\(X\)</span> and <span class="math inline">\(Y_{n-1}\)</span>.</li>
+</ol>
+<p>To understand the above rules simply: if <span class="math inline">\(z_k\neq x_m\)</span> and there exists a common
+subsequence <span class="math inline">\(W\)</span> with a length greater
+than <span class="math inline">\(k\)</span>, then the length of <span class="math inline">\(W\)</span> must be strictly greater than <span class="math inline">\(Z\)</span>, meaning <span class="math inline">\(W\)</span> would be a common subsequence of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> with length greater than <span class="math inline">\(k\)</span>. This contradicts the assumption that
+<span class="math inline">\(Z\)</span> is the longest common subsequence
+of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. Therefore, <span class="math inline">\(Z\)</span> must be a longest common subsequence of
+<span class="math inline">\(X_{m-1}\)</span> and <span class="math inline">\(Y\)</span>. Other cases can be proven
+similarly.</p>
+<h4 id="algorithm-design-1">2.2.2 Algorithm Design</h4>
+<p>From the three rules mentioned above, we can see that this problem
+possesses optimal substructure and overlapping subproblems. The
+recursive approach is as follows: 1. If <span class="math inline">\(x_m=y_n\)</span>, find the LCS of <span class="math inline">\(X_{m-1}\)</span> and <span class="math inline">\(Y_{n-1}\)</span>, and append <span class="math inline">\(x_m (x_m=y_n)\)</span> to the end of this
+subsequence; 2. If <span class="math inline">\(x_m\neq y_n\)</span>,
+find an LCS of <span class="math inline">\(X_{m-1}\)</span> and <span class="math inline">\(Y\)</span>, and an LCS of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y_{n-1}\)</span>, then compare the lengths of the
+two LCSs and take the longer one as the LCS of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<p>We build a table <span class="math inline">\(c\)</span> to record the
+lengths of common subsequences. Suppose we want to determine the
+sequences <span class="math inline">\(X_i=\left\{x_1,x_2,\dots,x_i\right\}\)</span> and
+<span class="math inline">\(Y_j=\left\{y_1,y_2,\dots,y_j\right\}\)</span>.
+When <span class="math inline">\(i=0\)</span> or <span class="math inline">\(j=0\)</span>, the empty sequence is their longest
+common subsequence, at which point <span class="math inline">\(c[i][j]=0\)</span>. The recurrence relation
+summarized above is:</p>
+<p><span class="math display">\[
+c[i][j]=
+\left\{
+    \begin{aligned}
+        &amp;0  &amp;i=0 \text{ or } j=0 \\
+        &amp;c[i-1][j-1]+1   &amp;i,j&gt;0;x_i=y_j \\
+        &amp;\max \left \{ c[i][j-1],c[i-1][j] \right \}
+&amp;i,j&gt;0;x_i\neq y_j  
+    \end{aligned}
+\right.
+\]</span></p>
+<p>We use table <span class="math inline">\(b\)</span> to record which
+subproblem the corresponding value in <span class="math inline">\(c\)</span> was obtained from. Based on the
+recurrence relation, we obtain the following code: </p><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">LCS_length</span><span class="hljs-params">(<span class="hljs-type">int</span> m, <span class="hljs-type">int</span> n, <span class="hljs-type">char</span> *x, <span class="hljs-type">char</span> *y, <span class="hljs-type">int</span> **c, <span class="hljs-type">int</span> **b)</span></span><br><span class="hljs-function"></span>{<br>    <span class="hljs-type">int</span> i,j;<br>    <span class="hljs-comment">//初始化</span><br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">1</span>; i &lt;= m; i++) <br>    {<br>        c[i][<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;<br>    }<br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>    {<br>        c[<span class="hljs-number">0</span>][i] = <span class="hljs-number">0</span>;<br>    }<br><br>    <span class="hljs-comment">//构造c和b表</span><br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">1</span>; i &lt;= m; i++)<br>    {<br>        <span class="hljs-keyword">for</span>(j = <span class="hljs-number">1</span>; j &lt;= n; j++)<br>        {<br>            <span class="hljs-keyword">if</span>(x[i] == y[j])<br>            {<br>                c[i][j] = c[i<span class="hljs-number">-1</span>][j<span class="hljs-number">-1</span>]+<span class="hljs-number">1</span>;<br>                b[i][j] = <span class="hljs-number">1</span>;<br>            }<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(c[i<span class="hljs-number">-1</span>][j] &gt;= c[i][j<span class="hljs-number">-1</span>])<br>            {<br>                c[i][j] = c[i<span class="hljs-number">-1</span>][j];<br>                b[i][j] = <span class="hljs-number">2</span>;<br>            }<br>            <span class="hljs-keyword">else</span> <br>            {<br>                c[i][j] = c[i][j<span class="hljs-number">-1</span>];<br>                b[i][j] = <span class="hljs-number">3</span>;<br>            }<br>        }<br>    }<br></code></pre></td></tr></tbody></table></figure><p></p>
+<p><span class="math inline">\(c[m][n]\)</span> contains the length of
+the longest common subsequence. The time complexity of this function is
+<span class="math inline">\(O(mn)\)</span>. Next, we recursively
+reconstruct the LCS using table <span class="math inline">\(b\)</span>:
+</p><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">LCS</span><span class="hljs-params">(<span class="hljs-type">int</span> i, <span class="hljs-type">int</span> j, <span class="hljs-type">char</span> *x, <span class="hljs-type">int</span> **b)</span></span><br><span class="hljs-function"></span>{<br>    <span class="hljs-keyword">if</span>(i == <span class="hljs-number">0</span> || j == <span class="hljs-number">0</span>)<br>    {<br>        <span class="hljs-keyword">return</span><br>    }<br><br>    <span class="hljs-keyword">if</span>(b[i][j] == <span class="hljs-number">1</span>)<br>    {<br>        <span class="hljs-built_in">LCS</span>(i<span class="hljs-number">-1</span>, j<span class="hljs-number">-1</span>, x, b);<br>        cout &lt;&lt; x[i];<br>    }<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(b[i][j] == <span class="hljs-number">2</span>)<br>    {<br>        <span class="hljs-built_in">LCS</span>(i<span class="hljs-number">-1</span>, j, x, b);<br>    }<br>    <span class="hljs-keyword">else</span><br>    {<br>        <span class="hljs-built_in">LCS</span>(i, j<span class="hljs-number">-1</span>, x, b);<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure><p></p>
+<p>The time complexity of this algorithm is <span class="math inline">\(O(m+n)\)</span>.</p>
+<p>In practice, table <span class="math inline">\(b\)</span> can be
+omitted because in table <span class="math inline">\(c\)</span>, the
+element <span class="math inline">\(c[i][j]\)</span> is solely
+determined by three elements: <span class="math inline">\(c[i-1][j-1]\)</span>, <span class="math inline">\(c[i-1][j]\)</span>, and <span class="math inline">\(c[i][j-1]\)</span>. Therefore, even without table
+<span class="math inline">\(b\)</span>, we can still determine which of
+the three elements determined the current value.</p>
+<h3 id="maximum-subarray-sum">2.3 Maximum Subarray Sum</h3>
+<h4 id="problem-description-2">2.3.1 Problem Description</h4>
+<p>Given a sequence of <span class="math inline">\(n\)</span> integers
+<span class="math inline">\(A=\{a_1,a_2,\dots,a_n\}\)</span>, find the
+maximum value of the subarray sum of the form <span class="math inline">\(\sum\limits_{k=i}^{j}a_k\)</span>.</p>
+<p>In this problem, negative integers are allowed in the sequence. If
+all integers in the sequence are negative, the maximum subarray sum is
+defined as <span class="math inline">\(0\)</span>. For example, when
+<span class="math inline">\((a_1,a_2,a_3,a_4,a_5,a_6)=(-2,11,-4,13,-5,-2)\)</span>,
+the maximum subarray sum is <span class="math inline">\(\sum\limits_{k=2}^4a_k=20\)</span>.</p>
+<h4 id="divide-and-conquer-solution">2.3.2 Divide-and-Conquer
+Solution</h4>
+<p>For this problem, we can use a divide-and-conquer approach. We divide
+the sequence <span class="math inline">\(a[1:n]\)</span> into two
+segments of equal length and find their maximum subarray sums
+separately. There are three cases:</p>
+<ol type="1">
+<li>The maximum subarray sum of <span class="math inline">\(a[1:n]\)</span> is identical to the maximum
+subarray sum of <span class="math inline">\(a[1:\frac{n}{2}]\)</span>;</li>
+<li>The maximum subarray sum of <span class="math inline">\(a[1:n]\)</span> is identical to the maximum
+subarray sum of <span class="math inline">\(a[\frac{n}{2}+1:n]\)</span>;</li>
+<li>The maximum subarray sum of <span class="math inline">\(a[1:n]\)</span> is <span class="math inline">\(\sum\limits_{k=i}^ja_k\)</span>, where <span class="math inline">\(1\leqslant i\leqslant \frac{n}{2}\)</span> and
+<span class="math inline">\(\frac{n}{2}+1\leqslant j\leqslant
+n\)</span>.</li>
+</ol>
+<p>For cases 1 and 2, we can simply solve them recursively. For case 3,
+we know that the two middle numbers adjacent to the split point must be
+in the optimal subarray. Therefore, we can expand outwards from the
+split point towards both ends of the sequence. In this way, we can
+obtain the maximum subarray sum. Specifically, compute <span class="math inline">\(s_1=\max\limits_{1\leqslant i\leqslant
+\frac{n}{2}}\sum\limits_{k=i}^{n/2}a[k]\)</span> in <span class="math inline">\(a[1:\frac{n}{2}]\)</span>, compute <span class="math inline">\(s_2=\max\limits_{\frac{n}{2}+1\leqslant j\leqslant
+n}\sum\limits_{k=\frac{n}{2}+1}^{j}a[k]\)</span> in <span class="math inline">\(a[\frac{n}{2}+1:n]\)</span>, and then <span class="math inline">\(s_1+s_2\)</span> will be the maximum subarray sum
+crossing the midpoint.</p>
+<p>The time complexity of this algorithm is <span class="math inline">\(O(n\log n)\)</span>. The code implementation is
+given below: </p><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Max_sub_sum</span><span class="hljs-params">(<span class="hljs-type">int</span> *a, <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span></span><br><span class="hljs-function"></span>{<br>    <span class="hljs-type">int</span> sum = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">if</span> (left == right)<br>    {<br>        sum = a[left] &gt; <span class="hljs-number">0</span> ? a[left]:<span class="hljs-number">0</span>;<br>    }<br>    <span class="hljs-keyword">else</span> <br>    {<br>        <span class="hljs-type">int</span> center = (left+right)/<span class="hljs-number">2</span>;<br>        <span class="hljs-type">int</span> left_sum = <span class="hljs-built_in">Max_sub_sum</span>(a, left, center);<br>        <span class="hljs-type">int</span> right_sum = <span class="hljs-built_in">Max_sub_sum</span>(a, center+<span class="hljs-number">1</span>, right);<br>        <span class="hljs-type">int</span> s1 = <span class="hljs-number">0</span>;<br>        <span class="hljs-type">int</span> lefts = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = center; i &gt;= left; i--)<br>        {<br>            lefts += a[i];<br>            <span class="hljs-keyword">if</span>(lefts &gt; s1)<br>            {<br>                s1 = lefts;<br>            }<br>        }<br>        <span class="hljs-type">int</span> s2 = <span class="hljs-number">0</span>;<br>        <span class="hljs-type">int</span> rights = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = center+<span class="hljs-number">1</span>; i &lt;= right; i++)<br>        {<br>            rights += a[i];<br>            <span class="hljs-keyword">if</span>(rights &gt; s2)<br>            {<br>                s2 = rights;<br>            }<br>        }<br>        sum = s1+s2;<br>        <span class="hljs-keyword">if</span>(sum &lt; left_sum)<br>        {<br>            sum = left_sum;<br>        }<br>        <span class="hljs-keyword">if</span>(sum &lt; right_sum)<br>        {<br>            sum = right_sum;<br>        }<br>    }<br>    <span class="hljs-keyword">return</span> sum;<br>}<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Max_sum</span><span class="hljs-params">(<span class="hljs-type">int</span> *a, <span class="hljs-type">int</span> n)</span></span><br><span class="hljs-function"></span>{<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Max_sub_sum</span>(a, <span class="hljs-number">1</span>, n);<br>}<br></code></pre></td></tr></tbody></table></figure><p></p>
+<h4 id="dynamic-programming-solution">2.3.3 Dynamic Programming
+Solution</h4>
+<p>If <span class="math inline">\(b[j]=\max\limits_{1\leqslant i
+\leqslant j} \{ \sum\limits_{k=i}^ja[k]\}(1\leqslant j \leqslant
+n)\)</span>, then the maximum subarray sum to be found is: <span class="math display">\[
+\max\limits_{1\leqslant i \leqslant j \leqslant n}\sum\limits_{k=i}^j
+a[k]=\max\limits_{1\leqslant j \leqslant n } \left\{
+\max\limits_{1\leqslant i \leqslant j} \sum\limits_{k=i}^ja[k] \right\}
+=\max\limits_{1\leqslant j \leqslant n}b[j]
+\]</span></p>
+<p>From this, it can be seen that when <span class="math inline">\(b[j-1]&gt;0\)</span>, <span class="math inline">\(b[j]=b[j-1]+a[j]\)</span>; otherwise, <span class="math inline">\(b[j]=a[j]\)</span>. We obtain the recurrence
+relation: <span class="math display">\[
+b[j] = \max\{b[j-1]+a[j],a[j]\} \qquad 1\leqslant j \leqslant n
+\]</span></p>
+<p>Both the time and space complexity of this algorithm are <span class="math inline">\(O(n)\)</span>, and the code is as follows:
+</p><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Max_sum</span><span class="hljs-params">(<span class="hljs-type">int</span> *a, <span class="hljs-type">int</span> n)</span></span><br><span class="hljs-function"></span>{<br>    <span class="hljs-type">int</span> sum = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> b = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>    {<br>        <span class="hljs-keyword">if</span>(b &gt; <span class="hljs-number">0</span>)<br>        {<br>            b += a[i];<br>        }<br>        <span class="hljs-keyword">else</span><br>        {<br>            b = a[i];<br>        }<br>        <span class="hljs-keyword">if</span>(b &gt; sum)<br>        {<br>            sum = b;<br>        }<br>    }<br>    <span class="hljs-keyword">return</span> sum;<br>}<br></code></pre></td></tr></tbody></table></figure><p></p>
+<h3 id="knapsack">2.4 0-1 Knapsack</h3>
+<h4 id="problem-description-3">2.4.1 Problem Description</h4>
+<p>Given <span class="math inline">\(n\)</span> items and a knapsack of
+capacity <span class="math inline">\(c\)</span>, where item <span class="math inline">\(i\)</span> has weight <span class="math inline">\(w_i\)</span> and value <span class="math inline">\(v_i\)</span>. Determine which items to pack into
+the knapsack so that the total value is maximized.</p>
+<h4 id="algorithm-design-2">2.4.2 Algorithm Design</h4>
+<p>Suppose <span class="math inline">\((y_1, y_2, \dots, y_n)\)</span>
+is an optimal solution to the given 0-1 knapsack problem. Then <span class="math inline">\((y_2, y_3, \dots, y_n)\)</span> is an optimal
+solution to the following subproblem:</p>
+<p><span class="math display">\[
+\max{\sum\limits_{i=2}^n v_iy_i}
+\qquad
+\left\{
+    \begin{aligned}
+        &amp;\sum\limits_{i=2}^n w_iy_i \leqslant c-w_1y_1 \\
+        &amp;y_i \in \{0,1\} \qquad 2\leqslant i \leqslant n
+    \end{aligned}
+\right.
+\]</span></p>
+<p>Clearly, this problem exhibits the optimal substructure property. Let
+the optimal value of the 0-1 knapsack problem be <span class="math inline">\(m(i,j)\)</span>, then its recurrence relation is:
+<span class="math display">\[
+m(i,j)=
+\left\{
+    \begin{aligned}
+        &amp;m(i+1,j) &amp;0\leqslant j&lt;w_i \\
+        &amp;\max \{m(i+1,j),m(i+1,j-w_i)+v_i\} &amp;j\geqslant w_i
+    \end{aligned}
+\right.
+\]</span></p>
+<p>The boundary conditions are: <span class="math display">\[
+m(n,j)=
+\left\{
+    \begin{aligned}
+        &amp;0 &amp;0\leqslant j&lt;w_n \\
+        &amp;v_n &amp;j\geqslant w_n
+    \end{aligned}
+\right.
+\]</span></p>
+<p>We use a two-dimensional table <span class="math inline">\(m\)</span>. The basic code is as follows:
+</p><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">Type</span>&gt;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">knapsack</span><span class="hljs-params">(<span class="hljs-type">int</span> n, Type *w, Type *v, Type c, Type **m)</span>    <span class="hljs-comment">//动态规划算法</span></span><br><span class="hljs-function"></span>{<br>    <span class="hljs-type">int</span> jMax = <span class="hljs-built_in">min</span>(w[n]<span class="hljs-number">-1</span>, c);<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt;= jMax; j++)<br>    {<br>        m[n][j] = <span class="hljs-number">0</span>;<br>    }<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = w[n]; j &lt;= c; j++)<br>    {<br>        m[n][j] = v[n];<br>    }<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = n<span class="hljs-number">-1</span>; i &gt; <span class="hljs-number">1</span>; i--)<br>    {<br>        jMax = <span class="hljs-built_in">min</span>(w[i]<span class="hljs-number">-1</span>, c);<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt;= jMax; j++)<br>        {<br>            m[i][j] = m[i+<span class="hljs-number">1</span>][j];<br>        }<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = w[i]; j &lt;= c; j++)<br>        {<br>            m[i][j] = <span class="hljs-built_in">max</span>(m[i+<span class="hljs-number">1</span>][j], m[i+<span class="hljs-number">1</span>][j-w[i]]+v[i]);<br>        }<br>    }<br>    m[<span class="hljs-number">1</span>][c] = m[<span class="hljs-number">2</span>][c];<br>    <span class="hljs-keyword">if</span>(c &gt;= w[<span class="hljs-number">1</span>])<br>    {<br>        m[<span class="hljs-number">1</span>][c] = <span class="hljs-built_in">max</span>(m[<span class="hljs-number">1</span>][c], m[<span class="hljs-number">2</span>][c-w[<span class="hljs-number">1</span>]]+v[<span class="hljs-number">1</span>]);<br>    }<br>}<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">Type</span>&gt;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">traceback</span><span class="hljs-params">(Type **m, <span class="hljs-type">int</span> w, <span class="hljs-type">int</span> w, <span class="hljs-type">int</span> c, <span class="hljs-type">int</span> n, <span class="hljs-type">int</span> x)</span></span><br><span class="hljs-function"></span>{<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; n; i++)<br>    {<br>        <span class="hljs-keyword">if</span>(m[i][c] == m[i+<span class="hljs-number">1</span>][c])<br>        {<br>            x[i] = <span class="hljs-number">0</span>;<br>        }<br>        <span class="hljs-keyword">else</span><br>        {<br>            x[i] = <span class="hljs-number">1</span>;<br>            c -= w[i];<br>        }<br>    }<br>    x[n] = (m[n][c]) ? <span class="hljs-number">1</span>:<span class="hljs-number">0</span>;<br>}<br></code></pre></td></tr></tbody></table></figure><p></p>
+<p>In the above code, the computed <span class="math inline">\(m[1][c]\)</span> yields the optimal value of the
+problem. Clearly, the time complexity of algorithm <code>knapsack</code>
+is <span class="math inline">\(O(nc)\)</span>, while the time complexity
+of <code>traceback</code> is <span class="math inline">\(O(n)\)</span>.</p>
+
+</div>
+		</div>
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong><span class="hexo-llm-en">Author</span>：</strong>KiRorY<br>
+        <strong><span class="hexo-llm-en">Permalink</span>：</strong><a href="/en/posts/5/" title="https://kirory.xyz/posts/5/" target="_blank" rel="noopener">https://kirory.xyz/posts/5/</a><br>
+        
+            <span class="hexo-llm-en"><strong>License：</strong>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN</a></span>
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			
+			
+			<div class="new">
+				<span><span class="hexo-llm-en">Next</span></span>
+				<a href="/en/posts/6/"> Algorithm Analysis Notes: Greedy Algorithm</a>
+			</div>
+			
+			
+			<div class="old">
+				<span><span class="hexo-llm-en">Previous</span></span>
+				<a href="/en/posts/4/"> Algorithm Analysis Notes: Recursion and Divide-and-Conquer Strategies</a>
+			</div>
+			
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			
+				<a href="/en/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-i18n-key="学习笔记"><i class="kirafont icon-container-fill"></i> Study Notes</a>
+			
+		
+		
+			
+				<a href="/en/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" data-i18n-key="算法设计与分析"><i class="kirafont icon-tag-fill"></i> Algorithm Design and Analysis</a>
+			
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	<div class="giscus"></div>
+  
+    <script src="https://giscus.app/client.js" data-repo="KiRorY/kirory.github.io" data-repo-id="R_kgDOJ7eH2w" data-category="General" data-category-id="DIC_kwDOJ7eH284CX72n" data-mapping="specific" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async="" data-term="/posts/5/"></script>
+  
+
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+		<div class="kira-right-column">
+	<a class="kira-lang-switch" aria-label="切换到中文" title="切换到中文" href="/posts/5/" hreflang="zh-CN">
+		<button class="mdui-fab mdui-ripple">
+			<span id="lang-icon">中</span>
+		</button>
+	</a>
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="Back to top" title="Back to top">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+	</div>
+	
+<script src="/js/lang-switch.js"></script>
+
+
+
+</body></html>
