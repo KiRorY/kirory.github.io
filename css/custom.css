@@ -1,4 +1,4 @@
-<html><head></head><body>/* i18n 双语切换样式修正 */
+/* i18n 双语切换样式修正 */
 .hexo-llm-zh,
 .hexo-llm-en {
   display: none;
@@ -72,4 +72,40 @@ html:not([lang^="zh"]) .kira-count span.hexo-llm-en {
 
 .badge-container br {
   display: none;
-}</body></html>
+}
+
+/* 正文表格：兼容双语容器，不影响代码高亮内部的 table */
+.kira-post-content > table,
+.kira-post-content > .hexo-llm-zh > table,
+.kira-post-content > .hexo-llm-en > table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 24px 0;
+  white-space: normal;
+}
+
+.kira-post-content > table th,
+.kira-post-content > table td,
+.kira-post-content > .hexo-llm-zh > table th,
+.kira-post-content > .hexo-llm-zh > table td,
+.kira-post-content > .hexo-llm-en > table th,
+.kira-post-content > .hexo-llm-en > table td {
+  border: 1px solid #d0d7de;
+  padding: 10px 14px;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.kira-post-content > table th,
+.kira-post-content > .hexo-llm-zh > table th,
+.kira-post-content > .hexo-llm-en > table th {
+  background-color: #f6f8fa;
+}
+
+.kira-post-content > table tbody tr:nth-child(even),
+.kira-post-content > .hexo-llm-zh > table tbody tr:nth-child(even),
+.kira-post-content > .hexo-llm-en > table tbody tr:nth-child(even) {
+  background-color: #fafbfc;
+}

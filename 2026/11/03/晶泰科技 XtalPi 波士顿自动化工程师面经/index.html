@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html 
+	lang="zh-cn">
+	<head><!-- hexo injector head_begin start -->
+<script>
+(function() {
+    var userLang = navigator.language || navigator.userLanguage;
+    if (userLang && userLang.startsWith('zh')) {
+        document.documentElement.setAttribute('lang', 'zh-CN');
+        window.addEventListener('DOMContentLoaded', function() {
+            // 1. Handle article page title and H1
+            if (window._zh_title && window._en_title) {
+                // Precisely detect: find English title in current title and replace with Chinese
+                if (document.title.includes(window._en_title)) {
+                    document.title = document.title.replace(window._en_title, window._zh_title);
+                } else {
+                    // Fallback: if theme handles title specially (e.g., truncation), replace directly
+                    document.title = window._zh_title;
+                }
+                // Replace article page h1 title
+                // Consider different theme selectors, find first h1 tag for replacement
+                var h1 = document.querySelector('h1');
+                if (h1 && window._zh_title) {
+                    h1.textContent = window._zh_title;
+                }
+            }
+            // 2. Replace all title elements with data-zh-title and data-en-title attributes on homepage or list pages
+            var titleElements = document.querySelectorAll('[data-zh-title][data-en-title]');
+            titleElements.forEach(function(el) {
+                var zhTitle = el.getAttribute('data-zh-title');
+                var enTitle = el.getAttribute('data-en-title');
+                if (zhTitle && enTitle) {
+                    // Replace element text content
+                    if (el.textContent.trim() === enTitle.trim()) {
+                        el.textContent = zhTitle;
+                    }
+                    // If it's a link element, also check its title attribute
+                    if (el.hasAttribute('title') && el.getAttribute('title').trim() === enTitle.trim()) {
+                        el.setAttribute('title', zhTitle);
+                    }
+                }
+            });
+            // 3. Replace article titles on homepage/list pages (using global title mapping)
+            if (window._hexo_title_pairs && window._hexo_title_pairs.length > 0) {
+                // Create English to Chinese mapping
+                var titleMap = {};
+                window._hexo_title_pairs.forEach(function(pair) {
+                    titleMap[pair.en.trim()] = pair.zh;
+                });
+                // Helper function to replace article titles, supports exact match and contains match
+                // Preserves child links when replacing text (assumes single link per title element)
+                var replaceTitle = function(el) {
+                    var text = el.textContent.trim();
+                    var zhTitle = null;
+                    var matchedEnTitle = null;
+                    // Prefer exact match
+                    if (titleMap[text]) {
+                        zhTitle = titleMap[text];
+                        matchedEnTitle = text;
+                    } else {
+                        // Try contains match (handle cases with extra spaces or child elements)
+                        // Using indexOf for IE/older browser compatibility (this runs in browser context)
+                        for (var enTitle in titleMap) {
+                            if (text === enTitle || text.indexOf(enTitle) !== -1) {
+                                // Only replace when text is highly similar to title (avoid false replacements)
+                                if (text.length <= enTitle.length * 1.5) {
+                                    zhTitle = titleMap[enTitle];
+                                    matchedEnTitle = enTitle;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (!zhTitle) return;
+                    // Check if element contains a child link - if so, update link text to preserve hyperlink
+                    var childLink = el.querySelector('a');
+                    if (childLink) {
+                        childLink.textContent = zhTitle;
+                        // Also update title attribute if it matches the English title
+                        if (childLink.hasAttribute('title') && childLink.getAttribute('title').trim() === matchedEnTitle) {
+                            childLink.setAttribute('title', zhTitle);
+                        }
+                    } else {
+                        el.textContent = zhTitle;
+                    }
+                };
+                // Find title elements within article card/list containers (limit search scope for performance)
+                var containers = document.querySelectorAll('main, article, .post, .posts, .post-list, .article-list, .card, .content, #content, #main');
+                if (containers.length === 0) {
+                    containers = [document.body];
+                }
+                containers.forEach(function(container) {
+                    var titleSelectors = 'h1, h2, h3, .post-title, .article-title, .entry-title, .card-title, a[rel="bookmark"]';
+                    var potentialTitleElements = container.querySelectorAll(titleSelectors);
+                    potentialTitleElements.forEach(replaceTitle);
+                });
+            }
+        });
+    } else {
+        document.documentElement.setAttribute('lang', 'en');
+    }
+})();
+</script>
+<!-- hexo injector head_begin end -->
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title> 晶泰科技 XtalPi 波士顿自动化工程师面经 -  KiRorY</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link
+			rel="shortcut icon"
+			href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/BlogIcon-ver0.1.png"
+			type="image/png"
+		/>
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+			
+				
+<link rel="stylesheet" href="/css/custom.css">
+
+			
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+		<script>
+			(function(){var s=localStorage.getItem('kira-lang');if(!s){var n=navigator.language||navigator.userLanguage||'zh-CN';s=n.startsWith('zh')?'zh-CN':'en';}document.documentElement.setAttribute('lang',s);})();
+		</script>
+		
+		<script>window._page_title_en = &#34;XtalPi Boston Automation Engineer Interview Experience&#34;;</script>
+		
+	<!-- hexo injector head_end start -->
+<style>
+    .hexo-llm-zh { display: none; }
+    .hexo-llm-en { display: block; }
+    html[lang^="zh"] .hexo-llm-en { display: none !important; }
+    html[lang^="zh"] .hexo-llm-zh { display: block !important; }
+</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+	<body>
+		<div
+			class="kira-background"
+			style="background-image: url('https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/satori_and_koishi.JPG')"
+		></div>
+		<div class="kira-header">
+    <a
+        class="kira-drawer-button mdui-ripple"
+        title="导航栏"
+        onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');"
+    >
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/" title="KiRorY">
+        <img
+			src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG"
+			alt="KiRorY"
+		/>
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG" title="KiRorY">
+			<img
+				src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/Touhou/Kokoro.PNG"
+				alt="KiRorY"
+			/>
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span class="hexo-llm-zh">文章</span><span class="hexo-llm-en">Posts</span>14</div>
+		<div><span class="hexo-llm-zh">标签</span><span class="hexo-llm-en">Tags</span>16</div>
+		<div><span class="hexo-llm-zh">分类</span><span class="hexo-llm-en">Categories</span>4</div>
+	</div>
+	<div class="kira-list">
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/"
+			title="首页"
+		>
+			<i
+				class="kirafont
+					
+						icon-home
+					"
+			></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-zh">首页</span><span class="hexo-llm-en">Home</span>
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/archive.html"
+			title="归档"
+		>
+			<i
+				class="kirafont
+					
+						icon-container
+					"
+			></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-zh">归档</span><span class="hexo-llm-en">Archives</span>
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/about.html"
+			title="关于我"
+		>
+			<i
+				class="kirafont
+					
+						icon-user
+					"
+			></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-zh">关于我</span><span class="hexo-llm-en">About</span>
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/friends.html"
+			title="友情链接"
+		>
+			<i
+				class="kirafont
+					
+						icon-team
+					"
+			></i>
+			<div class="kira-list-item-content">
+				<span class="hexo-llm-zh">友情链接</span><span class="hexo-llm-en">Friends</span>
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a
+				class="mdui-ripple"
+				href="https://twitter.com/KiRorY223"
+				target="_blank"
+				mdui-tooltip="{content: 'Twitter'}"
+				style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);"
+			>
+				<i
+					class="kirafont
+					
+						icon-twitter
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://space.bilibili.com/79834065"
+				target="_blank"
+				mdui-tooltip="{content: '哔哩哔哩'}"
+				style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-bilibili
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://github.com/KiRorY"
+				target="_blank"
+				mdui-tooltip="{content: 'GitHub'}"
+				style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-github
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://steamcommunity.com/id/Kokoro_Daze/"
+				target="_blank"
+				mdui-tooltip="{content: 'Steam'}"
+				style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-steam
+					"
+				></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+  <div class="kira-widget-wrap">
+    <h3 class="kira-widget-title"><span class="hexo-llm-zh">分类</span><span class="hexo-llm-en">Categories</span></h3>
+    <div class="kira-widget">
+      <ul class="category-list">
+        
+        
+
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/categories/学习笔记/" data-i18n-key="学习笔记">
+              学习笔记
+            </a>
+            <span class="category-list-count">4</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/categories/教程/" data-i18n-key="教程">
+              教程
+            </a>
+            <span class="category-list-count">7</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/categories/随记/" data-i18n-key="随记">
+              随记
+            </a>
+            <span class="category-list-count">1</span>
+          </li>
+        
+          <li class="category-list-item">
+            <a class="category-list-link" href="/categories/面经/" data-i18n-key="面经">
+              面经
+            </a>
+            <span class="category-list-count">2</span>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/" style="font-size: 15px;">嵌入式开发</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">深度学习</a> <a href="/tags/%E6%B8%B8%E8%AE%B0/" style="font-size: 10px;">游记</a> <a href="/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">生产力工具</a> <a href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" style="font-size: 10px;">算法复杂度分析</a> <a href="/tags/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/" style="font-size: 20px;">算法设计与分析</a> <a href="/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 10px;">终端</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" style="font-size: 10px;">自动化</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%BB%84%E7%BD%91/" style="font-size: 10px;">虚拟组网</a> <a href="/tags/%E8%AE%BF%E5%AD%A6/" style="font-size: 10px;">访学</a> <a href="/tags/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">通信协议</a>
+		</div>
+		
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		&copy; 2026
+		<a href="/">KiRorY</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br />
+		
+		
+	</div>
+</div>
+<div
+	class="kira-sidebar-modal"
+	id="sidebar-modal"
+	onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"
+></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img />
+                </div>
+                <div class="kira-image-now">
+                    <img />
+                </div>
+                <div class="kira-image-next">
+                    <img />
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div class="kira-post-cover">
+			<img
+				data-src="https://cdn.jsdelivr.net/gh/KiRorY/pic_Warehouse/pic/post14/xtalpi-logo-cover-hd.png"
+				data-sizes="auto"
+				alt="晶泰科技 XtalPi 波士顿自动化工程师面经"
+				class="lazyload kira-post-cover-image disabled-kira-image"
+			/>
+			<h1 data-zh-title="晶泰科技 XtalPi 波士顿自动化工程师面经" data-en-title="XtalPi Boston Automation Engineer Interview Experience">晶泰科技 XtalPi 波士顿自动化工程师面经</h1>
+		</div>
+		
+		
+		<div class="kira-post-meta kira-rainbow">
+			<a><i class="kirafont icon-calendar-fill"></i><span class="hexo-llm-zh">2026年11月03日</span><span class="hexo-llm-en">11/03/2026</span></a>
+			<a><i class="kirafont icon-edit-fill"></i><span class="hexo-llm-zh kira-stat-wordcount-zh">2.8K 字</span><span class="hexo-llm-en kira-stat-wordcount-en">2.1K words</span></a>
+			<a><i class="kirafont icon-time-circle-fill"></i><span class="hexo-llm-zh kira-stat-readtime-zh">大概 11 分钟</span><span class="hexo-llm-en kira-stat-readtime-en">About 13 min</span></a>
+		</div>
+		<div class="kira-post-content">
+			<div class="hexo-llm-zh">
+<html><head></head><body><div class="hexo-llm-zh" data-markdown="1">
+<blockquote>
+<p>2026 年秋季，晶泰科技（XtalPi）波士顿 Automation Engineer
+岗位面试记录。</p>
+<p>经历五轮面试，已收到
+offer。以下内容为个人回忆，不一定完整，也不代表该岗位的固定面试流程。</p>
+</blockquote>
+</div>
+<div class="hexo-llm-en" data-markdown="1">
+<blockquote>
+<p>Interview notes for XtalPi's Boston-based Automation Engineer
+position in fall 2026.</p>
+<p>Received an offer after five interview rounds. This is a personal
+recollection, not a complete or definitive interview guide.</p>
+</blockquote>
+</div>
+<span id="more"></span>
+<h1><span id="2026%0A%E6%99%B6%E6%B3%B0%E7%A7%91%E6%8A%80%E6%B3%A2%E5%A3%AB%E9%A1%BF%E8%87%AA%E5%8A%A8%E5%8C%96%E5%B7%A5%E7%A8%8B%E5%B8%88%E9%9D%A2%E7%BB%8F">2026
+晶泰科技波士顿自动化工程师面经</span></h1>
+<p>这次面试的是晶泰科技（XtalPi）的波士顿自动化工程师岗位。JD
+中的主要工作是机器人和实验室设备的系统集成、现场部署、调试与运行支持，也涉及一些软件开发、电气接口和通信相关的工作。本文简单记录一下面试过程与内容。</p>
+<p>笔者通过校招直接向 HR 发邮件投递简历，两天后收到 intro call
+的邀请。把 intro call
+也算进去的话，总共是五轮面试，整个流程大约六周，后续就是 update call
+和入职相关的信息确认。</p>
+<h2><span id="%E7%AC%AC%E4%B8%80%E8%BD%AEhr-intro-call">第一轮：HR Intro Call</span></h2>
+<p>第一轮是约 30 分钟的初步交流，中英双语。先由 HR
+介绍岗位情况、了解求职意向，然后过了一遍简历上的实习和科研经历，没有特别深入的技术问题。</p>
+<p>Intro call 在周五进行，当天就收到了 HM
+面试邀请，最初约在下周一，后来改到了周三。</p>
+<h2><span id="%E7%AC%AC%E4%BA%8C%E8%BD%AE%E6%B3%A2%E5%A3%AB%E9%A1%BF-hiring-manager%0A%E9%9D%A2">第二轮：波士顿 Hiring Manager
+面</span></h2>
+<p>这一轮约 45
+分钟，纯英文，由波士顿自动化团队的经理进行面试。面试官会先比较详细地介绍岗位的实际工作和性质，介绍完之后可以直接就相关内容提问。笔者当时问了团队规模、人员构成，以及
+AI 是怎么参与实验流程的。</p>
+<p>接下来面试官开始提问，大部分是在确认是否有相关经历，也会问一些行为问题，比如：</p>
+<ul>
+<li>有没有处理过系统启动异常、设备故障等问题？</li>
+<li>遇到系统问题时，通常会怎样排查？</li>
+<li>是否参与过设备联调、软硬件测试和系统集成？</li>
+<li>如何和其他工程师合作？</li>
+<li>如何学习不熟悉的知识或系统？</li>
+</ul>
+<p>另外还有几个针对简历内容的问题：</p>
+<ul>
+<li>项目中具体负责什么，哪些部分是自己完成的？</li>
+<li>简历中提到的性能或资源优化，具体怎么实现，又是怎么测量的？</li>
+</ul>
+<p>总体来说，这一轮更偏向工作经历和行为问题。简历中的一些技术细节会被拿出来单独问，比如怎么实现、怎么调优，但没有展开太多独立的技术知识问答。主要还是要能说清楚当时项目是怎么做的。</p>
+<p>本轮结束约一周后，收到下一轮面试通知。</p>
+<h2><span id="%E7%AC%AC%E4%B8%89%E8%BD%AE%E6%B7%B1%E5%9C%B3%E5%9B%A2%E9%98%9F%E6%8A%80%E6%9C%AF%E9%9D%A2">第三轮：深圳团队技术面</span></h2>
+<p>这一轮约 45
+分钟，纯中文面试。面试官在国内，因此时间安排在美东晚上。</p>
+<p>这一轮开始比较深入地讨论技术，没有现场
+coding，主要会问一些与简历项目相关的基础概念。</p>
+<h3><span id="%E9%80%9A%E4%BF%A1%E4%B8%8E%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80">通信与技术基础</span></h3>
+<ul>
+<li>CAN 和 RS-485 有什么区别？</li>
+<li>两者的通信速率有什么区别？</li>
+<li>是否做过电气相关的工作？</li>
+<li>电气、原理图和硬件接口验证方面有哪些相关经历？</li>
+</ul>
+<p>通信相关的问题不算偏，但临场未必能答得很完整，这时可以结合项目和自己的理解解释一下。笔者当时就在通信速率区别这个问题上没答出来，只能说明记得不太清楚，因为当时项目选用
+CAN 和 RS-485 这两种通信方式，并不是以速率差异作为主要依据。</p>
+<h3><span id="%E9%A1%B9%E7%9B%AE%E4%B8%8E%E7%BB%8F%E5%8E%86">项目与经历</span></h3>
+<ul>
+<li>项目的核心是什么，整体难点在哪里？</li>
+<li>为什么选择这个实现方案？</li>
+<li>做的东西有什么实际用途，会用在什么场景？</li>
+<li>与直接使用设备已有数据的方法相比，为什么还需要这个方案？</li>
+<li>项目中有没有涉及软件之外的工作？</li>
+</ul>
+<p>与项目直接相关的问题比较重要，面试官会根据回答继续追问，甚至提出质疑，这就比较考验对项目的熟悉程度和临场反应。即使面试前没有准备过这些问题，也可以结合实际经历说明自己的思路。回答要和简历及之前的描述保持一致，把来龙去脉说清楚。</p>
+<h3><span id="%E5%85%B6%E5%AE%83%E9%97%AE%E9%A2%98">其它问题</span></h3>
+<ul>
+<li>后续职业规划是什么？</li>
+<li>对晶泰的业务有什么了解？</li>
+<li>怎样理解波士顿这个岗位？</li>
+</ul>
+<p>所以这轮虽然叫技术面，也不完全是技术知识问答。对于公司的了解和自己的发展方向，还是需要提前想一下。</p>
+<p>最后面试官也提到，波士顿团队需要比较全面的能力，因为工作涉及复杂系统中不同模块的部署、集成和问题排查。</p>
+<p>本轮结束后的第二天，就收到了下一轮主管面的通知。</p>
+<h2><span id="%E7%AC%AC%E5%9B%9B%E8%BD%AE%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E9%97%A8%E8%B4%9F%E8%B4%A3%E4%BA%BA%E9%9D%A2">第四轮：自动化部门负责人面</span></h2>
+<p>这一轮约 30 分钟，同样是中文，直接和深圳这边的 Head of Automation Lab
+交流。</p>
+<p>面试前 HR
+就提到负责人比较忙，面试时间也临时调整过一次。最后是在负责人两场会议之间，找了
+30 分钟的空档安排面试。</p>
+<p>这场面试更接近聊天。面试官先核对了一些基本信息，再问对晶泰和应聘岗位有什么了解，随后花了不少时间介绍岗位涉及的工作，以及对新人的期望。</p>
+<p>不知道是不是因为时间比较紧，面试官基本上提前回答了笔者原本打算在反问阶段问的问题😂。不过既然是对话，介绍完一段后，也可以就相关内容提问，或者结合自己的经历说说理解。总之还是要能接上话题，而不是一直没有反馈地听下去。</p>
+<p>印象比较深的内容有：</p>
+<ul>
+<li>需要复合型人才，要能跨领域学习。</li>
+<li>系统比较复杂，不能只了解自己负责的一小部分。</li>
+<li>员工之间会组织不同领域的学习和交流。</li>
+<li>新人需要培训，也需要积极、主动地沟通。</li>
+</ul>
+<p>面试官后面还有会议，因此最后卡点结束。面试前虽然准备了不少项目介绍和公司业务的稿子，但实际基本没用到。</p>
+<p>本轮结束后过了一个周末，HR 在周一通知团队反馈比较好，接下来安排 HR +
+HRBP 面。</p>
+<h2><span id="%E7%AC%AC%E4%BA%94%E8%BD%AEhr--hrbp-%E9%9D%A2">第五轮：HR + HRBP 面</span></h2>
+<p>时长约 30 分钟。</p>
+<p>面试前还以为这一轮会开始聊薪资和入职时间，但实际还没走到这一步，问的仍是项目经历和行为问题。</p>
+<p>问题大致如下：</p>
+<h3><span id="%E9%A1%B9%E7%9B%AE%E6%8A%80%E6%9C%AF%E7%9B%B8%E5%85%B3">项目/技术相关</span></h3>
+<ul>
+<li>认为软件和硬件协同中的难点是什么？</li>
+<li>面对复杂系统时，通常怎样分析和排查问题？</li>
+<li>之前项目中遇到难题时怎么解决的？</li>
+<li>……</li>
+</ul>
+<h3><span id="%E8%81%8C%E4%B8%9A%E8%A7%84%E5%88%92%E8%A1%8C%E4%B8%BA%E7%9B%B8%E5%85%B3">职业规划/行为相关</span></h3>
+<ul>
+<li>结合之前的面试，对这个岗位有什么认识？</li>
+<li>国内和国外的同学分别会怎样评价你？</li>
+<li>做项目时，一般在团队中担任什么角色？</li>
+<li>实习和科研项目中的工作方式、团队协作有什么区别？觉得哪一种更适合自己？</li>
+<li>找工作时，最看重什么，优先考虑哪些因素？</li>
+<li>后续有没有什么发展规划？</li>
+</ul>
+<p>反问时还聊了签证支持和未来跨地区岗位的可能性。对方没有在 offer
+或合同层面作保证，国内岗位也需要看届时有没有合适机会。这里只记录当次沟通，不能据此推断公司所有岗位的统一政策。</p>
+<p>面试结束时，HR 表示下周会有 update。</p>
+<h2><span id="%E5%90%8E%E7%BB%AD%E8%81%94%E7%B3%BB">后续联系</span></h2>
+<p>HR 面试后的次周周五进行了 update
+call，主要询问入职意向、薪资预期，以及 OPT 和入职时间相关的事情。</p>
+<p>次周又进行了 offer call，随后收到确认 verbal offer
+的邮件。确认接受口头 offer 后，公司会进入背调和正式 offer 流程。</p>
+<h2><span id="%E6%80%BB%E7%BB%93%E5%92%8C%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE">总结和一些建议</span></h2>
+<p>整体的 timeline 如下：</p>
+<table>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr>
+<th>日期</th>
+<th>星期</th>
+<th>招聘进展</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>9 月 15 日</strong></td>
+<td>周二</td>
+<td>参加 JHU 线上招聘活动后，向 HR 发送申请邮件和简历；HR
+当天确认收到。</td>
+</tr>
+<tr>
+<td><strong>9 月 17 日</strong></td>
+<td>周四</td>
+<td>收到 <strong>Recruiter Call</strong> 邀请，开始协调面试时间。</td>
+</tr>
+<tr>
+<td><strong>9 月 25 日</strong></td>
+<td>周五</td>
+<td>完成 <strong>HR Intro Call，约 30 分钟</strong>；当天收到 Hiring
+Manager 面试邀请。</td>
+</tr>
+<tr>
+<td><strong>9 月 30 日</strong></td>
+<td>周三</td>
+<td>完成 <strong>Boston Hiring Manager 面，约 45
+分钟，英文</strong>。主要讨论相关经历、行为问题，并介绍岗位情况。</td>
+</tr>
+<tr>
+<td><strong>10 月 7 日</strong></td>
+<td>周三</td>
+<td>收到深圳团队的技术面邀请，协调下一周的面试时间。</td>
+</tr>
+<tr>
+<td><strong>10 月 12 日</strong></td>
+<td>周一</td>
+<td>完成 <strong>深圳团队技术面，约 45
+分钟，中文</strong>。涉及项目经历、基础技术、职业规划及对公司的了解。</td>
+</tr>
+<tr>
+<td><strong>10 月 13 日</strong></td>
+<td>周二</td>
+<td>收到
+<strong>自动化部门负责人面</strong>邀请，最初确定在次日进行。</td>
+</tr>
+<tr>
+<td><strong>10 月 14 日</strong></td>
+<td>周三</td>
+<td>因负责人会议冲突，面试推迟至第二天。</td>
+</tr>
+<tr>
+<td><strong>10 月 15 日</strong></td>
+<td>周四</td>
+<td>完成 <strong>自动化部门负责人面，约 30
+分钟，中文</strong>。主要交流岗位理解、团队目标、当前困难及能力要求。</td>
+</tr>
+<tr>
+<td><strong>10 月 19 日</strong></td>
+<td>周一</td>
+<td>HR 表示收到团队的 <strong>积极反馈</strong>，邀请进入 HR／HRBP
+面试。</td>
+</tr>
+<tr>
+<td><strong>10 月 21 日</strong></td>
+<td>周三</td>
+<td>完成 <strong>HR／HRBP 面，约 30
+分钟</strong>。主要是行为问题，反问涉及签证支持与跨地区岗位机会。</td>
+</tr>
+<tr>
+<td><strong>10 月 29 日</strong></td>
+<td>周四</td>
+<td>收到 <strong>update call</strong> 邀请，拟于次日通话。</td>
+</tr>
+<tr>
+<td><strong>10 月 30 日</strong></td>
+<td>周五</td>
+<td>进行 update call。</td>
+</tr>
+<tr>
+<td><strong>11 月 4 日</strong></td>
+<td>周三</td>
+<td>HR 预约电话，并于当天进行 <strong>offer
+call</strong>；随后发送福利材料，邮件询问是否接受 <strong>verbal
+offer</strong>。</td>
+</tr>
+</tbody>
+</table>
+<p>该岗位面向应届生，笔者感觉整体面试难度不算大。重点其实就两个：</p>
+<ol type="1">
+<li><p>一定要熟悉自己的项目和工作内容。平时最好能写些笔记留痕，避免时间久了忘记技术细节。面试前也可以准备几个实际案例，回忆以前遇到过什么问题、自己怎么解决的，至少要能完整叙述一遍。</p>
+<p>不同阶段可以有针对性地调整讲述重点。比如技术面可以稍微展开使用的技术手段，作为后续提问的钩子；HR
+或者高管面则可以减少实现细节，重点说明自己如何协调、与他人协作，以及在解决问题的过程中发挥了什么作用。</p></li>
+<li><p>搞清楚应聘的岗位究竟做什么，在公司或部门中有什么作用。这次基本每一轮面试，面试官都会介绍岗位和团队情况，但各自的侧重点不太一样。把这些信息结合起来，每一轮结束后都能对岗位有更全面的认识。</p>
+<p>而且从技术团队的面试开始，几乎每轮都会问对岗位有什么了解。感觉这也是面试过程中的一道临时考题：每场结束后都需要总结，再根据新了解到的信息，整理出自己的理解，用来应对下一轮交流。</p></li>
+</ol>
+<!-- hexo injector body_end start --><script>window._hexo_title_pairs = [{"en":"Days In UCSB","zh":"Days In UCSB"},{"en":"Various Issues and Solutions When Using the Hexo Framework","zh":"使用Hexo框架时的种种问题和解决方法"},{"en":"Solving Chinese Input Method Issues in Kitty Terminal Emulator under KDE Desktop","zh":"KDE桌面下解决Kitty终端模拟器中文输入法问题"},{"en":"Solutions for OTA Development Issues on STM32G0 Series","zh":"STM32G0系OTA开发相关问题的解决方案"},{"en":"Building a Remote Mobile Productivity Tool with ZeroTier NAT Traversal and Terminal Emulators","zh":"ZeroTier内网穿透+终端模拟器构建远程移动生产力工具"},{"en":"Algorithm Analysis Notes: Complexity Analysis and NP-Completeness Theory","zh":"算法分析笔记:复杂度分析与NP完全性理论"},{"en":"Algorithm Analysis Notes: Greedy Algorithm","zh":"算法分析笔记:贪心算法"},{"en":"Algorithm Analysis Notes: Recursion and Divide and Conquer Strategy","zh":"算法分析笔记:递归与分治策略"},{"en":"Algorithm Analysis Notes: Dynamic Programming","zh":"算法分析笔记:动态规划"},{"en":"Deployment of CLion+Qt Development Environment on Archlinux","zh":"CLion+Qt开发环境在Archlinux上的部署"},{"en":"Basic Implementation of Involution (Study Notes)","zh":"Involution的基本实现方式(学习记录)"},{"en":"KPIT Interview Experience","zh":"KPIT 面经"},{"en":"Windows Docker Installation and Storage Migration Guide","zh":"Windows Docker 安装及存储转移方法"},{"en":"XtalPi Boston Automation Engineer Interview Experience","zh":"晶泰科技 XtalPi 波士顿自动化工程师面经"}];</script><script>window._i18n_map = {"教程":"Tutorials","随记":"Musings","学习笔记":"Study Notes","面经":"Interview Experiences","游记":"Travelogue","访学":"Academic Visit","终端":"Terminal","深度学习":"Deep Learning","嵌入式开发":"Embedded Development","生产力工具":"Productivity Tools","虚拟组网":"Virtual Networking","算法设计与分析":"Algorithm Design and Analysis","算法复杂度分析":"Algorithm Complexity Analysis","通信协议":"Communication Protocols","自动化":"Automation","机器人":"Robots"};</script><!-- hexo injector body_end end --></body></html>
+</div>
+<div class="hexo-llm-en">
+<div class="hexo-llm-zh" data-markdown="1">
+<blockquote>
+<p>Interview notes for XtalPi's Boston-based Automation Engineer
+position in fall 2026.</p>
+<p>Received an offer after five interview rounds. This is a personal
+recollection, not a complete or definitive interview guide.</p>
+</blockquote>
+</div>
+<div class="hexo-llm-en" data-markdown="1">
+<blockquote>
+<p>Interview notes for XtalPi's Boston-based Automation Engineer
+position in fall 2026.</p>
+<p>Received an offer after five interview rounds. This is a personal
+recollection, not a complete or definitive interview guide.</p>
+</blockquote>
+</div>
+<!-- more -->
+<h1 id="xtalpi-boston-automation-engineer-interview-experience">2026
+XtalPi Boston Automation Engineer Interview Experience</h1>
+<p>This interview was for the Boston-based Automation Engineer position
+at XtalPi. The primary responsibilities in the job description included
+system integration, on-site deployment, commissioning, and operational
+support for robotics and laboratory equipment, along with some software
+development, electrical interfaces, and communication-related tasks.
+This post provides a brief record of the interview process and
+content.</p>
+<p>I applied via campus recruiting by emailing my resume directly to HR
+and received an invitation for an intro call two days later. Counting
+the intro call, there were five rounds of interviews in total. The
+entire process took about six weeks, followed by an update call and
+onboarding-related confirmations.</p>
+<h2 id="round-1-hr-intro-call">Round 1: HR Intro Call</h2>
+<p>The first round was a preliminary discussion lasting about 30
+minutes, conducted bilingually in Chinese and English. The HR
+representative first introduced the role and learned about my career
+preferences, then went over my internship and research experiences
+listed on my resume, without diving into deeply technical questions.</p>
+<p>The intro call took place on a Friday, and I received an invitation
+for the hiring manager (HM) interview that same day. It was initially
+scheduled for the following Monday but was later moved to Wednesday.</p>
+<h2 id="round-2-boston-hiring-manager-interview">Round 2: Boston Hiring
+Manager Interview</h2>
+<p>This round lasted about 45 minutes, entirely in English, conducted by
+the manager of the Boston automation team. The interviewer began with a
+detailed introduction of the role's day-to-day responsibilities and
+nature, after which I was able to ask questions directly about what was
+discussed. I asked about the team size, team composition, and how AI is
+integrated into the experimental workflow.</p>
+<p>The interviewer then began asking questions, mostly to verify
+relevant experience, along with some behavioral questions, such as:</p>
+<ul>
+<li>Have you ever handled issues like system startup failures or
+equipment malfunctions?</li>
+<li>When encountering system issues, how do you typically troubleshoot
+them?</li>
+<li>Have you participated in hardware/software joint commissioning,
+testing, and system integration?</li>
+<li>How do you collaborate with other engineers?</li>
+<li>How do you learn unfamiliar topics or systems?</li>
+</ul>
+<p>There were also several questions targeted at my resume:</p>
+<ul>
+<li>What were your specific responsibilities in the project, and which
+parts did you implement independently?</li>
+<li>For the performance or resource optimizations mentioned on your
+resume, how were they specifically implemented and measured?</li>
+</ul>
+<p>Overall, this round leaned more toward past experience and behavioral
+questions. Certain technical details from the resume were singled out
+for discussion—such as implementation and optimization
+approaches—without extensive standalone technical trivia. The key was to
+articulate clearly how the projects were executed.</p>
+<p>About a week after this round, I received the notification for the
+next interview.</p>
+<h2 id="round-3-technical-interview-with-the-shenzhen-team">Round 3:
+Technical Interview with the Shenzhen Team</h2>
+<p>This round lasted about 45 minutes, conducted entirely in Chinese.
+Because the interviewers were based in China, it was scheduled during
+Eastern Time (ET) evening.</p>
+<p>This round dove deeper into technical topics. There was no live
+coding; it mainly focused on fundamental concepts related to the
+projects on my resume.</p>
+<h3 id="communications-technical-fundamentals">Communications &amp;
+Technical Fundamentals</h3>
+<ul>
+<li>What are the differences between CAN and RS-485?</li>
+<li>What is the difference in communication speeds between the two?</li>
+<li>Have you done any electrical-related work?</li>
+<li>What relevant experience do you have in electrical design,
+schematics, and hardware interface verification?</li>
+</ul>
+<p>The communication-related questions were not overly obscure, though
+answering them completely on the spot can be tricky; in such cases, you
+can explain based on your projects and understanding. I couldn't recall
+the exact speed difference at that moment, so I simply explained that I
+didn't remember off the top of my head, as the project chose between CAN
+and RS-485 based on factors other than communication speed
+differences.</p>
+<h3 id="projects-experience">Projects &amp; Experience</h3>
+<ul>
+<li>What was the core of the project, and where were the primary
+challenges?</li>
+<li>Why did you choose this implementation approach?</li>
+<li>What is the practical utility of what you built, and in what
+scenarios would it be used?</li>
+<li>Compared to methods that directly utilize existing device data, why
+was this solution still needed?</li>
+<li>Did the project involve work outside of software?</li>
+</ul>
+<p>Questions directly related to projects were crucial. The interviewer
+followed up on answers and even challenged certain points, testing both
+project familiarity and real-time responsiveness. Even without prior
+preparation for these exact questions, you can explain your thought
+process using practical experiences. Ensure your answers stay consistent
+with your resume and earlier statements, explaining the full context
+clearly.</p>
+<h3 id="other-questions">Other Questions</h3>
+<ul>
+<li>What are your future career plans?</li>
+<li>What do you know about XtalPi's business?</li>
+<li>How do you understand the Boston-based role?</li>
+</ul>
+<p>Therefore, although this was called a technical interview, it wasn't
+purely a technical Q&amp;A. It is still necessary to think ahead about
+your understanding of the company and your career trajectory.</p>
+<p>At the end, the interviewer noted that the Boston team requires
+well-rounded capabilities, as the work involves deployment, integration,
+and troubleshooting across various modules within complex systems.</p>
+<p>The day after this round, I received the invitation for the next
+round with the department head.</p>
+<h2 id="round-4-head-of-automation-interview">Round 4: Head of
+Automation Interview</h2>
+<p>This round lasted about 30 minutes, also in Chinese, speaking
+directly with the Head of Automation Lab in Shenzhen.</p>
+<p>Before the interview, HR mentioned that the department head had a
+very busy schedule, and the interview time was rescheduled once. In the
+end, it was scheduled during a 30-minute window between two of the
+head's meetings.</p>
+<p>This interview felt more like a conversation. The interviewer first
+confirmed some basic information, asked what I knew about XtalPi and the
+role, and then spent considerable time detailing the work involved and
+expectations for new hires.</p>
+<p>Perhaps because time was tight, the interviewer essentially answered
+in advance the questions I had planned to ask during the Q&amp;A segment
+😂. However, since it was a dialogue, after a section was explained, I
+could ask follow-up questions or share my perspectives based on past
+experience. In short, it is important to keep the conversation flowing
+rather than just listening passively without feedback.</p>
+<p>Key takeaways that left a strong impression:</p>
+<ul>
+<li>Interdisciplinary talent is needed, with the ability to learn across
+domains.</li>
+<li>Systems are complex; one cannot only understand the small piece they
+are directly responsible for.</li>
+<li>The team organizes cross-domain learning and sharing sessions among
+employees.</li>
+<li>New hires require training, along with proactive and
+initiative-driven communication.</li>
+</ul>
+<p>The interviewer had another meeting right after, so the session ended
+right on time. Although I had prepared plenty of talking points on
+projects and company business beforehand, they were barely needed.</p>
+<p>After the weekend following this round, HR notified me on Monday that
+the team gave positive feedback and arranged an interview with HR +
+HRBP.</p>
+<h2 id="round-5-hr-hrbp-interview">Round 5: HR + HRBP Interview</h2>
+<p>Duration was about 30 minutes.</p>
+<p>Before the interview, I thought this round would cover compensation
+and start dates, but it didn't get there yet; it still focused on
+project experiences and behavioral questions.</p>
+<p>The questions were roughly as follows:</p>
+<h3 id="project-technical-related">Project / Technical-Related</h3>
+<ul>
+<li>What do you see as the challenges in software-hardware
+co-design/coordination?</li>
+<li>When faced with complex systems, how do you typically analyze and
+troubleshoot issues?</li>
+<li>How did you resolve difficult problems in previous projects?</li>
+<li>...</li>
+</ul>
+<h3 id="career-planning-behavioral-related">Career Planning /
+Behavioral-Related</h3>
+<ul>
+<li>Based on previous interviews, what is your understanding of this
+role?</li>
+<li>How would your peers in China and peers abroad evaluate you,
+respectively?</li>
+<li>What role do you typically play in a team when working on
+projects?</li>
+<li>What differences do you see between working styles and collaboration
+in internships versus academic research? Which do you feel suits you
+better?</li>
+<li>What do you value most when job hunting, and what factors do you
+prioritize?</li>
+<li>What are your future development plans?</li>
+</ul>
+<p>During the Q&amp;A, we also discussed visa sponsorship and potential
+opportunities for inter-regional mobility in the future. No guarantees
+were made at the offer or contractual level, and roles in China would
+depend on whether suitable openings exist at the time. This only
+reflects that specific discussion and should not be taken as general
+company-wide policy.</p>
+<p>At the end of the interview, HR stated there would be an update the
+following week.</p>
+<h2 id="follow-up-communications">Follow-up Communications</h2>
+<p>An update call was held on the Friday of the week following the HR
+interview, primarily discussing my intent to join, salary expectations,
+OPT status, and potential start dates.</p>
+<p>The offer call took place the following week, followed by an email
+confirming the verbal offer. After confirming acceptance of the verbal
+offer, the company initiated the background check and formal offer
+process.</p>
+<h2 id="summary-and-key-takeaways">Summary and Key Takeaways</h2>
+<p>The overall timeline was as follows:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Date</th>
+<th>Day</th>
+<th>Recruiting Progress</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sep 15</strong></td>
+<td>Tue</td>
+<td>Submitted application email and resume to HR after attending a JHU
+virtual recruiting event; HR confirmed receipt on the same day.</td>
+</tr>
+<tr>
+<td><strong>Sep 17</strong></td>
+<td>Thu</td>
+<td>Received invitation for <strong>Recruiter Call</strong>; began
+coordinating interview times.</td>
+</tr>
+<tr>
+<td><strong>Sep 25</strong></td>
+<td>Fri</td>
+<td>Completed <strong>HR Intro Call (~30 min)</strong>; received Hiring
+Manager interview invitation on the same day.</td>
+</tr>
+<tr>
+<td><strong>Sep 30</strong></td>
+<td>Wed</td>
+<td>Completed <strong>Boston Hiring Manager Interview (~45 min,
+English)</strong>. Mainly discussed relevant experience, behavioral
+questions, and role overview.</td>
+</tr>
+<tr>
+<td><strong>Oct 7</strong></td>
+<td>Wed</td>
+<td>Received invitation for technical interview with Shenzhen team;
+coordinated time for the following week.</td>
+</tr>
+<tr>
+<td><strong>Oct 12</strong></td>
+<td>Mon</td>
+<td>Completed <strong>Shenzhen Team Technical Interview (~45 min,
+Chinese)</strong>. Covered project experience, technical fundamentals,
+career planning, and understanding of the company.</td>
+</tr>
+<tr>
+<td><strong>Oct 13</strong></td>
+<td>Tue</td>
+<td>Received invitation for <strong>Head of Automation
+Interview</strong>, initially scheduled for the next day.</td>
+</tr>
+<tr>
+<td><strong>Oct 14</strong></td>
+<td>Wed</td>
+<td>Interview postponed to the following day due to a meeting conflict
+on the interviewer's end.</td>
+</tr>
+<tr>
+<td><strong>Oct 15</strong></td>
+<td>Thu</td>
+<td>Completed <strong>Head of Automation Interview (~30 min,
+Chinese)</strong>. Discussed role understanding, team objectives,
+current challenges, and skill requirements.</td>
+</tr>
+<tr>
+<td><strong>Oct 19</strong></td>
+<td>Mon</td>
+<td>HR shared <strong>positive feedback</strong> from the team and
+invited me to the HR / HRBP interview.</td>
+</tr>
+<tr>
+<td><strong>Oct 21</strong></td>
+<td>Wed</td>
+<td>Completed <strong>HR / HRBP Interview (~30 min)</strong>. Primarily
+behavioral questions; Q&amp;A touched on visa sponsorship and
+cross-regional mobility.</td>
+</tr>
+<tr>
+<td><strong>Oct 29</strong></td>
+<td>Thu</td>
+<td>Received invitation for <strong>update call</strong>, planned for
+the next day.</td>
+</tr>
+<tr>
+<td><strong>Oct 30</strong></td>
+<td>Fri</td>
+<td>Conducted update call.</td>
+</tr>
+<tr>
+<td><strong>Nov 4</strong></td>
+<td>Wed</td>
+<td>HR scheduled a call and conducted the <strong>offer call</strong> on
+the same day; subsequently sent benefits information and emailed to
+confirm acceptance of the <strong>verbal offer</strong>.</td>
+</tr>
+</tbody>
+</table>
+<p>This role was geared toward new graduates, and in my experience, the
+overall interview difficulty was moderate. The key focus boils down to
+two main points:</p>
+<ol type="1">
+<li><p>Thoroughly know your projects and past work. It's best to
+maintain notes on your work to avoid forgetting technical details over
+time. Before interviews, prepare a few real-world examples: recall what
+issues arose and how you resolved them, ensuring you can recount the
+full story end-to-end.</p>
+<p>You can tailor the emphasis depending on the interview stage. For
+example, during technical rounds, elaborate slightly more on the
+technical tools and methods used, serving as hooks for follow-up
+questions; in HR or executive rounds, dial back implementation details
+and emphasize how you coordinated, collaborated with others, and
+contributed to problem resolution.</p></li>
+<li><p>Understand what the target role truly entails and its function
+within the company or department. In almost every round, interviewers
+described the role and team from slightly different angles. Synthesizing
+these details gives you a more comprehensive understanding of the
+position after each round.</p>
+<p>Furthermore, starting from the technical team interview, nearly every
+round asked about my understanding of the role. This felt like an
+ongoing pop quiz: after each session, you need to debrief and assimilate
+newly acquired information into your own perspective, ready for the next
+round of discussions.</p></li>
+</ol>
+
+</div>
+		</div>
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong><span class="hexo-llm-zh">本文作者</span><span class="hexo-llm-en">Author</span>：</strong>KiRorY<br>
+        <strong><span class="hexo-llm-zh">本文链接</span><span class="hexo-llm-en">Permalink</span>：</strong><a href="https://kirory.xyz/2026/11/03/%E6%99%B6%E6%B3%B0%E7%A7%91%E6%8A%80%20XtalPi%20%E6%B3%A2%E5%A3%AB%E9%A1%BF%E8%87%AA%E5%8A%A8%E5%8C%96%E5%B7%A5%E7%A8%8B%E5%B8%88%E9%9D%A2%E7%BB%8F/" title="https:&#x2F;&#x2F;kirory.xyz&#x2F;2026&#x2F;11&#x2F;03&#x2F;晶泰科技 XtalPi 波士顿自动化工程师面经&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;kirory.xyz&#x2F;2026&#x2F;11&#x2F;03&#x2F;晶泰科技 XtalPi 波士顿自动化工程师面经&#x2F;</a><br>
+        
+            <span class="hexo-llm-zh"><strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可</span><span class="hexo-llm-en"><strong>License：</strong>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN</a></span>
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			
+			
+			
+			<div class="old">
+				<span><span class="hexo-llm-zh">上一章</span><span class="hexo-llm-en">Previous</span></span>
+				<a href="/2026/06/01/KPIT-%E9%9D%A2%E7%BB%8F/"> KPIT 面经</a>
+			</div>
+			
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			
+				<a href="/categories/%E9%9D%A2%E7%BB%8F/" data-i18n-key="面经"><i class="kirafont icon-container-fill"></i> 面经</a>
+			
+		
+		
+			
+				<a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" data-i18n-key="自动化"><i class="kirafont icon-tag-fill"></i> 自动化</a>
+			
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	<div class="giscus"></div>
+  
+    <script src="https://giscus.app/client.js"
+      data-repo="KiRorY/kirory.github.io"
+      data-repo-id="R_kgDOJ7eH2w"
+      data-category="General"
+      data-category-id="DIC_kwDOJ7eH284CX72n"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="light"
+      data-lang="en"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async  
+    ></script>
+  
+
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+		<div class="kira-right-column">
+	<a onclick="toggleLang()" class="kira-lang-switch" aria-label="Switch Language" title="Switch Language">
+		<button class="mdui-fab mdui-ripple">
+			<span id="lang-icon">EN</span>
+		</button>
+	</a>
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+	</div>
+	
+<script src="/js/lang-switch.js"></script>
+
+</body>
+</html>
